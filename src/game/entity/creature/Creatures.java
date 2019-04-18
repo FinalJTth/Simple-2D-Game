@@ -1,19 +1,20 @@
 package game.entity.creature;
 
+import game.engine.GameThread;
 import game.entity.Entity;
 
 public abstract class Creatures extends Entity {
 
 	public static final int DEFAULT_HEALTH = 10;
-	public static final float DEFAULT_SPEED = 3.0f;
+	public static final float DEFAULT_SPEED = 6.0f;
 	public static final int DEFAULT_CREATURE_WIDTH = 64, DEFAULT_CREATURE_HEIGHT = 64;
 
 	protected int health;
 	protected float speed;
 	protected float xMove, yMove;
 
-	public Creatures(float x, float y, int width, int height) {
-		super(x, y, width, height);
+	public Creatures(GameThread gameThread, float x, float y, int width, int height) {
+		super(gameThread, x, y, width, height);
 		health = DEFAULT_HEALTH;
 		speed = DEFAULT_SPEED;
 		xMove = 0;

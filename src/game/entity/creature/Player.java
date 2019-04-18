@@ -9,12 +9,10 @@ import game.graphics.Assets;
 
 public class Player extends Creatures {
 
-	private GameThread gameThread;
 	private Game game;
 
 	public Player(GameThread gameThread, float x, float y) {
-		super(x, y, Creatures.DEFAULT_CREATURE_WIDTH, Creatures.DEFAULT_CREATURE_HEIGHT);
-		this.gameThread = gameThread;
+		super(gameThread, x, y, Creatures.DEFAULT_CREATURE_WIDTH, Creatures.DEFAULT_CREATURE_HEIGHT);
 		this.game = gameThread.getGame();
 		System.out.println("Player init");
 	}

@@ -38,7 +38,6 @@ public class World {
 	private void loadWorld(String path) {
 		String file = Utils.loadFileAsString(path);
 		String[] tmp = file.split("\\s+");
-		System.out.println(file);
 		width = Utils.parseInt(tmp[0]);
 		height = Utils.parseInt(tmp[1]);
 		playerSpawnX = Utils.parseInt(tmp[2]);

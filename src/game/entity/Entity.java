@@ -1,14 +1,17 @@
 package game.entity;
 
-import java.awt.Graphics;
+
 import java.awt.Graphics2D;
+import game.engine.GameThread;
 
 public abstract class Entity {
 	
+	protected GameThread gameThread;
 	protected float x, y;
 	protected int width, height;
 	
-	public Entity(float x, float y, int width, int height) {
+	public Entity(GameThread gameThread, float x, float y, int width, int height) {
+		this.gameThread = gameThread;
 		this.x = x;
 		this.y = y;
 		this.width = width;
