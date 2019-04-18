@@ -74,14 +74,6 @@ public class GameThread extends JPanel implements Runnable {
 				ticks = 0;
 				timer = 0;
 			}
-			try {
-				if (game.getScreenFactory().getCurrentScreen() != null) { // Check if the screen is set
-					game.getScreenFactory().getCurrentScreen().onUpdate(); // Update screen
-				}
-				Thread.sleep(10);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
 	}
 
