@@ -30,14 +30,18 @@ public class GameThread extends JPanel implements Runnable {
 		System.out.println("Thread started");
 		this.game = game;
 		setFocusable(true); // Let JPanel get input from the keyboard
-		Assets.init();
-		gameState = new GameState(this);
-		menuState = new MenuState(this);
-		State.setState(gameState);
 	}
 
 	@Override
 	public void run() {
+		init();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
 		int fps = 60;
 		double timePerTick = ONE_BILLION / fps;
 		double delta = 0;
@@ -79,6 +83,13 @@ public class GameThread extends JPanel implements Runnable {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public void init() {
+		Assets.init();
+		gameState = new GameState(this);
+		menuState = new MenuState(this);
+		State.setState(gameState);
 	}
 
 	public void update() {

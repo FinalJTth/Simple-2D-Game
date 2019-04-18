@@ -66,7 +66,6 @@ public class MyScreen extends Screen {
 		g2d.drawString(fps, 10, 20);
 		g2d.drawString("x = " + x, 10, 40);
 		g2d.drawString("y = " + y, 50, 40);
-		System.out.println("Rendered");
 
 		// gameState.render(g2d);
 		// g2d.fillRect(x, y, 64, 64);
