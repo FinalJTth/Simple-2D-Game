@@ -40,13 +40,13 @@ public class MyScreen extends Screen {
 		if (this.getScreenFactory().getGame().getKeyboardListener().isKeyPressed(KeyEvent.VK_S)) {
 			y += 2;
 		}
-		if (x >= super.getScreenFactory().getGame().getJFrame().getWidth() - 64) {
+		if (x >= super.getScreenFactory().getGame().getWindow().getWidth() - 64) {
 			x = 800 - 64;
 		}
 		if (x <= 0) {
 			x = 0;
 		}
-		if (y >= super.getScreenFactory().getGame().getJFrame().getHeight() - 64) {
+		if (y >= super.getScreenFactory().getGame().getWindow().getHeight() - 64) {
 			y = 800 - 64;
 		}
 		if (y <= 0) {
@@ -67,7 +67,7 @@ public class MyScreen extends Screen {
 		g2d.drawString("x = " + x, 10, 40);
 		g2d.drawString("y = " + y, 50, 40);
 
-		// gameState.render(g2d);
+		gameState.render(g2d);
 		// g2d.fillRect(x, y, 64, 64);
 	}
 

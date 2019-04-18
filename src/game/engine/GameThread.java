@@ -3,15 +3,17 @@ package game.engine;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.image.BufferStrategy;
 
 import javax.swing.JPanel;
 
+import game.display.MyScreen;
 import game.graphics.Assets;
 import game.state.GameState;
 import game.state.MenuState;
 import game.state.State;
 
-public class GameThread extends JPanel implements Runnable {
+public class GameThread implements Runnable {
 
 	/**
 	 * 
@@ -23,24 +25,22 @@ public class GameThread extends JPanel implements Runnable {
 
 	private int currentFPS;
 
+	// States
 	private GameState gameState;
 	private MenuState menuState;
+	
+	// Canvas
+	private BufferStrategy bs;
+	private Graphics2D g2d;
 
 	public GameThread(Game game) {
 		System.out.println("Thread started");
 		this.game = game;
-		setFocusable(true); // Let JPanel get input from the keyboard
 	}
 
 	@Override
 	public void run() {
 		init();
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		int fps = 60;
 		double timePerTick = ONE_BILLION / fps;
@@ -49,21 +49,23 @@ public class GameThread extends JPanel implements Runnable {
 		long lastTime = System.nanoTime();
 		long timer = 0;
 		int ticks = 0;
+		Screen screen = game.getScreenFactory().getCurrentScreen();
 		while (true) {
-			Screen screen = game.getScreenFactory().getCurrentScreen();
 			currentTime = System.nanoTime();
 			delta += (currentTime - lastTime) / timePerTick;
 			timer += currentTime - lastTime;
 			lastTime = currentTime;
 			if (delta >= 1) {
-				try {
-					if (game.getScreenFactory().getCurrentScreen() != null) { // Check if the screen is set
-						screen.onUpdate(); // TODO rename onUpdate to render? avoiding confuse with this.update()
-					}
-					Thread.sleep(10);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				update();
+				render();
+//				try {
+//					if (game.getScreenFactory().getCurrentScreen() != null) { // Check if the screen is set
+//						screen.onUpdate(); // TODO rename onUpdate to render? avoiding confuse with this.update()
+//					}
+//					Thread.sleep(10);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
 				ticks++;
 				delta--;
 			}
@@ -87,15 +89,26 @@ public class GameThread extends JPanel implements Runnable {
 	public void update() {
 		gameState.update();
 	}
+	
+	public void render() {
+		bs = game.getCanvas().getBufferStrategy();
+		if (bs == null) {
+			game.getCanvas().createBufferStrategy(3);
+			return;
+		}
+		g2d = (Graphics2D) bs.getDrawGraphics();
+		g2d.clearRect(0, 0, game.getWindow().getWidth(), game.getWindow().getHeight());
+		// draw here
+		if (State.getState() != null) {
+			State.getState().render(g2d);
+		}
+		
+		// end drawing
+		bs.show();
+		g2d.dispose();
+	}
 
-	public double getFPS() {
-		double new_time = System.nanoTime();
-		double delta = new_time - this.old_time;
-		double fps = 1 / (delta * 1000);
-		this.old_time = new_time;
-		return fps;
-	};
-
+	/*
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
@@ -107,7 +120,9 @@ public class GameThread extends JPanel implements Runnable {
 		}
 		repaint();
 	}
+	*/
 
+	// replace getFPS with this one. currentFPS was set in thread loop
 	public int getCurrentFPS() {
 		return currentFPS;
 	}

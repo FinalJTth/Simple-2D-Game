@@ -18,6 +18,7 @@ public class GameState extends State {
 	@Override
 	public void update() {
 		player.update();
+		gameThread.getGame().getKeyboardListener().update();
 	}
 
 	@Override
