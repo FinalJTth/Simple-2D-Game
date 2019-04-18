@@ -87,7 +87,7 @@ public class GameThread implements Runnable {
 	}
 
 	public void update() {
-		gameState.update();
+		State.getState().update();
 	}
 	
 	public void render() {

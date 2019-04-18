@@ -23,7 +23,7 @@ public class Game {
 		window.setSize(window_width, window_width);
 		window.setResizable(false);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Close JFrame and process
-		window.setFocusable(false);
+		window.setFocusable(true);
 		window.setLocationRelativeTo(null); // Open window in the center of the screen
 		window.setVisible(true);
 		
