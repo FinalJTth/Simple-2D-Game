@@ -23,9 +23,15 @@ public class World {
 	}
 
 	public void render(Graphics2D g2d) {
-		for (int row = 0; row < width; row++) {
-			for (int col = 0; col < height; col++) {
-				getTile(row, col).render(g2d, (int) (row * Tile.TILE_WIDTH - gameThread.getGameCamera().getxOffset()), 
+		// render only tiles that player can see (on camera)
+		int rowStart = (int) Math.max(0, gameThread.getGameCamera().getxOffset() / Tile.TILE_WIDTH);
+		int rowEnd = (int) Math.min(width, (gameThread.getGameCamera().getxOffset() + gameThread.getGame().getWindow().getWidth()) / Tile.TILE_WIDTH + 1);
+		int colStart = (int) Math.max(0, gameThread.getGameCamera().getyOffset() / Tile.TILE_HEIGHT);
+		int colEnd = (int) Math.min(height, (gameThread.getGameCamera().getyOffset() + gameThread.getGame().getWindow().getHeight()) / Tile.TILE_HEIGHT + 1);
+
+		for (int row = rowStart; row < rowEnd; row++) {
+			for (int col = colStart; col < colEnd; col++) {
+				getTile(row, col).render(g2d, (int) (row * Tile.TILE_WIDTH - gameThread.getGameCamera().getxOffset()),
 						(int) (col * Tile.TILE_HEIGHT - gameThread.getGameCamera().getyOffset()));
 			}
 		}
