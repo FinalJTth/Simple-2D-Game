@@ -1,5 +1,6 @@
 package game.entity.creature;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
@@ -15,6 +16,11 @@ public class Player extends Creatures {
 		super(gameThread, x, y, Creatures.DEFAULT_CREATURE_WIDTH, Creatures.DEFAULT_CREATURE_HEIGHT);
 		this.game = gameThread.getGame();
 		System.out.println("Player init");
+		
+		bounds.x = 16;
+		bounds.y = 32;
+		bounds.width = 32;
+		bounds.height = 32;
 	}
 
 	@Override
@@ -45,6 +51,11 @@ public class Player extends Creatures {
 	@Override
 	public void render(Graphics2D g2d) {
 		g2d.drawImage(Assets.player, (int) (xPos - gameThread.getGameCamera().getxOffset()), (int) (yPos - gameThread.getGameCamera().getyOffset()), width, height, null);
+	
+		g2d.setColor(Color.red);
+		g2d.fillRect((int) (xPos + bounds.x - gameThread.getGameCamera().getxOffset()), 
+				(int) (yPos + bounds.y - gameThread.getGameCamera().getyOffset()), 
+				bounds.width, bounds.height);
 	}
 
 }

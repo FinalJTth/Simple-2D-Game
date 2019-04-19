@@ -35,5 +35,9 @@ public class GameState extends State {
 	public Player getPlayer() {
 		return this.player;
 	}
+	
+	public World getWorld() {
+		return world;
+	}
 
 }

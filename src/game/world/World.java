@@ -38,6 +38,11 @@ public class World {
 	}
 
 	public Tile getTile(int row, int col) {
+		// return grassTile if out of world
+		if(row < 0 || col < 0 || row >= width || col >= height) {
+			return Tile.grassTile;
+		}
+		
 		Tile t = Tile.tiles[tiles[row][col]]; // get Tile from tile id
 		if (t == null) {
 			return Tile.grassTile; // return default tile

@@ -2,6 +2,8 @@ package game.entity;
 
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
+
 import game.engine.GameThread;
 
 public abstract class Entity {
@@ -9,6 +11,7 @@ public abstract class Entity {
 	protected GameThread gameThread;
 	protected float xPos, yPos;
 	protected int width, height;
+	protected Rectangle bounds;
 	
 	public Entity(GameThread gameThread, float xPos, float yPos, int width, int height) {
 		this.gameThread = gameThread;
@@ -16,6 +19,8 @@ public abstract class Entity {
 		this.yPos = yPos;
 		this.width = width;
 		this.height = height;
+		
+		bounds = new Rectangle(0, 0, width, height);
 	}
 	
 	public abstract void update();

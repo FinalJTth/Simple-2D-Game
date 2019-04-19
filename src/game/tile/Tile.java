@@ -32,7 +32,7 @@ public class Tile {
 	}
 	
 	// Check if creatures able to walk over tile
-	public boolean isWalkable() {
+	public boolean isSolid() {
 		return true;
 	}
 

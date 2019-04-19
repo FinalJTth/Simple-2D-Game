@@ -10,7 +10,7 @@ public class LavaTile extends Tile{
 	
 	// player CAN'T walk over
 	@Override
-	public boolean isWalkable() {
+	public boolean isSolid() {
 		return false;
 	}
 	
