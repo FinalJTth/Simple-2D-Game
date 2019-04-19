@@ -15,8 +15,9 @@ public class GameState extends State {
 	public GameState(GameThread gameThread) {
 		super(gameThread);
 		player = new Player(gameThread, 100, 100);
-		world = new World("res/worlds/world1.txt");
+		world = new World(gameThread, "res/worlds/world1.txt");
 		System.out.println("GameState init");
+
 	}
 
 	@Override

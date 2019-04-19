@@ -2,17 +2,20 @@ package game.world;
 
 import java.awt.Graphics2D;
 
+import game.engine.GameThread;
 import game.tile.Tile;
 import game.utils.Utils;
 
 public class World {
 
+	private GameThread gameThread;
 	private int width, height;
 	private int playerSpawnX, playerSpawnY;
 	private int[][] tiles;
 
-	public World(String path) {
+	public World(GameThread gameThread, String path) {
 		loadWorld(path);
+		this.gameThread = gameThread;
 	}
 
 	public void update() {
@@ -22,7 +25,8 @@ public class World {
 	public void render(Graphics2D g2d) {
 		for (int row = 0; row < width; row++) {
 			for (int col = 0; col < height; col++) {
-				getTile(row, col).render(g2d, row * Tile.TILE_WIDTH, col * Tile.TILE_HEIGHT);
+				getTile(row, col).render(g2d, (int) (row * Tile.TILE_WIDTH - gameThread.getGameCamera().getxOffset()), 
+						(int) (col * Tile.TILE_HEIGHT - gameThread.getGameCamera().getyOffset()));
 			}
 		}
 	}

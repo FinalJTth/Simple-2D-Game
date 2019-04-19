@@ -7,13 +7,13 @@ import game.engine.GameThread;
 public abstract class Entity {
 	
 	protected GameThread gameThread;
-	protected float x, y;
+	protected float xPos, yPos;
 	protected int width, height;
 	
-	public Entity(GameThread gameThread, float x, float y, int width, int height) {
+	public Entity(GameThread gameThread, float xPos, float yPos, int width, int height) {
 		this.gameThread = gameThread;
-		this.x = x;
-		this.y = y;
+		this.xPos = xPos;
+		this.yPos = yPos;
 		this.width = width;
 		this.height = height;
 	}
@@ -24,20 +24,20 @@ public abstract class Entity {
 	
 	// Getters & Setters
 	
-	public float getX() {
-		return x;
+	public float getxPos() {
+		return xPos;
 	}
 
-	public void setX(float x) {
-		this.x = x;
+	public void setxPos(float xPos) {
+		this.xPos = xPos;
 	}
 
-	public float getY() {
-		return y;
+	public float getyPos() {
+		return yPos;
 	}
 
-	public void setY(float y) {
-		this.y = y;
+	public void setyPos(float yPos) {
+		this.yPos = yPos;
 	}
 
 	public int getWidth() {

@@ -21,6 +21,7 @@ public class Player extends Creatures {
 	public void update() {
 		getKeyboardInput();
 		move();
+		gameThread.getGameCamera().focusCameraOnEntity(this);
 	}
 
 	public void getKeyboardInput() {
@@ -43,7 +44,7 @@ public class Player extends Creatures {
 
 	@Override
 	public void render(Graphics2D g2d) {
-		g2d.drawImage(Assets.player, (int) x, (int) y, width, height, null);
+		g2d.drawImage(Assets.player, (int) (xPos - gameThread.getGameCamera().getxOffset()), (int) (yPos - gameThread.getGameCamera().getyOffset()), width, height, null);
 	}
 
 }

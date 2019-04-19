@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import game.display.MyScreen;
 import game.graphics.Assets;
+import game.graphics.GameCamera;
 import game.state.GameState;
 import game.state.MenuState;
 import game.state.State;
@@ -32,6 +33,9 @@ public class GameThread implements Runnable {
 	// Canvas
 	private BufferStrategy bs;
 	private Graphics2D g2d;
+	
+	// Camera
+	private GameCamera gameCamera;
 
 	public GameThread(Game game) {
 		System.out.println("Thread started");
@@ -81,6 +85,9 @@ public class GameThread implements Runnable {
 
 	public void init() {
 		Assets.init();
+		
+		gameCamera = new GameCamera(this, 0, 0);
+		
 		gameState = new GameState(this);
 		menuState = new MenuState(this);
 		State.setState(gameState);
@@ -133,5 +140,9 @@ public class GameThread implements Runnable {
 
 	public GameState getGameState() {
 		return gameState;
+	}
+	
+	public GameCamera getGameCamera() {
+		return gameCamera;
 	}
 }
