@@ -29,11 +29,11 @@ public class GameThread implements Runnable {
 	// States
 	private GameState gameState;
 	private MenuState menuState;
-	
+
 	// Canvas
 	private BufferStrategy bs;
 	private Graphics2D g2d;
-	
+
 	// Camera
 	private GameCamera gameCamera;
 
@@ -75,7 +75,7 @@ public class GameThread implements Runnable {
 			}
 
 			if (timer >= ONE_BILLION) {
-				System.out.println("FPS = " + ticks);
+				// System.out.println("FPS = " + ticks);
 				this.currentFPS = ticks;
 				ticks = 0;
 				timer = 0;
@@ -85,9 +85,9 @@ public class GameThread implements Runnable {
 
 	public void init() {
 		Assets.init();
-		
+
 		gameCamera = new GameCamera(this, 0, 0);
-		
+
 		gameState = new GameState(this);
 		menuState = new MenuState(this);
 		State.setState(gameState);
@@ -96,7 +96,7 @@ public class GameThread implements Runnable {
 	public void update() {
 		State.getState().update();
 	}
-	
+
 	public void render() {
 		bs = game.getCanvas().getBufferStrategy();
 		if (bs == null) {
@@ -109,25 +109,24 @@ public class GameThread implements Runnable {
 		if (State.getState() != null) {
 			State.getState().render(g2d);
 		}
-		
+		// draw guide line
+		g2d.drawLine(game.getWindow().getWidth() / 2, 0, game.getWindow().getWidth() / 2, game.getWindow().getHeight());
+		g2d.drawLine(0, game.getWindow().getHeight() / 2, game.getWindow().getWidth(),
+				game.getWindow().getHeight() / 2);
+
 		// end drawing
 		bs.show();
 		g2d.dispose();
 	}
 
 	/*
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-		Graphics2D g2d = (Graphics2D) g; // Graphics2D is more powerful than Graphics
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // Keep game from
-																									// lagging
-		if (game.getScreenFactory().getCurrentScreen() != null) {
-			game.getScreenFactory().getCurrentScreen().onDraw(g2d);
-		}
-		repaint();
-	}
-	*/
+	 * @Override public void paint(Graphics g) { super.paint(g); Graphics2D g2d =
+	 * (Graphics2D) g; // Graphics2D is more powerful than Graphics
+	 * g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+	 * RenderingHints.VALUE_ANTIALIAS_ON); // Keep game from // lagging if
+	 * (game.getScreenFactory().getCurrentScreen() != null) {
+	 * game.getScreenFactory().getCurrentScreen().onDraw(g2d); } repaint(); }
+	 */
 
 	// replace getFPS with this one. currentFPS was set in thread loop
 	public int getCurrentFPS() {
@@ -141,7 +140,7 @@ public class GameThread implements Runnable {
 	public GameState getGameState() {
 		return gameState;
 	}
-	
+
 	public GameCamera getGameCamera() {
 		return gameCamera;
 	}

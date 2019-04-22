@@ -16,11 +16,11 @@ public class Player extends Creatures {
 		super(gameThread, x, y, Creatures.DEFAULT_CREATURE_WIDTH, Creatures.DEFAULT_CREATURE_HEIGHT);
 		this.game = gameThread.getGame();
 		System.out.println("Player init");
-		
+
 		bounds.x = 16;
-		bounds.y = 32;
-		bounds.width = 32;
-		bounds.height = 32;
+		bounds.y = 8;
+		bounds.width = 40;
+		bounds.height = 50;
 	}
 
 	@Override
@@ -50,12 +50,13 @@ public class Player extends Creatures {
 
 	@Override
 	public void render(Graphics2D g2d) {
-		g2d.drawImage(Assets.player, (int) (xPos - gameThread.getGameCamera().getxOffset()), (int) (yPos - gameThread.getGameCamera().getyOffset()), width, height, null);
-	
+		g2d.drawImage(Assets.player_wizard_down[0], (int) (xPos - gameThread.getGameCamera().getxOffset()),
+				(int) (yPos - gameThread.getGameCamera().getyOffset()), width, height, null);
+
 		g2d.setColor(Color.red);
-		g2d.fillRect((int) (xPos + bounds.x - gameThread.getGameCamera().getxOffset()), 
-				(int) (yPos + bounds.y - gameThread.getGameCamera().getyOffset()), 
-				bounds.width, bounds.height);
+		g2d.drawRect((int) (xPos - gameThread.getGameCamera().getxOffset()), (int) (yPos - gameThread.getGameCamera().getyOffset()), width, height);
+		/* g2d.fillRect((int) (xPos + bounds.x - gameThread.getGameCamera().getxOffset()),
+				(int) (yPos + bounds.y - gameThread.getGameCamera().getyOffset()), bounds.width, bounds.height); */
 	}
 
 }
