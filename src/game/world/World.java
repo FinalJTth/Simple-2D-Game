@@ -3,6 +3,9 @@ package game.world;
 import java.awt.Graphics2D;
 
 import game.engine.GameThread;
+import game.entity.EntityManager;
+import game.entity.creature.Player;
+import game.entity.statics.Tree;
 import game.tile.Tile;
 import game.utils.Utils;
 
@@ -12,14 +15,21 @@ public class World {
 	private int width, height;
 	private int playerSpawnX, playerSpawnY;
 	private int[][] tiles;
+	private EntityManager entityManager;
 
 	public World(GameThread gameThread, String path) {
-		loadWorld(path);
 		this.gameThread = gameThread;
+		entityManager = new EntityManager(gameThread, new Player(gameThread, 100, 100));
+		entityManager.addEntity(new Tree(gameThread, 550, 200, 60, 75));
+		
+		loadWorld(path);
+		
+		entityManager.getPlayer().setxPos(playerSpawnX);
+		entityManager.getPlayer().setyPos(playerSpawnY);
 	}
 
 	public void update() {
-
+		entityManager.update();
 	}
 
 	public void render(Graphics2D g2d) {
@@ -35,6 +45,8 @@ public class World {
 						(int) (col * Tile.TILE_HEIGHT - gameThread.getGameCamera().getyOffset()));
 			}
 		}
+		
+		entityManager.render(g2d);
 	}
 
 	public Tile getTile(int row, int col) {
@@ -72,6 +84,10 @@ public class World {
 	
 	public int getHeight() {
 		return height;
+	}
+	
+	public EntityManager getEntityManager() {
+		return entityManager;
 	}
 
 }

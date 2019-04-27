@@ -13,6 +13,7 @@ import game.graphics.GameCamera;
 import game.state.GameState;
 import game.state.MenuState;
 import game.state.State;
+import game.world.World;
 
 public class GameThread implements Runnable {
 
@@ -143,5 +144,9 @@ public class GameThread implements Runnable {
 
 	public GameCamera getGameCamera() {
 		return gameCamera;
+	}
+	
+	public World getWorld() {
+		return gameState.getWorld();
 	}
 }

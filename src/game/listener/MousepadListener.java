@@ -2,8 +2,9 @@ package game.listener;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
-public class MousepadListener implements MouseListener {
+public class MousepadListener implements MouseListener, MouseMotionListener {
 	
 	private int mouse_x, mouse_y;
 	@SuppressWarnings("unused")
@@ -37,6 +38,18 @@ public class MousepadListener implements MouseListener {
 		this.clicked = false;
 	}
 	
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	public boolean isMousePressed() {
 		return true;
 	}
@@ -47,4 +60,6 @@ public class MousepadListener implements MouseListener {
 	public int getY() {
 		return this.mouse_y;
 	}
+
+	
 }
