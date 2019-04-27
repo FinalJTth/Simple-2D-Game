@@ -2,6 +2,8 @@ package game.graphics;
 
 import java.awt.image.BufferedImage;
 
+import game.utils.Utils;
+
 public class Assets {
 
 	public static final int SPRITESHEET_WIDTH = 56, SPRITESHEET_HEIGHT = 56;
@@ -50,13 +52,6 @@ public class Assets {
 		// ice shard spell
 		SpriteSheet iceShardSheet = new SpriteSheet(ImageLoader.loadImage("res/texture/ice_shard/iceShardSprite.png"));
 		iceShardSpell_firing = new BufferedImage[6];
-		iceShardSpell_firing[0] = iceShardSheet.crop(0, 0, 70, 70);
-		iceShardSpell_firing[1] = iceShardSheet.crop(70, 0, 70, 70);
-		iceShardSpell_firing[2] = iceShardSheet.crop(140, 0, 70, 70);
-		iceShardSpell_firing[3] = iceShardSheet.crop(210, 0, 70, 70);
-		iceShardSpell_firing[4] = iceShardSheet.crop(0, 70, 70, 70);
-		iceShardSpell_firing[5] = iceShardSheet.crop(70, 70, 70, 70);
-
 		iceShardSpell_hit = new BufferedImage[4];
 		cnt = 0;
 		for (int x = 0; x < 3; x++) {
@@ -67,11 +62,14 @@ public class Assets {
 					iceShardSpell_firing[cnt] = iceShardSheet.crop(y * 70, x * 70, 70, 70);
 				else if (cnt == 6)
 					iceShardSpell_bullet = iceShardSheet.crop(y * 70, x * 70, 70, 70);
-				else
+				else {
 					iceShardSpell_hit[cnt - 7] = iceShardSheet.crop(y * 70, x * 70, 70, 70);
+				}
+					
 				cnt++;
 			}
 		}
+		cnt = 0;
 
 //		for (int i = 0; i < 4; i++) {
 //			for (int j = 0; j < 3; j++) {

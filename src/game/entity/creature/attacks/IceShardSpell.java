@@ -2,6 +2,7 @@ package game.entity.creature.attacks;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 import game.engine.GameThread;
 import game.entity.creature.Creatures;
@@ -16,19 +17,19 @@ public class IceShardSpell extends ProjectileAttacks {
 	private double rotationAngle;
 	private int xOffset, yOffset;
 
+	private ArrayList<SpellBullet> firedBullet = new ArrayList<SpellBullet>();
+
 	public IceShardSpell(GameThread gameThread, Creatures source) {
-		super(gameThread, source, 10.0f, 100, 1000);
+		super(gameThread, source, 6.0f, 100, 1000);
 
 		animationFiring = new TemporaryAnimation(100, Assets.iceShardSpell_firing);
-		animationHit = new TemporaryAnimation(ANIMATION_SPEED, Assets.iceShardSpell_hit);
+		animationHit = new TemporaryAnimation(100, Assets.iceShardSpell_hit);
 
 	}
 
 	@Override
 	public void fire() {
-		xPos = source.getxPos();
-		yPos = source.getyPos();
-		handleDirectionChange();	// handle all direction change when start firing
+		handleDirectionChange(); // handle all direction change when start firing
 		status = "FIRING";
 	}
 
@@ -40,16 +41,34 @@ public class IceShardSpell extends ProjectileAttacks {
 				status = "FIRED";
 				animationFiring.reset();
 				source.doneAttacking();
-				// create ice lance bounding box
-				bounds = new Rectangle(0, 0, 182, 115);
+
+				Utils.printAllEntities(gameThread);
+				// create new ice bullet to prevent old one disappear
+				firedBullet.add(new SpellBullet(gameThread, Assets.iceShardSpell_bullet, animationHit,
+						source.getFacingDirection(), speed, damage,
+						source.getxPos() + xOffset,
+						source.getyPos() + yOffset, 20, 12));
+				Utils.printPlayerXYCoords(gameThread);
 			}
+			updateAllBullets();
 		} else if (status == "FIRED") {
-			// chcek for collision
-			
+			updateAllBullets();
 		}
 
 	}
 	
+	private void updateAllBullets() {
+		ArrayList<SpellBullet> done = new ArrayList<SpellBullet>();
+		for (SpellBullet sp : firedBullet) {
+			sp.update();
+			if (sp.isFinished())
+				done.add(sp);
+		}
+		for (SpellBullet sp : done) {
+			firedBullet.remove(sp);
+		}
+	}
+
 	// set value for rotating image according to player direction
 	private void handleDirectionChange() {
 		String facingDirection = source.getFacingDirection();
@@ -80,6 +99,10 @@ public class IceShardSpell extends ProjectileAttacks {
 					(int) (source.getxPos() + xOffset - gameThread.getGameCamera().getxOffset()),
 					(int) (source.getyPos() + yOffset - gameThread.getGameCamera().getyOffset()), null);
 		}
+		for (SpellBullet sp : firedBullet) {
+			sp.render(g2d);
+		}
+
 	}
 
 }

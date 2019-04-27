@@ -53,22 +53,6 @@ public abstract class ProjectileAttacks {
 
 	public abstract void fire();
 
-	@SuppressWarnings("unlikely-arg-type")
-	public boolean checkEntityCollision(float xOffset, float yOffset) {
-		for (Entity e : gameThread.getWorld().getEntityManager().getEntities()) {
-			if (e.equals(this))
-				continue;
-			if (e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset)))
-				return true;
-		}
-		return false;
-	}
-
-	public Rectangle getCollisionBounds(float xOffset, float yOffset) {
-		return new Rectangle((int) (xPos + bounds.x + xOffset), (int) (yPos + bounds.y + yOffset), bounds.width,
-				bounds.height);
-	}
-
 	public int getCoolDown() {
 		return coolDown;
 	}

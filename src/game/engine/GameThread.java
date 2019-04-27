@@ -1,7 +1,10 @@
 package game.engine;
 
 import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+
 import game.graphics.Assets;
 import game.graphics.GameCamera;
 import game.listener.KeyManager;
@@ -9,6 +12,7 @@ import game.listener.MouseManager;
 import game.state.GameState;
 import game.state.MenuState;
 import game.state.State;
+import game.utils.Utils;
 import game.world.World;
 
 public class GameThread implements Runnable {
@@ -104,6 +108,17 @@ public class GameThread implements Runnable {
 		g2d.drawLine(0, game.getWindow().getHeight() / 2, game.getWindow().getWidth(),
 				game.getWindow().getHeight() / 2);
 
+		g2d.drawString(Integer.toString(currentFPS), 10, 10);
+		
+		for (Shape s : Utils.shapeToRender) {
+			g2d.draw(s);
+		}
+		int x = 0, y = 0; 
+		for (BufferedImage img : Utils.imageToRender) {
+			g2d.drawImage(img, x, y, null);
+			x += img.getWidth();
+
+		}
 		// end drawing
 		bs.show();
 		g2d.dispose();
