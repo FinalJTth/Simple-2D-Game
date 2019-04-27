@@ -5,8 +5,8 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
-import game.listener.KeyboardListener;
-import game.listener.MousepadListener;
+import game.listener.KeyManager;
+import game.listener.MouseManager;
 
 public class Game {
 
@@ -15,8 +15,8 @@ public class Game {
 	
 	private final ScreenFactory screenFactory;
 	private final GameThread gameThread;
-	private final KeyboardListener keyboardListener;
-	private final MousepadListener mousepadListener;
+	private final KeyManager keyManager;
+	private final MouseManager mouseManager;
 
 	public Game(int window_width, int window_height, String title) {
 		window = new JFrame(title);
@@ -38,11 +38,11 @@ public class Game {
 		
 		this.screenFactory = new ScreenFactory(this);
 		this.gameThread = new GameThread(this);
-		this.keyboardListener = new KeyboardListener();
-		this.mousepadListener = new MousepadListener();
+		this.keyManager = new KeyManager();
+		this.mouseManager = new MouseManager();
 
-		window.addKeyListener(keyboardListener);
-		window.addMouseListener(mousepadListener);
+		window.addKeyListener(keyManager);
+		window.addMouseListener(mouseManager);
 
 		new Thread(gameThread).start();
 		;
@@ -52,12 +52,12 @@ public class Game {
 		return canvas;
 	}
 	
-	public MousepadListener getMouseListener() {
-		return mousepadListener;
+	public MouseManager getMouseListener() {
+		return mouseManager;
 	}
 
-	public KeyboardListener getKeyboardListener() {
-		return keyboardListener;
+	public KeyManager getKeyboardListener() {
+		return keyManager;
 	}
 
 	public ScreenFactory getScreenFactory() {
