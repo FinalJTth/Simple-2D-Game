@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import game.engine.GameThread;
 import game.entity.Entity;
+import game.entity.creature.Creatures;
 
 public abstract class ProjectileAttacks {
 
@@ -33,19 +34,17 @@ public abstract class ProjectileAttacks {
 	protected final int damage, coolDown;
 	protected final float speed;
 	protected float xPos, yPos;
-	protected Entity source;
+	protected Creatures source;
 	protected String status; // INACTIVE, FIRING, FIRED, HIT
 	protected Rectangle bounds;
 
-	public ProjectileAttacks(GameThread gameThread, Entity source, float speed, int damage, int coolDown) {
+	public ProjectileAttacks(GameThread gameThread, Creatures source, float speed, int damage, int coolDown) {
 		this.gameThread = gameThread;
 		this.source = source;
 		this.speed = speed;
 		this.damage = damage;
 		this.coolDown = coolDown;
 		this.status = "INACTIVE";
-
-		bounds = new Rectangle(0, 0, 10, 10);
 	}
 
 	public abstract void update();

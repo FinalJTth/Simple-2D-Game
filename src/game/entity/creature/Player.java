@@ -44,6 +44,7 @@ public class Player extends Creatures {
 	}
 	
 	public void attack() {
+		isCastingAttack = true;
 		if (currentAttack == "ICE") {
 			ProjectileAttacks atk = ProjectileAttacks.attackList.get(0);
 			attackCoolDown = atk.getCoolDown();
@@ -126,4 +127,5 @@ public class Player extends Creatures {
 		}
 	}
 
+	
 }
