@@ -35,7 +35,7 @@ public class EntityManager {
 			e.update();
 		}
 		entities.sort(renderSorter);
-		player.update();
+
 	}
 
 	public void render(Graphics2D g2d) {
@@ -64,10 +64,6 @@ public class EntityManager {
 
 	public ArrayList<Entity> getEntities() {
 		return entities;
-	}
-
-	public void setEntities(ArrayList<Entity> entities) {
-		this.entities = entities;
 	}
 
 }
