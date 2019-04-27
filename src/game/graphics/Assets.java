@@ -59,11 +59,11 @@ public class Assets {
 				if (cnt == 11)
 					break;
 				if (cnt < 6)
-					iceShardSpell_firing[cnt] = iceShardSheet.crop(y * 70, x * 70, 70, 70);
+					iceShardSpell_firing[cnt] = Utils.resize(iceShardSheet.crop(y * 70, x * 70, 70, 70), 1.5f) ;
 				else if (cnt == 6)
-					iceShardSpell_bullet = iceShardSheet.crop(y * 70, x * 70, 70, 70);
+					iceShardSpell_bullet = Utils.resize(iceShardSheet.crop(y * 70, x * 70, 70, 70), 1.5f);
 				else {
-					iceShardSpell_hit[cnt - 7] = iceShardSheet.crop(y * 70, x * 70, 70, 70);
+					iceShardSpell_hit[cnt - 7] = Utils.resize(iceShardSheet.crop(y * 70, x * 70, 70, 70), 1.5f);
 				}
 					
 				cnt++;

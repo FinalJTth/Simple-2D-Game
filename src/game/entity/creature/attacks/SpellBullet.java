@@ -28,7 +28,7 @@ public class SpellBullet {
 	private ArrayList<Rectangle> rec = new ArrayList<Rectangle>();
 
 	public SpellBullet(GameThread gameThread, TemporaryAnimation anim, TemporaryAnimation deadAnim, String direction,
-			float speed, int damage, float originX, float originY, int width, int height) {
+			float speed, int damage, float originX, float originY, Rectangle bounds) {
 		this.gameThread = gameThread;
 		this.animation = anim;
 		this.deadAnimation = deadAnim;
@@ -37,15 +37,15 @@ public class SpellBullet {
 		this.damage = damage;
 		this.xPos = originX;
 		this.yPos = originY;
-
+		this.bounds = bounds;
+		
 		isAlive = true;
 		isFinished = false;
-		createBoundingBox(width, height);
 		handleDirectionChange();
 	}
 
 	public SpellBullet(GameThread gameThread, BufferedImage img, TemporaryAnimation deadAnim, String direction,
-			float speed, int damage, float originX, float originY, int width, int height) {
+			float speed, int damage, float originX, float originY, Rectangle bounds) {
 		this.gameThread = gameThread;
 		BufferedImage[] tmp = new BufferedImage[1];
 		tmp[0] = img;
@@ -56,10 +56,10 @@ public class SpellBullet {
 		this.damage = damage;
 		this.xPos = originX;
 		this.yPos = originY;
-
+		this.bounds = bounds;
+		
 		isAlive = true;
 		isFinished = false;
-		createBoundingBox(width, height);
 		handleDirectionChange();
 	}
 
@@ -75,19 +75,6 @@ public class SpellBullet {
 		}
 	}
 	
-	// create bbox with proper direction
-	private void createBoundingBox(int width, int height) {
-		if (direction == "UP") {
-			bounds = new Rectangle((int) 30, (int) 30, height, width);
-		} else if (direction == "DOWN") {
-			bounds = new Rectangle((int) 25, (int) 30, height, width);
-		} else if (direction == "LEFT") {
-			bounds = new Rectangle((int) 25, (int) 25, width, height);
-		} else {
-			bounds = new Rectangle((int) 30, (int) 30, width, height);
-		}
-	}
-
 	private void handleDirectionChange() {
 		if (direction == "UP") {
 			rotationAngle = 270;

@@ -1,5 +1,7 @@
 package game.utils;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -58,6 +60,19 @@ public class Utils {
 		return img;
 	}
 	
+	public static BufferedImage resize(BufferedImage img, float scale) { 
+		int newW = (int) (img.getWidth() * scale), newH = (int) (img.getHeight() * scale);
+	    Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+	    BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+
+	    Graphics2D g2d = dimg.createGraphics();
+	    g2d.drawImage(tmp, 0, 0, null);
+	    g2d.dispose();
+
+	    return dimg;
+	}  
+	
+	// debugging stuff
 	public static void printAllEntities(GameThread gameThread) {
 		for(Entity e : gameThread.getWorld().getEntityManager().getEntities()) {
 			System.out.println(e);

@@ -96,6 +96,7 @@ public class Player extends Creatures {
 
 	@Override
 	public void render(Graphics2D g2d) {
+		ProjectileAttacks.renderAttacks(g2d);
 		g2d.drawImage(getCurrentAnimationFrame(), (int) (xPos - gameThread.getGameCamera().getxOffset()),
 				(int) (yPos - gameThread.getGameCamera().getyOffset()), width, height, null);
 
@@ -107,7 +108,7 @@ public class Player extends Creatures {
 		g2d.drawRect((int) (xPos + bounds.x - gameThread.getGameCamera().getxOffset()),
 				(int) (yPos + bounds.y - gameThread.getGameCamera().getyOffset()), bounds.width, bounds.height);
 		
-		ProjectileAttacks.renderAttacks(g2d);
+		
 		/*
 		 * g2d.fillRect((int) (xPos + bounds.x -
 		 * gameThread.getGameCamera().getxOffset()), (int) (yPos + bounds.y -

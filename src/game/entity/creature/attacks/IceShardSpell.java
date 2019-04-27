@@ -1,8 +1,6 @@
 package game.entity.creature.attacks;
 
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.util.ArrayList;
 
 import game.engine.GameThread;
 import game.entity.creature.Creatures;
@@ -13,96 +11,76 @@ import game.utils.Utils;
 public class IceShardSpell extends ProjectileAttacks {
 
 	private static final int ANIMATION_SPEED = 100;
-	private TemporaryAnimation animationFiring, animationHit;
-	private double rotationAngle;
-	private int xOffset, yOffset;
-
-	private ArrayList<SpellBullet> firedBullet = new ArrayList<SpellBullet>();
 
 	public IceShardSpell(GameThread gameThread, Creatures source) {
 		super(gameThread, source, 6.0f, 100, 1000);
 
-		animationFiring = new TemporaryAnimation(100, Assets.iceShardSpell_firing);
-		animationHit = new TemporaryAnimation(100, Assets.iceShardSpell_hit);
+		animationFiring = new TemporaryAnimation(ANIMATION_SPEED, Assets.iceShardSpell_firing);
+		animationHit = new TemporaryAnimation(ANIMATION_SPEED, Assets.iceShardSpell_hit);
 
-	}
-
-	@Override
-	public void fire() {
-		handleDirectionChange(); // handle all direction change when start firing
-		status = "FIRING";
 	}
 
 	@Override
 	public void update() {
-		if (status == "FIRING") {
+		if (isFiring) {
 			animationFiring.timerCounter();
 			if (animationFiring.isDone()) {
-				status = "FIRED";
+				isFiring = false;
 				animationFiring.reset();
 				source.doneAttacking();
 
 				Utils.printAllEntities(gameThread);
 				// create new ice bullet to prevent old one disappear
 				firedBullet.add(new SpellBullet(gameThread, Assets.iceShardSpell_bullet, animationHit,
-						source.getFacingDirection(), speed, damage,
-						source.getxPos() + xOffset,
-						source.getyPos() + yOffset, 20, 12));
+						source.getFacingDirection(), speed, damage, source.getxPos() + xOffset,
+						source.getyPos() + yOffset, createBoundingBox(30, 24)));
 				Utils.printPlayerXYCoords(gameThread);
 			}
 			updateAllBullets();
-		} else if (status == "FIRED") {
+		} else {
 			updateAllBullets();
 		}
 
 	}
-	
-	private void updateAllBullets() {
-		ArrayList<SpellBullet> done = new ArrayList<SpellBullet>();
-		for (SpellBullet sp : firedBullet) {
-			sp.update();
-			if (sp.isFinished())
-				done.add(sp);
-		}
-		for (SpellBullet sp : done) {
-			firedBullet.remove(sp);
-		}
-	}
 
+	@Override
 	// set value for rotating image according to player direction
-	private void handleDirectionChange() {
+	protected void handleDirectionChange() {
 		String facingDirection = source.getFacingDirection();
 		if (facingDirection == "UP") {
 			rotationAngle = 270;
-			xOffset = 0;
-			yOffset = -source.getHeight();
+			xOffset = -20;
+			yOffset = -source.getHeight() - 14;
 		} else if (facingDirection == "DOWN") {
 			rotationAngle = 90;
-			xOffset = 0;
+			xOffset = -12;
 			yOffset = source.getHeight();
 		} else if (facingDirection == "LEFT") {
 			rotationAngle = 180;
-			xOffset = -source.getWidth();
-			yOffset = 0;
+			xOffset = -source.getWidth() - 20;
+			yOffset = -12;
 		} else {
 			rotationAngle = 0;
-			xOffset = source.getWidth();
-			yOffset = 0;
+			xOffset = source.getWidth() - 8;
+			yOffset = -12;
 		}
 	}
 
-	@Override
-	public void render(Graphics2D g2d) {
-		if (status == "FIRING") {
-			// draw image(rotated) accordingly to handleDirectionChange()
-			g2d.drawImage(Utils.rotateImage(animationFiring.getCurrentFrame(), Math.toRadians(rotationAngle)),
-					(int) (source.getxPos() + xOffset - gameThread.getGameCamera().getxOffset()),
-					(int) (source.getyPos() + yOffset - gameThread.getGameCamera().getyOffset()), null);
+	
+	// create bbox with proper direction
+		private Rectangle createBoundingBox(int width, int height) {
+			String direction = gameThread.getWorld().getEntityManager().getPlayer().getFacingDirection();
+			Rectangle r;
+			if (direction == "UP") {
+				r = new Rectangle((int) 44, (int) 40, height, width);
+			} else if (direction == "DOWN") {
+				r = new Rectangle((int) 36, (int) 38, height, width);
+			} else if (direction == "LEFT") {
+				r = new Rectangle((int) 25, (int) 32, width, height);
+			} else {
+				r = new Rectangle((int) 42, (int) 44, width, height);
+			}
+			return r;
 		}
-		for (SpellBullet sp : firedBullet) {
-			sp.render(g2d);
-		}
-
-	}
 
 }
