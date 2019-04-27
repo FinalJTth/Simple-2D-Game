@@ -7,6 +7,8 @@ import java.awt.image.BufferedImage;
 
 import game.engine.Game;
 import game.engine.GameThread;
+import game.entity.creature.attacks.IceShardSpell;
+import game.entity.creature.attacks.ProjectileAttacks;
 import game.graphics.Animation;
 import game.graphics.Assets;
 
@@ -16,10 +18,14 @@ public class Player extends Creatures {
 
 	private Game game;
 	private Animation animationDown, animationUp, animationLeft, animationRight;
+	private String currentAttack;
+	private int attackCoolDown;
+	private long lastTime, timer;
 
 	public Player(GameThread gameThread, float x, float y) {
 		super(gameThread, x, y, Creatures.DEFAULT_CREATURE_WIDTH, Creatures.DEFAULT_CREATURE_HEIGHT);
 		this.game = gameThread.getGame();
+		this.currentAttack = "ICE";
 		System.out.println("Player init");
 
 		// overrides super constructor bounding box set
@@ -32,6 +38,17 @@ public class Player extends Creatures {
 		animationUp = new Animation(ANIMATION_SPEED, Assets.player_wizard_up);
 		animationLeft = new Animation(ANIMATION_SPEED, Assets.player_wizard_left);
 		animationRight = new Animation(ANIMATION_SPEED, Assets.player_wizard_right);
+		
+		ProjectileAttacks.addAttack(new IceShardSpell(gameThread, this));
+		
+	}
+	
+	public void attack() {
+		if (currentAttack == "ICE") {
+			ProjectileAttacks atk = ProjectileAttacks.attackList.get(0);
+			attackCoolDown = atk.getCoolDown();
+			atk.fire();
+		}
 	}
 
 	@Override
@@ -40,6 +57,14 @@ public class Player extends Creatures {
 		animationLeft.timerCounter();
 		animationRight.timerCounter();
 		animationUp.timerCounter();
+		
+		timer += System.currentTimeMillis() - lastTime;
+		lastTime = System.currentTimeMillis();
+		if (timer > attackCoolDown) {
+			attackCoolDown = 0;
+			timer = 0;
+		}
+		ProjectileAttacks.updateAttacks();
 
 		getKeyboardInput();
 		move();
@@ -62,6 +87,10 @@ public class Player extends Creatures {
 		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_D)) {
 			xMove = speed;
 		}
+		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_SPACE) && attackCoolDown == 0) {
+			attack();
+			System.out.println("FIRE");
+		}
 	}
 
 	@Override
@@ -76,6 +105,8 @@ public class Player extends Creatures {
 		//draw collision checking (bounding) box
 		g2d.drawRect((int) (xPos + bounds.x - gameThread.getGameCamera().getxOffset()),
 				(int) (yPos + bounds.y - gameThread.getGameCamera().getyOffset()), bounds.width, bounds.height);
+		
+		ProjectileAttacks.renderAttacks(g2d);
 		/*
 		 * g2d.fillRect((int) (xPos + bounds.x -
 		 * gameThread.getGameCamera().getxOffset()), (int) (yPos + bounds.y -
@@ -84,11 +115,11 @@ public class Player extends Creatures {
 	}
 
 	private BufferedImage getCurrentAnimationFrame() {
-		if (xMove < 0) {
+		if (facingDirection == "LEFT") {
 			return animationLeft.getCurrentFrame();
-		} else if (xMove > 0) {
+		} else if (facingDirection == "RIGHT") {
 			return animationRight.getCurrentFrame();
-		} else if (yMove < 0) {
+		} else if (facingDirection == "UP") {
 			return animationUp.getCurrentFrame();
 		} else {
 			return animationDown.getCurrentFrame();

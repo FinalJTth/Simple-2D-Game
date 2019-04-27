@@ -28,7 +28,7 @@ public class GameThread implements Runnable {
 
 	// Camera
 	private GameCamera gameCamera;
-	
+
 	// Input
 	private KeyManager keyManager;
 	private MouseManager mouseManager;
@@ -36,7 +36,7 @@ public class GameThread implements Runnable {
 	public GameThread(Game game) {
 		System.out.println("Thread started");
 		this.game = game;
-		
+
 		keyManager = game.getKeyManager();
 		mouseManager = game.getMouseManager();
 	}
@@ -134,7 +134,7 @@ public class GameThread implements Runnable {
 	public GameCamera getGameCamera() {
 		return gameCamera;
 	}
-	
+
 	public World getWorld() {
 		return gameState.getWorld();
 	}

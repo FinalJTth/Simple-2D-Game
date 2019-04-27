@@ -13,6 +13,7 @@ public abstract class Creatures extends Entity {
 	protected int health;
 	protected float speed;
 	protected float xMove, yMove;
+	protected String facingDirection;
 
 	public Creatures(GameThread gameThread, float x, float y, int width, int height) {
 		super(gameThread, x, y, width, height);
@@ -20,6 +21,7 @@ public abstract class Creatures extends Entity {
 		speed = DEFAULT_SPEED;
 		xMove = 0;
 		yMove = 0;
+		facingDirection = "DOWN";
 	}
 
 	public void move() {
@@ -41,6 +43,7 @@ public abstract class Creatures extends Entity {
 			} else {
 				xPos = tx * Tile.TILE_WIDTH - bounds.x - bounds.width - 1;
 			}
+			facingDirection = "RIGHT";
 
 		} else if (xMove < 0) { // moving left
 			int tx = (int) (xPos + xMove + bounds.x) / Tile.TILE_WIDTH;
@@ -51,6 +54,7 @@ public abstract class Creatures extends Entity {
 			} else {
 				xPos = tx * Tile.TILE_WIDTH + Tile.TILE_WIDTH - bounds.x;
 			}
+			facingDirection = "LEFT";
 		}
 	}
 
@@ -64,6 +68,7 @@ public abstract class Creatures extends Entity {
 			} else {
 				yPos = ty * Tile.TILE_HEIGHT + Tile.TILE_HEIGHT - bounds.y;
 			}
+			facingDirection = "UP";
 
 		} else if (yMove > 0) { // moving down
 			int ty = (int) (yPos + yMove + bounds.y + bounds.height) / Tile.TILE_HEIGHT;
@@ -74,6 +79,7 @@ public abstract class Creatures extends Entity {
 			} else {
 				yPos = ty * Tile.TILE_HEIGHT - bounds.y - bounds.height - 1;
 			}
+			facingDirection = "DOWN";
 		}
 	}
 
@@ -82,6 +88,10 @@ public abstract class Creatures extends Entity {
 	}
 
 	// Getters & Setters
+	
+	public String getFacingDirection() {
+		return facingDirection;
+	}
 
 	public int getHealth() {
 		return health;

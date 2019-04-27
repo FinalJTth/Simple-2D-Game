@@ -9,8 +9,14 @@ public class Assets {
 	public static BufferedImage grass, lava;
 	public static BufferedImage medium_spikey_tree;
 	public static BufferedImage[] player_wizard_down, player_wizard_up, player_wizard_left, player_wizard_right;
+	public static BufferedImage[] iceShardSpell_firing, iceShardSpell_hit;
+	public static BufferedImage iceShardSpell_bullet;
+
+	private static int cnt = 0;
 
 	public static void init() {
+
+		// player
 		SpriteSheet playerSheet = new SpriteSheet(ImageLoader.loadImage("res/texture/wizard_animation_sprite.png"));
 
 		player_wizard_down = new BufferedImage[4];
@@ -36,12 +42,50 @@ public class Assets {
 		player_wizard_up[1] = playerSheet.crop(56, 56 * 3, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
 		player_wizard_up[2] = playerSheet.crop(56 * 2, 56 * 3, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
 		player_wizard_up[3] = playerSheet.crop(56 * 3, 56 * 3, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
-		
+
+		// trees
 		SpriteSheet treeSheet = new SpriteSheet(ImageLoader.loadImage("res/texture/trees.png"));
-		
 		medium_spikey_tree = treeSheet.crop(129, 279, 60, 75);
-		
-		
+
+		// ice shard spell
+		SpriteSheet iceShardSheet = new SpriteSheet(ImageLoader.loadImage("res/texture/ice_shard/iceShardSprite.png"));
+		iceShardSpell_firing = new BufferedImage[6];
+		iceShardSpell_firing[0] = iceShardSheet.crop(0, 0, 70, 70);
+		iceShardSpell_firing[1] = iceShardSheet.crop(70, 0, 70, 70);
+		iceShardSpell_firing[2] = iceShardSheet.crop(140, 0, 70, 70);
+		iceShardSpell_firing[3] = iceShardSheet.crop(210, 0, 70, 70);
+		iceShardSpell_firing[4] = iceShardSheet.crop(0, 70, 70, 70);
+		iceShardSpell_firing[5] = iceShardSheet.crop(70, 70, 70, 70);
+
+		iceShardSpell_hit = new BufferedImage[4];
+		cnt = 0;
+		for (int x = 0; x < 3; x++) {
+			for (int y = 0; y < 4; y++) {
+				if (cnt == 11)
+					break;
+				if (cnt < 6)
+					iceShardSpell_firing[cnt] = iceShardSheet.crop(y * 70, x * 70, 70, 70);
+				else if (cnt == 6)
+					iceShardSpell_bullet = iceShardSheet.crop(y * 70, x * 70, 70, 70);
+				else
+					iceShardSpell_hit[cnt - 7] = iceShardSheet.crop(y * 70, x * 70, 70, 70);
+				cnt++;
+			}
+		}
+
+//		for (int i = 0; i < 4; i++) {
+//			for (int j = 0; j < 3; j++) {
+//				if (cnt == 11)
+//					break;
+//				if (cnt < 6)
+//					iceShardSpell_firing[cnt] = iceShardSheet.crop(j * 70, i * 70, 70, 70);
+//				else if (cnt == 6)
+//					iceShardSpell_bullet = iceShardSheet.crop(j * 70, i * 70, 70, 70);
+//				else
+//					iceShardSpell_hit[cnt - 7] = iceShardSheet.crop(j * 70, i * 70, 70, 70);
+//				cnt++;
+//			}
+//		}
 
 		// TODO temporary code. Will be replaced by SpriteSheet later.
 		grass = ImageLoader.loadImage("res/texture/grass.png");
