@@ -1,15 +1,11 @@
 package game.engine;
 
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.image.BufferStrategy;
-
-import javax.swing.JPanel;
-
-import game.display.MyScreen;
 import game.graphics.Assets;
 import game.graphics.GameCamera;
+import game.listener.KeyManager;
+import game.listener.MouseManager;
 import game.state.GameState;
 import game.state.MenuState;
 import game.state.State;
@@ -17,13 +13,8 @@ import game.world.World;
 
 public class GameThread implements Runnable {
 
-	/**
-	 * 
-	 */
 	private static final double ONE_BILLION = 1000000000;
-	private static final long serialVersionUID = 1L;
 	private final Game game;
-	private double old_time;
 
 	private int currentFPS;
 
@@ -37,10 +28,17 @@ public class GameThread implements Runnable {
 
 	// Camera
 	private GameCamera gameCamera;
+	
+	// Input
+	private KeyManager keyManager;
+	private MouseManager mouseManager;
 
 	public GameThread(Game game) {
 		System.out.println("Thread started");
 		this.game = game;
+		
+		keyManager = game.getKeyManager();
+		mouseManager = game.getMouseManager();
 	}
 
 	@Override
@@ -54,7 +52,6 @@ public class GameThread implements Runnable {
 		long lastTime = System.nanoTime();
 		long timer = 0;
 		int ticks = 0;
-		Screen screen = game.getScreenFactory().getCurrentScreen();
 		while (true) {
 			currentTime = System.nanoTime();
 			delta += (currentTime - lastTime) / timePerTick;
@@ -63,14 +60,6 @@ public class GameThread implements Runnable {
 			if (delta >= 1) {
 				update();
 				render();
-//				try {
-//					if (game.getScreenFactory().getCurrentScreen() != null) { // Check if the screen is set
-//						screen.onUpdate(); // TODO rename onUpdate to render? avoiding confuse with this.update()
-//					}
-//					Thread.sleep(10);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
 				ticks++;
 				delta--;
 			}

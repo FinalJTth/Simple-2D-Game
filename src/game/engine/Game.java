@@ -22,7 +22,7 @@ public class Game {
 		window = new JFrame(title);
 		window.setSize(window_width, window_width);
 		window.setResizable(false);
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Close JFrame and process
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setFocusable(true);
 		window.setLocationRelativeTo(null); // Open window in the center of the screen
 		window.setVisible(true);
@@ -43,20 +43,22 @@ public class Game {
 
 		window.addKeyListener(keyManager);
 		window.addMouseListener(mouseManager);
+		window.addMouseMotionListener(mouseManager);
+		canvas.addMouseListener(mouseManager);
+		canvas.addMouseMotionListener(mouseManager);
 
 		new Thread(gameThread).start();
-		;
 	}
 
 	public Canvas getCanvas() {
 		return canvas;
 	}
 	
-	public MouseManager getMouseListener() {
+	public MouseManager getMouseManager() {
 		return mouseManager;
 	}
 
-	public KeyManager getKeyboardListener() {
+	public KeyManager getKeyManager() {
 		return keyManager;
 	}
 

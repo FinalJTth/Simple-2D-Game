@@ -50,16 +50,16 @@ public class Player extends Creatures {
 		xMove = 0;
 		yMove = 0;
 
-		if (game.getKeyboardListener().isKeyPressed(KeyEvent.VK_W)) {
+		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_W)) {
 			yMove = -speed;
 		}
-		if (game.getKeyboardListener().isKeyPressed(KeyEvent.VK_S)) {
+		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_S)) {
 			yMove = speed;
 		}
-		if (game.getKeyboardListener().isKeyPressed(KeyEvent.VK_A)) {
+		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_A)) {
 			xMove = -speed;
 		}
-		if (game.getKeyboardListener().isKeyPressed(KeyEvent.VK_D)) {
+		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_D)) {
 			xMove = speed;
 		}
 	}

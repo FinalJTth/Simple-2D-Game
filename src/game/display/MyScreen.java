@@ -28,16 +28,16 @@ public class MyScreen extends Screen {
 
 	@Override
 	public void onUpdate() {
-		if (this.getScreenFactory().getGame().getKeyboardListener().isKeyPressed(KeyEvent.VK_A)) {
+		if (this.getScreenFactory().getGame().getKeyManager().isKeyPressed(KeyEvent.VK_A)) {
 			x -= 2;
 		}
-		if (this.getScreenFactory().getGame().getKeyboardListener().isKeyPressed(KeyEvent.VK_D)) {
+		if (this.getScreenFactory().getGame().getKeyManager().isKeyPressed(KeyEvent.VK_D)) {
 			x += 2;
 		}
-		if (this.getScreenFactory().getGame().getKeyboardListener().isKeyPressed(KeyEvent.VK_W)) {
+		if (this.getScreenFactory().getGame().getKeyManager().isKeyPressed(KeyEvent.VK_W)) {
 			y -= 2;
 		}
-		if (this.getScreenFactory().getGame().getKeyboardListener().isKeyPressed(KeyEvent.VK_S)) {
+		if (this.getScreenFactory().getGame().getKeyManager().isKeyPressed(KeyEvent.VK_S)) {
 			y += 2;
 		}
 		if (x >= super.getScreenFactory().getGame().getWindow().getWidth() - 64) {
