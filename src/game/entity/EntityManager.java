@@ -51,6 +51,10 @@ public class EntityManager {
 	public void addEntity(Entity e) {
 		entities.add(e);
 	}
+	
+	public void removeEntity(Entity e) {
+		entities.remove(e);
+	}
 
 	public GameThread getGameThread() {
 		return gameThread;

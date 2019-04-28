@@ -2,6 +2,8 @@ package game.entity.creature.minion;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import game.engine.GameThread;
@@ -18,7 +20,8 @@ public class BigBlob extends Minion {
 		super(gameThread, xPos, yPos, width, height);
 
 		health = 300;
-		speed = 3.0f;
+		speed = 1.0f;
+		chaseRange = 300;
 		// System.out.println(String.format("x : %d, y : %d", bounds.x, bounds.y));
 		// System.out.println(String.format("w : %d, h : %d", bounds.width,
 		// bounds.height));
@@ -31,13 +34,22 @@ public class BigBlob extends Minion {
 		animationAttack = new Animation(100, Assets.big_blob_attack);
 		animationIdle = new Animation(100, Assets.big_blob_idle);
 		animationWalk = new Animation(100, Assets.big_blob_walk);
+
 	}
 
 	@Override
 	public void update() {
 		animationIdle.timerCounter();
 		animationWalk.timerCounter();
-		moveRandomly();
+		
+		if (detectPlayerInChaseRange(gameThread.getWorld().getEntityManager().getPlayer())) {
+			facingDirection = getFacingDirectionFromPlayerPos();
+			chasePlayer(gameThread.getWorld().getEntityManager().getPlayer());
+			System.out.println("Chase");
+		} else {
+			System.out.println("Patrol");
+			moveRandomly();
+		}
 	}
 
 	@Override
@@ -49,15 +61,19 @@ public class BigBlob extends Minion {
 			g2d.setColor(Color.red);
 			g2d.drawRect((int) (xPos + bounds.x - gameThread.getGameCamera().getxOffset()),
 					(int) (yPos + bounds.y - gameThread.getGameCamera().getyOffset()), bounds.width, bounds.height);
+			g2d.setColor(Color.blue);
+			g2d.drawOval((int) (xPos + bounds.x + bounds.width - gameThread.getGameCamera().getxOffset()),
+					(int) (yPos + bounds.y - gameThread.getGameCamera().getyOffset()), 3, 3);
 		}
 
 	}
-	
+
 	@Override
 	public void hurt(int damage) {
 		health -= damage;
 		if (health <= 0) {
 			isAlive = false;
+			gameThread.getWorld().getEntityManager().removeEntity(this);
 			System.out.println("DEAD");
 		}
 	}
@@ -90,7 +106,7 @@ public class BigBlob extends Minion {
 				return Utils.flipImageHorizontally(animationIdle.getCurrentFrame());
 			}
 		}
-		
+
 	}
 
 }

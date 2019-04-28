@@ -1,5 +1,6 @@
 package game.entity.creature;
 
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import game.engine.GameThread;
@@ -100,6 +101,10 @@ public abstract class Creatures extends Entity {
 	protected abstract BufferedImage getCurrentAnimationFrame();
 
 	// Getters & Setters
+	
+	public Rectangle getBoundingBox() {
+		return bounds;
+	}
 	
 	public void doneAttacking() {
 		isCastingAttack = false;
