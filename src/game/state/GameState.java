@@ -1,6 +1,7 @@
 package game.state;
 
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 
 import game.engine.GameThread;
 import game.entity.creature.Player;
@@ -22,6 +23,10 @@ public class GameState extends State {
 	public void update() {
 		gameThread.getGame().getKeyManager().update();
 		world.update();
+		if (gameThread.getGame().getKeyManager().isKeyPressed(KeyEvent.VK_ESCAPE)) {
+			gameThread.togglePauseGame();
+			gameThread.setMenuState();
+		}
 	}
 
 	@Override

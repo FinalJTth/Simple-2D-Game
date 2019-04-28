@@ -1,7 +1,9 @@
 package game.engine;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.Shape;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
@@ -21,6 +23,7 @@ public class GameThread implements Runnable {
 	private final Game game;
 
 	private int currentFPS;
+	private boolean isPaused;
 
 	// States
 	private GameState gameState;
@@ -88,7 +91,8 @@ public class GameThread implements Runnable {
 	}
 
 	public void update() {
-		State.getState().update();
+		if (!isPaused)
+			State.getState().update();
 	}
 
 	public void render() {
@@ -100,8 +104,10 @@ public class GameThread implements Runnable {
 		g2d = (Graphics2D) bs.getDrawGraphics();
 		g2d.clearRect(0, 0, game.getWindow().getWidth(), game.getWindow().getHeight());
 		// draw here
-		if (State.getState() != null) {
+		if (State.getState() == gameState && !isPaused) {
 			State.getState().render(g2d);
+		} else if (State.getState() == menuState) {
+			menuState.render(g2d);
 		}
 		// draw guide line
 		g2d.drawLine(game.getWindow().getWidth() / 2, 0, game.getWindow().getWidth() / 2, game.getWindow().getHeight());
@@ -109,19 +115,19 @@ public class GameThread implements Runnable {
 				game.getWindow().getHeight() / 2);
 
 		g2d.drawString(Integer.toString(currentFPS), 10, 10);
-		
+
 		for (Shape s : Utils.shapeToRender) {
 			g2d.draw(s);
 		}
-		int x = 0, y = 0; 
+		int x = 0, y = 0;
 		for (BufferedImage img : Utils.imageToRender) {
 			g2d.drawImage(img, x, y, null);
 			x += img.getWidth();
-
 		}
 		// end drawing
 		bs.show();
 		g2d.dispose();
+
 	}
 
 	/*
@@ -132,6 +138,20 @@ public class GameThread implements Runnable {
 	 * (game.getScreenFactory().getCurrentScreen() != null) {
 	 * game.getScreenFactory().getCurrentScreen().onDraw(g2d); } repaint(); }
 	 */
+
+	public void setGameState() {
+		State.setState(gameState);
+	}
+
+	public void setMenuState() {
+		State.setState(menuState);
+		System.out.println("Menu");
+	}
+
+	public void togglePauseGame() {
+		isPaused = !isPaused;
+		System.out.println("Paused");
+	}
 
 	// replace getFPS with this one. currentFPS was set in thread loop
 	public int getCurrentFPS() {

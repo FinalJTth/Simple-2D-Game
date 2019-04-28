@@ -13,6 +13,10 @@ public class Assets {
 	public static BufferedImage[] player_wizard_down, player_wizard_up, player_wizard_left, player_wizard_right;
 	public static BufferedImage[] iceShardSpell_firing, iceShardSpell_hit;
 	public static BufferedImage iceShardSpell_bullet;
+	public static BufferedImage[] play_button, sound_ON_button, sound_OFF_button, exit_button;
+	public static BufferedImage play_button_normal, sound_ON_button_normal, sound_OFF_button_normal, exit_button_normal;
+	public static BufferedImage play_button_hover, sound_ON_button_hover, sound_OFF_button_hover, exit_button_hover;
+	public static BufferedImage play_button_onClick, sound_ON_button_onClick, sound_OFF_button_onClick, exit_button_onClick;
 
 	private static int cnt = 0;
 
@@ -71,20 +75,42 @@ public class Assets {
 		}
 		cnt = 0;
 
-//		for (int i = 0; i < 4; i++) {
-//			for (int j = 0; j < 3; j++) {
-//				if (cnt == 11)
-//					break;
-//				if (cnt < 6)
-//					iceShardSpell_firing[cnt] = iceShardSheet.crop(j * 70, i * 70, 70, 70);
-//				else if (cnt == 6)
-//					iceShardSpell_bullet = iceShardSheet.crop(j * 70, i * 70, 70, 70);
-//				else
-//					iceShardSpell_hit[cnt - 7] = iceShardSheet.crop(j * 70, i * 70, 70, 70);
-//				cnt++;
-//			}
-//		}
-
+		SpriteSheet buttonSheet = new SpriteSheet(ImageLoader.loadImage("res/menuButton/buttonSheet.png"));
+		play_button_normal = buttonSheet.crop(0, 0, 40, 21);
+		exit_button_normal = buttonSheet.crop(41, 0, 40, 21);
+		sound_ON_button_normal = buttonSheet.crop(41*2, 0, 40, 21);
+		sound_OFF_button_normal = buttonSheet.crop(41*3, 0, 40, 21);
+		
+		play_button_hover = buttonSheet.crop(0, 22, 40, 21);
+		exit_button_hover = buttonSheet.crop(41, 22, 40, 21);
+		sound_ON_button_hover = buttonSheet.crop(41*2, 22, 40, 21);
+		sound_OFF_button_hover = buttonSheet.crop(41*3, 22, 40, 21);
+		
+		play_button_onClick = buttonSheet.crop(0, 43, 40, 21);
+		exit_button_onClick = buttonSheet.crop(41, 43, 40, 21);
+		sound_ON_button_onClick = buttonSheet.crop(41*2, 43, 40, 21);
+		sound_OFF_button_onClick = buttonSheet.crop(41*3, 43, 40, 21);
+		
+		play_button = new BufferedImage[3];
+		play_button[0] = play_button_normal;
+		play_button[1] = play_button_hover;
+		play_button[2] = play_button_onClick;
+		
+		exit_button = new BufferedImage[3];
+		exit_button[0] = exit_button_normal;
+		exit_button[1] = exit_button_hover;
+		exit_button[2] = exit_button_onClick;
+		
+		sound_ON_button = new BufferedImage[3];
+		sound_ON_button[0] = sound_ON_button_normal;
+		sound_ON_button[1] = sound_ON_button_hover;
+		sound_ON_button[2] = sound_ON_button_onClick;
+		
+		sound_OFF_button = new BufferedImage[3];
+		sound_OFF_button[0] = sound_OFF_button_normal;
+		sound_OFF_button[1] = sound_OFF_button_hover;
+		sound_OFF_button[2] = sound_OFF_button_onClick;
+		
 		// TODO temporary code. Will be replaced by SpriteSheet later.
 		grass = ImageLoader.loadImage("res/texture/grass.png");
 		lava = ImageLoader.loadImage("res/texture/lava.png");
