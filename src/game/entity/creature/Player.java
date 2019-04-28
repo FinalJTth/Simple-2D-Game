@@ -128,5 +128,11 @@ public class Player extends Creatures {
 		}
 	}
 
+	@Override
+	public void hurt(int damage) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }

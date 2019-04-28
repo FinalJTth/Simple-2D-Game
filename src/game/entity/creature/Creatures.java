@@ -92,6 +92,8 @@ public abstract class Creatures extends Entity {
 	protected boolean collisionWithTile(int x, int y) {
 		return !gameThread.getGameState().getWorld().getTile(x, y).isSolid();
 	}
+	
+	public abstract void hurt(int damage);
 
 	// Getters & Setters
 	

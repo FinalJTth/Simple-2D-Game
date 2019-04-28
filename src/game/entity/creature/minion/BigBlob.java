@@ -51,6 +51,14 @@ public class BigBlob extends Minion {
 	}
 
 	@Override
+	public void hurt(int damage) {
+		health -= damage;
+		if (health <= 0) {
+			System.out.println("DEAD");
+		}
+	}
+	
+	@Override
 	public void attack(Player player) {
 
 	}

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import game.engine.GameThread;
 import game.entity.Entity;
+import game.entity.creature.Creatures;
 import game.graphics.Animation;
 import game.graphics.TemporaryAnimation;
 import game.utils.Utils;
@@ -90,6 +91,10 @@ public class SpellBullet {
 	public boolean checkEntityCollision(float xOffset, float yOffset) {
 		for (Entity e : gameThread.getWorld().getEntityManager().getEntities()) {
 			if (e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset))) {
+				if (e instanceof Creatures) {
+					Creatures c = (Creatures) e;
+					c.hurt(damage);	// deal damage to target creature
+				}
 				return true;
 			}
 		}
@@ -110,7 +115,8 @@ public class SpellBullet {
 				return ;
 			}
 		}
-		if (checkEntityCollision(speed, 0f) || checkEntityCollision(0f, speed)) {
+		// prevent triggering multiple checkEntityCollision overkilling creature
+		if (isAlive && (checkEntityCollision(speed, 0f) || checkEntityCollision(0f, speed))) {
 			isAlive = false;
 			return ;
 		}
