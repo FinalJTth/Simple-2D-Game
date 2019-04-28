@@ -1,5 +1,7 @@
 package game.entity.creature;
 
+import java.awt.image.BufferedImage;
+
 import game.engine.GameThread;
 import game.entity.Entity;
 import game.tile.Tile;
@@ -94,6 +96,8 @@ public abstract class Creatures extends Entity {
 	}
 	
 	public abstract void hurt(int damage);
+	
+	protected abstract BufferedImage getCurrentAnimationFrame();
 
 	// Getters & Setters
 	

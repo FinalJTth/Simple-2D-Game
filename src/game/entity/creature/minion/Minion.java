@@ -13,6 +13,9 @@ public abstract class Minion extends Creatures {
 
 	// private final Player player;
 	protected int randomInt;
+	protected boolean isAlive, isWalking;
+	
+	// for randomly move purpose
 	protected long timer, lastTime;
 	protected boolean isMovable, isMoved;
 
@@ -21,6 +24,7 @@ public abstract class Minion extends Creatures {
 
 		isMovable = true;
 		isMoved = false;
+		isAlive = true;
 		// player = gameThread.getWorld().getEntityManager().getPlayer();
 	}
 
@@ -70,6 +74,7 @@ public abstract class Minion extends Creatures {
 				timer = 0;
 				isMovable = true;
 				isMoved = false;
+				isWalking = true;
 				randomInt = (int) (Math.random() * 4);
 				System.out.println(randomInt);
 			}
@@ -84,6 +89,7 @@ public abstract class Minion extends Creatures {
 			timer = 0;
 			isMoved = true;
 			isMovable = false;
+			isWalking = false;
 		}
 	}
 

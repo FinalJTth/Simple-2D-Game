@@ -68,6 +68,14 @@ public class Utils {
 		img = op.filter(img, null);
 		return img;
 	}
+	
+	public static BufferedImage flipImageHorizontally(BufferedImage img) {
+		AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
+		tx.translate(-img.getWidth(null), 0);
+		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+		img = op.filter(img, null);
+		return img;
+	}
 
 	public static BufferedImage resize(BufferedImage img, float scale) {
 		int newW = (int) (img.getWidth() * scale), newH = (int) (img.getHeight() * scale);

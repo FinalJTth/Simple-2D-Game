@@ -83,12 +83,12 @@ public class Assets {
 		big_blob_attack = new BufferedImage[8];
 		for (int x = 0; x < 3; x++) {
 			cnt = 0;
-			for (int y = 0; y < 7; y++) {
+			for (int y = 0; y < 8; y++) {
 				if (x == 0 && y < 6) {
 					big_blob_idle[y] = bigBlobSheet.crop(y * 80, x * 80, 80, 80);
 				} else if (x == 1) {
 					big_blob_walk[y] = bigBlobSheet.crop(y * 80, x * 80, 80, 80);
-				} else {
+				} else if (x == 2) {
 					big_blob_attack[y] = bigBlobSheet.crop(y * 80, x * 80, 80, 80);
 				}
 			}

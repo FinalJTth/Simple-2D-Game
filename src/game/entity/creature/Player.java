@@ -116,7 +116,7 @@ public class Player extends Creatures {
 		 */
 	}
 
-	private BufferedImage getCurrentAnimationFrame() {
+	protected BufferedImage getCurrentAnimationFrame() {
 		if (facingDirection == "LEFT") {
 			return animationLeft.getCurrentFrame();
 		} else if (facingDirection == "RIGHT") {
