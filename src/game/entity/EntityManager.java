@@ -6,6 +6,7 @@ import java.util.Comparator;
 
 import game.engine.GameThread;
 import game.entity.creature.Player;
+import game.entity.creature.minion.BigBlob;
 
 public class EntityManager {
 
@@ -27,6 +28,7 @@ public class EntityManager {
 		this.player = player;
 		entities = new ArrayList<Entity>();
 		addEntity(player);
+		addEntity(new BigBlob(gameThread, 800, 800, 200, 200));
 	}
 
 	public void update() {

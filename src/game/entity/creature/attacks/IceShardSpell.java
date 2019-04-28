@@ -28,13 +28,10 @@ public class IceShardSpell extends ProjectileAttacks {
 				isFiring = false;
 				animationFiring.reset();
 				source.doneAttacking();
-
-				Utils.printAllEntities(gameThread);
 				// create new ice bullet to prevent old one disappear
 				firedBullet.add(new SpellBullet(gameThread, Assets.iceShardSpell_bullet, animationHit,
 						source.getFacingDirection(), speed, damage, source.getxPos() + xOffset,
 						source.getyPos() + yOffset, createBoundingBox(30, 24)));
-				Utils.printPlayerXYCoords(gameThread);
 			}
 			updateAllBullets();
 		} else {

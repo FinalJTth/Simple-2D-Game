@@ -16,8 +16,8 @@ public abstract class Creatures extends Entity {
 	protected String facingDirection;
 	protected boolean isCastingAttack;
 
-	public Creatures(GameThread gameThread, float x, float y, int width, int height) {
-		super(gameThread, x, y, width, height);
+	public Creatures(GameThread gameThread, float xPos, float yPos, int width, int height) {
+		super(gameThread, xPos, yPos, width, height);
 		health = DEFAULT_HEALTH;
 		speed = DEFAULT_SPEED;
 		xMove = 0;
