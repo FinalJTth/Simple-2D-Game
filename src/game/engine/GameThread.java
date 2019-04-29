@@ -1,5 +1,6 @@
 package game.engine;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Shape;
@@ -106,6 +107,9 @@ public class GameThread implements Runnable {
 		// draw here
 		if (State.getState() == gameState && !isPaused) {
 			State.getState().render(g2d);
+			// draw player's healthBar
+			g2d.setColor(Color.red);
+			g2d.fillRect(40, 550, (int) getWorld().getEntityManager().getPlayer().getHealthBarWidth() * 18, 20);
 		} else if (State.getState() == menuState) {
 			menuState.render(g2d);
 		}
@@ -116,6 +120,7 @@ public class GameThread implements Runnable {
 
 		g2d.drawString(Integer.toString(currentFPS), 10, 10);
 
+		// for debugging
 		for (Shape s : Utils.shapeToRender) {
 			g2d.draw(s);
 		}
@@ -124,6 +129,8 @@ public class GameThread implements Runnable {
 			g2d.drawImage(img, x, y, null);
 			x += img.getWidth();
 		}
+		// end debugging
+		
 		// end drawing
 		bs.show();
 		g2d.dispose();

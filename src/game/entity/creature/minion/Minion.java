@@ -12,25 +12,26 @@ public abstract class Minion extends Creatures {
 
 	protected static final long MOVE_DELAY = 3000, MOVING_TIME = 500;
 
-	// private final Player player;
-	protected int randomInt, chaseRange;
-	protected boolean isAlive, isWalking;
+	protected int randomInt, chaseRange, attackRange, attackDamage;
+	protected boolean isWalking;
 	protected String lastFacingDirection;
 
 	// for randomly move purpose
 	protected long timer, lastTime;
 	protected boolean isMovable, isMoved;
 
-	public Minion(GameThread gameThread, float xPos, float yPos, int width, int height) {
-		super(gameThread, xPos, yPos, width, height);
+	public Minion(GameThread gameThread, float xPos, float yPos, int width, int height, int health, float speed,
+			int attackRange, int attackDamage) {
+		super(gameThread, xPos, yPos, width, height, health, speed);
+
+		this.attackRange = attackRange;
+		this.attackDamage = attackDamage;
 
 		isMovable = true;
 		isMoved = false;
 		isAlive = true;
-		// player = gameThread.getWorld().getEntityManager().getPlayer();
 	}
 
-	// detect
 	protected boolean detectPlayerInChaseRange(Player player) {
 		Rectangle rec = player.getBoundingBox();
 		double playerX = (double) (player.getxPos() + rec.getX() + rec.getWidth() / 2);
@@ -184,44 +185,15 @@ public abstract class Minion extends Creatures {
 		return "RIGHT";
 	}
 
-	// not yet usable
-//	protected boolean[] getMovableDirection() {
-//		boolean[] out = new boolean[4];
-//		for (int i = 0; i < 4; i++)
-//			out[i] = false;
-//		if (!checkEntityCollision(speed * MOVING_TIME / 1000, 0)) {
-//			out[0] = true;
-//		}
-//		if (!checkEntityCollision(-speed * MOVING_TIME / 1000, 0)) {
-//			out[1] = true;
-//		}
-//		if (!checkEntityCollision(0, speed * MOVING_TIME / 1000)) {
-//			out[2] = true;
-//		}
-//		if (!checkEntityCollision(0, -speed * MOVING_TIME / 1000)) {
-//			out[3] = true;
-//		}
-//		return out;
-//	}
-//
-//	protected String getMovableDirectionAsText() {
-//		boolean[] in = getMovableDirection();
-//		String out = "";
-//		for (int i = 0; i < 4; i++) {
-//			if (in[i]) {
-//				if (i == 0)
-//					out = out + "RIGHT ";
-//				else if (i == 1)
-//					out = out + "LEFT ";
-//				else if (i == 2)
-//					out = out + "DOWN ";
-//				else
-//					out = out + "UP";
-//
-//			}
-//		}
-//		return out;
-//	}
+	protected void hurtPlayerOnHit() {
+		Player player = gameThread.getWorld().getEntityManager().getPlayer();
+		Rectangle bbox = player.getBoundingBox();
+		if (getCollisionBounds(0f, 0f).intersects(player.getCollisionBounds(player.getxMove(), 0))
+				|| getCollisionBounds(0f, 0f).intersects(player.getCollisionBounds(0, player.getyMove()))) {
+			player.hurt(attackDamage);
+		}
+
+	}
 
 	public abstract void attack(Player player);
 

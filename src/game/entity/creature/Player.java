@@ -23,7 +23,7 @@ public class Player extends Creatures {
 	private long lastTime, timer;
 
 	public Player(GameThread gameThread, float x, float y) {
-		super(gameThread, x, y, Creatures.DEFAULT_CREATURE_WIDTH, Creatures.DEFAULT_CREATURE_HEIGHT);
+		super(gameThread, x, y, Creatures.DEFAULT_CREATURE_WIDTH, Creatures.DEFAULT_CREATURE_HEIGHT, 100, 6.0f);
 		this.game = gameThread.getGame();
 		this.currentAttack = "ICE";
 		System.out.println("Player init");
@@ -38,11 +38,11 @@ public class Player extends Creatures {
 		animationUp = new Animation(ANIMATION_SPEED, Assets.player_wizard_up);
 		animationLeft = new Animation(ANIMATION_SPEED, Assets.player_wizard_left);
 		animationRight = new Animation(ANIMATION_SPEED, Assets.player_wizard_right);
-		
+
 		ProjectileAttacks.addAttack(new IceShardSpell(gameThread, this));
-		
+
 	}
-	
+
 	public void attack() {
 		isCastingAttack = true;
 		if (currentAttack == "ICE") {
@@ -58,7 +58,7 @@ public class Player extends Creatures {
 		animationLeft.timerCounter();
 		animationRight.timerCounter();
 		animationUp.timerCounter();
-		
+
 		timer += System.currentTimeMillis() - lastTime;
 		lastTime = System.currentTimeMillis();
 		if (timer > attackCoolDown) {
@@ -104,15 +104,11 @@ public class Player extends Creatures {
 		// draw image box
 		g2d.drawRect((int) (xPos - gameThread.getGameCamera().getxOffset()),
 				(int) (yPos - gameThread.getGameCamera().getyOffset()), width, height);
-		//draw collision checking (bounding) box
+		// draw collision checking (bounding) box
 		g2d.drawRect((int) (xPos + bounds.x - gameThread.getGameCamera().getxOffset()),
 				(int) (yPos + bounds.y - gameThread.getGameCamera().getyOffset()), bounds.width, bounds.height);
-		
-		g2d.setColor(Color.blue);
-		g2d.fillOval((int) (xPos - gameThread.getGameCamera().getxOffset()),
-				(int) (yPos - gameThread.getGameCamera().getyOffset()), 3, 3);
-		
-		
+
+
 		/*
 		 * g2d.fillRect((int) (xPos + bounds.x -
 		 * gameThread.getGameCamera().getxOffset()), (int) (yPos + bounds.y -
@@ -132,11 +128,5 @@ public class Player extends Creatures {
 		}
 	}
 
-	@Override
-	public void hurt(int damage) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	
 }

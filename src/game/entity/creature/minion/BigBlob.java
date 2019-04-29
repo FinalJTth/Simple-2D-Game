@@ -17,10 +17,8 @@ public class BigBlob extends Minion {
 	private Animation animationAttack, animationWalk, animationIdle;
 
 	public BigBlob(GameThread gameThread, float xPos, float yPos, int width, int height) {
-		super(gameThread, xPos, yPos, width, height);
+		super(gameThread, xPos, yPos, width, height, 300, 1.0f, 100, 10);
 
-		health = 300;
-		speed = 1.0f;
 		chaseRange = 300;
 		// System.out.println(String.format("x : %d, y : %d", bounds.x, bounds.y));
 		// System.out.println(String.format("w : %d, h : %d", bounds.width,
@@ -41,13 +39,12 @@ public class BigBlob extends Minion {
 	public void update() {
 		animationIdle.timerCounter();
 		animationWalk.timerCounter();
-		
+		// moving mechanism
 		if (detectPlayerInChaseRange(gameThread.getWorld().getEntityManager().getPlayer())) {
 			facingDirection = getFacingDirectionFromPlayerPos();
 			chasePlayer(gameThread.getWorld().getEntityManager().getPlayer());
-			System.out.println("Chase");
+			hurtPlayerOnHit();
 		} else {
-			System.out.println("Patrol");
 			moveRandomly();
 		}
 	}
@@ -57,25 +54,16 @@ public class BigBlob extends Minion {
 		if (isAlive) {
 			g2d.drawImage(getCurrentAnimationFrame(), (int) (xPos - gameThread.getGameCamera().getxOffset()),
 					(int) (yPos - gameThread.getGameCamera().getyOffset()), width, height, null);
-			// draw collision checking (bounding) box
+
 			g2d.setColor(Color.red);
+			// draw healthBar
+			g2d.fillRect((int) (xPos + bounds.x - gameThread.getGameCamera().getxOffset()),
+					(int) (yPos + bounds.y - 20 - gameThread.getGameCamera().getyOffset()), (int) getHealthBarWidth(),
+					8);
 			g2d.drawRect((int) (xPos + bounds.x - gameThread.getGameCamera().getxOffset()),
 					(int) (yPos + bounds.y - gameThread.getGameCamera().getyOffset()), bounds.width, bounds.height);
-			g2d.setColor(Color.blue);
-			g2d.drawOval((int) (xPos + bounds.x + bounds.width - gameThread.getGameCamera().getxOffset()),
-					(int) (yPos + bounds.y - gameThread.getGameCamera().getyOffset()), 3, 3);
 		}
 
-	}
-
-	@Override
-	public void hurt(int damage) {
-		health -= damage;
-		if (health <= 0) {
-			isAlive = false;
-			gameThread.getWorld().getEntityManager().removeEntity(this);
-			System.out.println("DEAD");
-		}
 	}
 
 	@Override

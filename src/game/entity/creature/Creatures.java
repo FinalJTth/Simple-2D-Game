@@ -14,18 +14,21 @@ public abstract class Creatures extends Entity {
 	public static final int DEFAULT_CREATURE_WIDTH = 64, DEFAULT_CREATURE_HEIGHT = 64;
 
 	protected int health;
+	protected final int maxHealth;
 	protected float speed;
 	protected float xMove, yMove;
 	protected String facingDirection;
-	protected boolean isCastingAttack;
+	protected boolean isCastingAttack, isAlive;
 
-	public Creatures(GameThread gameThread, float xPos, float yPos, int width, int height) {
+	public Creatures(GameThread gameThread, float xPos, float yPos, int width, int height, int health, float speed) {
 		super(gameThread, xPos, yPos, width, height);
-		health = DEFAULT_HEALTH;
-		speed = DEFAULT_SPEED;
+		this.health = health;
+		maxHealth = health;
+		this.speed = speed;
 		xMove = 0;
 		yMove = 0;
 		facingDirection = "DOWN";
+
 	}
 
 	public void move() {
@@ -48,7 +51,7 @@ public abstract class Creatures extends Entity {
 				xPos = tx * Tile.TILE_WIDTH - bounds.x - bounds.width - 1;
 			}
 			// can't change direction while casting attack
-			if(!isCastingAttack)
+			if (!isCastingAttack)
 				facingDirection = "RIGHT";
 
 		} else if (xMove < 0) { // moving left
@@ -60,7 +63,7 @@ public abstract class Creatures extends Entity {
 			} else {
 				xPos = tx * Tile.TILE_WIDTH + Tile.TILE_WIDTH - bounds.x;
 			}
-			if(!isCastingAttack)
+			if (!isCastingAttack)
 				facingDirection = "LEFT";
 		}
 	}
@@ -75,7 +78,7 @@ public abstract class Creatures extends Entity {
 			} else {
 				yPos = ty * Tile.TILE_HEIGHT + Tile.TILE_HEIGHT - bounds.y;
 			}
-			if(!isCastingAttack)
+			if (!isCastingAttack)
 				facingDirection = "UP";
 
 		} else if (yMove > 0) { // moving down
@@ -87,7 +90,7 @@ public abstract class Creatures extends Entity {
 			} else {
 				yPos = ty * Tile.TILE_HEIGHT - bounds.y - bounds.height - 1;
 			}
-			if(!isCastingAttack)
+			if (!isCastingAttack)
 				facingDirection = "DOWN";
 		}
 	}
@@ -95,21 +98,33 @@ public abstract class Creatures extends Entity {
 	protected boolean collisionWithTile(int x, int y) {
 		return !gameThread.getGameState().getWorld().getTile(x, y).isSolid();
 	}
-	
-	public abstract void hurt(int damage);
-	
+
+	public void hurt(int damage) {
+		health -= damage;
+		if (health <= 0) {
+			isAlive = false;
+			gameThread.getWorld().getEntityManager().removeEntity(this);
+			System.out.println("DEAD");
+		}
+	}
+
 	protected abstract BufferedImage getCurrentAnimationFrame();
 
 	// Getters & Setters
+
+	public float getHealthBarWidth() {
+		// health, maxHealth, bounds.width is int, if dont cast float will calculate as int
+		return (float) health / maxHealth * bounds.width;
+	}
 	
 	public Rectangle getBoundingBox() {
 		return bounds;
 	}
-	
+
 	public void doneAttacking() {
 		isCastingAttack = false;
 	}
-	
+
 	public String getFacingDirection() {
 		return facingDirection;
 	}

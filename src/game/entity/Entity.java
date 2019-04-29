@@ -43,6 +43,13 @@ public abstract class Entity {
 				bounds.height);
 	}
 
+	// for debugging purpose
+	public Rectangle getCollisionBoundsForCamera(float xOffset, float yOffset) {
+		return new Rectangle((int) (xPos + bounds.x + xOffset - gameThread.getGameCamera().getxOffset()),
+				(int) (yPos + bounds.y + yOffset - gameThread.getGameCamera().getyOffset()), bounds.width,
+				bounds.height);
+	}
+
 	// Getters & Setters
 
 	public float getxPos() {

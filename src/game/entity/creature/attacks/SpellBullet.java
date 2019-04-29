@@ -120,8 +120,12 @@ public class SpellBullet {
 			isAlive = false;
 			return ;
 		}
-		move();
-		animation.timerCounter();
+		// prevent deadAnimation from moving
+		if (isAlive) {
+			move();
+			animation.timerCounter();
+		}
+		
 	}
 
 	public void render(Graphics2D g2d) {
