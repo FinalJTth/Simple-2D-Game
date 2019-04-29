@@ -11,6 +11,7 @@ import game.entity.creature.attacks.IceShardSpell;
 import game.entity.creature.attacks.ProjectileAttacks;
 import game.graphics.Animation;
 import game.graphics.Assets;
+import game.tile.Tile;
 
 public class Player extends Creatures {
 
@@ -20,12 +21,14 @@ public class Player extends Creatures {
 	private Animation animationDown, animationUp, animationLeft, animationRight;
 	private String currentAttack;
 	private int attackCoolDown;
-	private long lastTime, timer;
+	private long lastTimeCoolDown, attackCoolDownTimer, knockBackTimer, lastTimeKnockBack;
+	private boolean isBeingKnockedBack;
 
 	public Player(GameThread gameThread, float x, float y) {
-		super(gameThread, x, y, Creatures.DEFAULT_CREATURE_WIDTH, Creatures.DEFAULT_CREATURE_HEIGHT, 100, 6.0f);
+		super(gameThread, x, y, Creatures.DEFAULT_CREATURE_WIDTH, Creatures.DEFAULT_CREATURE_HEIGHT, 1000, 6.0f);
 		this.game = gameThread.getGame();
 		this.currentAttack = "ICE";
+		isBeingKnockedBack = false;
 		System.out.println("Player init");
 
 		// overrides super constructor bounding box set
@@ -52,6 +55,27 @@ public class Player extends Creatures {
 		}
 	}
 
+	public void knockBack(int damageReceived, String enemyFacingDirection) {
+		float knockBackSpeed = damageReceived;
+		isBeingKnockedBack = true;
+
+		if (enemyFacingDirection == "LEFT") {	// meaning enemy is on player's right
+			xMove = -knockBackSpeed;
+			facingDirection = "RIGHT";
+		} else if (enemyFacingDirection == "RIGHT"){
+			xMove = knockBackSpeed;
+			facingDirection = "LEFT";
+		} else if (enemyFacingDirection == "DOWN") {
+			yMove = knockBackSpeed;
+			facingDirection = "UP";
+		} else if (enemyFacingDirection == "UP") {
+			yMove = -knockBackSpeed;
+			facingDirection = "DOWN";
+		}
+	}
+
+	
+	
 	@Override
 	public void update() {
 		animationDown.timerCounter();
@@ -59,17 +83,36 @@ public class Player extends Creatures {
 		animationRight.timerCounter();
 		animationUp.timerCounter();
 
-		timer += System.currentTimeMillis() - lastTime;
-		lastTime = System.currentTimeMillis();
-		if (timer > attackCoolDown) {
-			attackCoolDown = 0;
-			timer = 0;
-		}
+		attackCooldownTimer();
+		
 		ProjectileAttacks.updateAttacks();
-
-		getKeyboardInput();
-		move();
+		
+		if (isBeingKnockedBack) {
+			moveWithFixedDirection();
+			knockbackTimer();
+		} else {
+			getKeyboardInput();
+			move();
+		}
 		gameThread.getGameCamera().focusCameraOnEntity(this);
+	}
+	
+	private void attackCooldownTimer() {
+		attackCoolDownTimer += System.currentTimeMillis() - lastTimeCoolDown;
+		lastTimeCoolDown = System.currentTimeMillis();
+		if (attackCoolDownTimer > attackCoolDown) {
+			attackCoolDown = 0;
+			attackCoolDownTimer = 0;
+		}
+	}
+	
+	private void knockbackTimer() {
+		knockBackTimer += System.currentTimeMillis() - lastTimeKnockBack;
+		lastTimeKnockBack = System.currentTimeMillis();
+		if (knockBackTimer > 200) {
+			knockBackTimer = 0;
+			isBeingKnockedBack = false;
+		}
 	}
 
 	public void getKeyboardInput() {
@@ -108,7 +151,6 @@ public class Player extends Creatures {
 		g2d.drawRect((int) (xPos + bounds.x - gameThread.getGameCamera().getxOffset()),
 				(int) (yPos + bounds.y - gameThread.getGameCamera().getyOffset()), bounds.width, bounds.height);
 
-
 		/*
 		 * g2d.fillRect((int) (xPos + bounds.x -
 		 * gameThread.getGameCamera().getxOffset()), (int) (yPos + bounds.y -
@@ -127,6 +169,5 @@ public class Player extends Creatures {
 			return animationDown.getCurrentFrame();
 		}
 	}
-
 
 }

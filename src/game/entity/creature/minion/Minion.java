@@ -50,15 +50,10 @@ public abstract class Minion extends Creatures {
 		float playerY = player.getyPos();
 		isWalking = true;
 
-		if (xPos + bounds.width + bounds.x == playerX) {
-			xMove = 0;
-		} else if (xPos + bounds.x < playerX + player.getWidth()) {
+		if (xPos + bounds.x < playerX + player.getBoundingBox().getWidth() + player.getBoundingBox().getX()) {
 			xMove = speed;
-		} else if (xPos + bounds.x > playerX + player.getWidth()) {
+		} else if (xPos + bounds.x > playerX + player.getBoundingBox().getWidth() + player.getBoundingBox().getX()) {
 			xMove = -speed;
-		} else if (xPos + bounds.x == playerX + player.getWidth()) {
-			xMove = 0;
-			// System.out.println("x = 0");
 		}
 		if (yPos + bounds.y + bounds.height < playerY + player.getHeight()) {
 			yMove = speed;
@@ -68,7 +63,7 @@ public abstract class Minion extends Creatures {
 			yMove = 0;
 			// System.out.println("y = 0");
 		}
-		move();
+		moveWithFixedDirection();
 		if (xMove == 0 && yMove == 0) {
 			isWalking = false;
 		}
@@ -127,56 +122,6 @@ public abstract class Minion extends Creatures {
 		}
 	}
 
-	// override moveX and moveY for set facingDirection according to player position
-	@Override
-	public void moveX() {
-		if (xMove > 0) { // moving right
-			int tx = (int) (xPos + xMove + bounds.x + bounds.width) / Tile.TILE_WIDTH; // get tile that we're going to
-																						// enter
-
-			// detect that if no collision going to happen then move
-			if (!collisionWithTile(tx, (int) (yPos + bounds.y) / Tile.TILE_HEIGHT) && // upper right
-					!collisionWithTile(tx, (int) (yPos + bounds.y + bounds.height) / Tile.TILE_HEIGHT)) { // lower right
-				xPos += xMove;
-			} else {
-				xPos = tx * Tile.TILE_WIDTH - bounds.x - bounds.width - 1;
-			}
-		} else if (xMove < 0) { // moving left
-			int tx = (int) (xPos + xMove + bounds.x) / Tile.TILE_WIDTH;
-
-			if (!collisionWithTile(tx, (int) (yPos + bounds.y) / Tile.TILE_HEIGHT) && // upper left
-					!collisionWithTile(tx, (int) (yPos + bounds.y + bounds.height) / Tile.TILE_HEIGHT)) { // lower left
-				xPos += xMove;
-			} else {
-				xPos = tx * Tile.TILE_WIDTH + Tile.TILE_WIDTH - bounds.x;
-			}
-		}
-	}
-
-	@Override
-	public void moveY() {
-		if (yMove < 0) { // moving up
-			int ty = (int) (yPos + yMove + bounds.y) / Tile.TILE_HEIGHT;
-
-			if (!collisionWithTile((int) (xPos + bounds.x) / Tile.TILE_WIDTH, ty)
-					&& !collisionWithTile((int) (xPos + bounds.x + bounds.width) / Tile.TILE_WIDTH, ty)) {
-				yPos += yMove;
-			} else {
-				yPos = ty * Tile.TILE_HEIGHT + Tile.TILE_HEIGHT - bounds.y;
-			}
-
-		} else if (yMove > 0) { // moving down
-			int ty = (int) (yPos + yMove + bounds.y + bounds.height) / Tile.TILE_HEIGHT;
-
-			if (!collisionWithTile((int) (xPos + bounds.x) / Tile.TILE_WIDTH, ty)
-					&& !collisionWithTile((int) (xPos + bounds.x + bounds.width) / Tile.TILE_WIDTH, ty)) {
-				yPos += yMove;
-			} else {
-				yPos = ty * Tile.TILE_HEIGHT - bounds.y - bounds.height - 1;
-			}
-		}
-	}
-
 	protected String getFacingDirectionFromPlayerPos() {
 		float playerX = gameThread.getWorld().getEntityManager().getPlayer().getxPos();
 		if (playerX < xPos) {
@@ -187,10 +132,17 @@ public abstract class Minion extends Creatures {
 
 	protected void hurtPlayerOnHit() {
 		Player player = gameThread.getWorld().getEntityManager().getPlayer();
-		Rectangle bbox = player.getBoundingBox();
-		if (getCollisionBounds(0f, 0f).intersects(player.getCollisionBounds(player.getxMove(), 0))
-				|| getCollisionBounds(0f, 0f).intersects(player.getCollisionBounds(0, player.getyMove()))) {
+		if (getCollisionBounds(xMove, 0f).intersects(player.getCollisionBounds(0, 0))) {
 			player.hurt(attackDamage);
+			player.knockBack(attackDamage, facingDirection);
+			System.out.println("xMove");
+		} else if (getCollisionBounds(0f, yMove).intersects(player.getCollisionBounds(0, 0))) {
+			System.out.println("yMove");
+			player.hurt(attackDamage);
+			if (yMove > 0)
+				player.knockBack(attackDamage, "DOWN");
+			else
+				player.knockBack(attackDamage, "UP");
 		}
 
 	}
