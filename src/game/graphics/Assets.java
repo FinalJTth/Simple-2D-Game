@@ -9,6 +9,7 @@ public class Assets {
 	public static final int SPRITESHEET_WIDTH = 56, SPRITESHEET_HEIGHT = 56;
 
 	public static BufferedImage grass, lava;
+	public static BufferedImage crosshair;
 	public static BufferedImage medium_spikey_tree;
 	public static BufferedImage[] player_wizard_down, player_wizard_up, player_wizard_left, player_wizard_right;
 	public static BufferedImage[] iceShardSpell_firing, iceShardSpell_hit;
@@ -113,6 +114,10 @@ public class Assets {
 				}
 			}
 		}
+		
+		// UI
+		
+		crosshair = ImageLoader.loadImage("res/texture/crosshairRed.png");
 
 		SpriteSheet buttonSheet = new SpriteSheet(ImageLoader.loadImage("res/menuButton/buttonSheet.png"));
 		play_button_normal = buttonSheet.crop(0, 0, 40, 21);

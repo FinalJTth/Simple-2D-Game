@@ -1,11 +1,14 @@
 package game.state;
 
+import java.awt.BasicStroke;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.event.KeyEvent;
 
 import game.engine.GameThread;
 import game.entity.creature.Player;
 import game.entity.statics.Tree;
+import game.graphics.Assets;
 import game.tile.Tile;
 import game.world.World;
 
@@ -32,8 +35,25 @@ public class GameState extends State {
 	@Override
 	public void render(Graphics2D g2d) {
 		world.render(g2d);
+		drawCrosshair(g2d);
 	}
-	
+
+	private void drawCrosshair(Graphics2D g2d) {
+		Stroke defaultStroke = g2d.getStroke();
+		Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 9 }, 0);
+		g2d.setStroke(dashed);
+		g2d.drawLine((int) (world.getEntityManager().getPlayer().getxPos()
+
+				+ world.getEntityManager().getPlayer().getWidth() / 2 - gameThread.getGameCamera().getxOffset()),
+				(int) (world.getEntityManager().getPlayer().getyPos()
+						+ world.getEntityManager().getPlayer().getHeight() / 2
+						- gameThread.getGameCamera().getyOffset()),
+				gameThread.getGame().getMouseManager().getMouseX(), gameThread.getGame().getMouseManager().getMouseY());
+		g2d.setStroke(defaultStroke);
+		g2d.drawImage(Assets.crosshair, gameThread.getGame().getMouseManager().getMouseX() - 25,
+				gameThread.getGame().getMouseManager().getMouseY() - 25, 50, 50, null);
+	}
+
 	public World getWorld() {
 		return world;
 	}

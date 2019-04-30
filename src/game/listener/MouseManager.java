@@ -55,6 +55,11 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 	public void mouseMoved(MouseEvent event) {
 		mouseX = event.getX();
 		mouseY = event.getY();
+		// System.out.println(String.format("x : %d , y : %d",	mouseX, mouseY));
+	}
+	
+	public String getMouseDirection() {
+		return "";
 	}
 	
 	public boolean isMousePressed() {
