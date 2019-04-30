@@ -1,6 +1,7 @@
 package game.world;
 
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 import game.engine.GameThread;
 import game.entity.EntityManager;
@@ -14,7 +15,7 @@ public class World {
 	private GameThread gameThread;
 	private int width, height;
 	private int playerSpawnX, playerSpawnY;
-	private int[][] tiles;
+	private int[][] tiles, randomedTiles;
 	private EntityManager entityManager;
 
 	public World(GameThread gameThread, String path) {
@@ -42,7 +43,7 @@ public class World {
 		for (int row = rowStart; row < rowEnd; row++) {
 			for (int col = colStart; col < colEnd; col++) {
 				getTile(row, col).render(g2d, (int) (row * Tile.TILE_WIDTH - gameThread.getGameCamera().getxOffset()),
-						(int) (col * Tile.TILE_HEIGHT - gameThread.getGameCamera().getyOffset()));
+						(int) (col * Tile.TILE_HEIGHT - gameThread.getGameCamera().getyOffset()), randomedTiles[row][col]);
 			}
 		}
 		
@@ -50,14 +51,14 @@ public class World {
 	}
 
 	public Tile getTile(int row, int col) {
-		// return grassTile if out of world
+		// return spaceTiles if out of world
 		if(row < 0 || col < 0 || row >= width || col >= height) {
-			return Tile.grassTile;
+			return Tile.spaceTiles;
 		}
 		
 		Tile t = Tile.tiles[tiles[row][col]]; // get Tile from tile id
 		if (t == null) {
-			return Tile.grassTile; // return default tile
+			return Tile.dirtTiles; // return default tile
 		}
 		return t;
 	}
@@ -71,9 +72,11 @@ public class World {
 		playerSpawnY = Utils.parseInt(tmp[3]);
 
 		tiles = new int[width][height];
+		randomedTiles = new int[width][height];
 		for (int col = 0; col < height; col++) {
 			for (int row = 0; row < width; row++) {
 				tiles[row][col] = Utils.parseInt(tmp[row + col * width + 4]); // turn 1D array to 2D
+				randomedTiles[row][col] = (int) (Math.random() * Tile.tiles[tiles[row][col]].getTileVariation());
 			}
 		}
 	}

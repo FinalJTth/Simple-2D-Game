@@ -135,9 +135,7 @@ public abstract class Minion extends Creatures {
 		if (getCollisionBounds(xMove, 0f).intersects(player.getCollisionBounds(0, 0))) {
 			player.hurt(attackDamage);
 			player.knockBack(attackDamage, facingDirection);
-			System.out.println("xMove");
 		} else if (getCollisionBounds(0f, yMove).intersects(player.getCollisionBounds(0, 0))) {
-			System.out.println("yMove");
 			player.hurt(attackDamage);
 			if (yMove > 0)
 				player.knockBack(attackDamage, "DOWN");

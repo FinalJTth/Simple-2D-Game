@@ -19,6 +19,7 @@ public class Assets {
 	public static BufferedImage play_button_onClick, sound_ON_button_onClick, sound_OFF_button_onClick,
 			exit_button_onClick;
 	public static BufferedImage[] big_blob_idle, big_blob_walk, big_blob_attack;
+	public static BufferedImage[] dirt_tile, space_tile, rock_tile;
 
 	private static int cnt = 0;
 
@@ -54,6 +55,25 @@ public class Assets {
 		// trees
 		SpriteSheet treeSheet = new SpriteSheet(ImageLoader.loadImage("res/texture/trees.png"));
 		medium_spikey_tree = treeSheet.crop(129, 279, 60, 75);
+
+		// dark dimension map
+		SpriteSheet darkDimensionSheet = new SpriteSheet(
+				ImageLoader.loadImage("res/texture/darkDimension/darkdimension_sheet.png"));
+		rock_tile = new BufferedImage[2];
+		rock_tile[0] = darkDimensionSheet.crop(16, 192, 16, 16);
+		rock_tile[1] = darkDimensionSheet.crop(16, 192 + 16, 16, 16);
+
+		dirt_tile = new BufferedImage[7];
+		for (int x = 1; x < 8; x++) {
+			dirt_tile[x - 1] = darkDimensionSheet.crop(16 * (x + 1), 16, 16, 16);
+		}
+		space_tile = new BufferedImage[8];
+		for (int x = 0; x < 8; x++) {
+			if (x < 4)
+				space_tile[x] = darkDimensionSheet.crop(16 * x + 16, 240, 32, 32);
+			else
+				space_tile[x] = darkDimensionSheet.crop(16 * (x - 4) + 16, 272, 32, 32);
+		}
 
 		// ice shard spell
 		SpriteSheet iceShardSheet = new SpriteSheet(ImageLoader.loadImage("res/texture/ice_shard/iceShardSprite.png"));
