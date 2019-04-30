@@ -11,6 +11,7 @@ import game.entity.creature.attacks.IceShardSpell;
 import game.entity.creature.attacks.ProjectileAttacks;
 import game.graphics.Animation;
 import game.graphics.Assets;
+import game.listener.MouseManager;
 import game.tile.Tile;
 
 public class Player extends Creatures {
@@ -92,7 +93,10 @@ public class Player extends Creatures {
 			knockbackTimer();
 		} else {
 			getKeyboardInput();
-			move();
+			getMouseInput();
+			getFacingDirectionFromMouse();
+			// move();
+			moveWithFixedDirection();
 		}
 		gameThread.getGameCamera().focusCameraOnEntity(this);
 	}
@@ -131,7 +135,14 @@ public class Player extends Creatures {
 		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_D)) {
 			xMove = speed;
 		}
-		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_SPACE) && attackCoolDown == 0) {
+//		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_SPACE) && attackCoolDown == 0) {
+//			attack();
+//			
+//		}
+	}
+	public void getMouseInput() {
+		MouseManager mouse = game.getMouseManager();
+		if (mouse.isLeftPressed()) {
 			attack();
 			System.out.println("FIRE");
 		}
@@ -150,6 +161,8 @@ public class Player extends Creatures {
 		// draw collision checking (bounding) box
 		g2d.drawRect((int) (xPos + bounds.x - gameThread.getGameCamera().getxOffset()),
 				(int) (yPos + bounds.y - gameThread.getGameCamera().getyOffset()), bounds.width, bounds.height);
+		
+		
 
 		/*
 		 * g2d.fillRect((int) (xPos + bounds.x -
@@ -170,4 +183,26 @@ public class Player extends Creatures {
 		}
 	}
 
+	
+	public void getFacingDirectionFromMouse() {
+		MouseManager mouse = gameThread.getGame().getMouseManager();
+		float mouseX = mouse.getMouseX();
+		float mouseY = mouse.getMouseY();
+		float centerX = (float) (xPos + width / 2);
+		float centerY = (float) (yPos + height / 2);
+		// if we use getWindow().getWidth() will return window's width + border size
+		float windowW = gameThread.getGame().getWindow().getContentPane().getSize().width;
+		float windowH = gameThread.getGame().getWindow().getContentPane().getSize().height;
+		if ((mouseY > (-windowH/windowW)*mouseX + windowH) && (mouseY < windowH / windowW * mouseX)) {
+			facingDirection = "RIGHT";
+		} else if ((mouseY > (-windowH/windowW)*mouseX + windowH) && (mouseY > windowH / windowW * mouseX)) {
+			facingDirection = "DOWN";
+		} else if ((mouseY < (-windowH/windowW)*mouseX + windowH) && (mouseY < windowH / windowW * mouseX)) {
+			facingDirection = "UP";
+		} else if ((mouseY < (-windowH/windowW)*mouseX + windowH) && (mouseY > windowH / windowW * mouseX)) {
+			facingDirection = "LEFT";
+		}
+		
+		
+	}
 }

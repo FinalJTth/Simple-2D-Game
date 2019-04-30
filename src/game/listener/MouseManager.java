@@ -47,8 +47,9 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 	
 	@Override
 	public void mouseDragged(MouseEvent event) {
-		// TODO Auto-generated method stub
-		
+		// able to move mouse while pressing button
+		mouseX = event.getX();
+		mouseY = event.getY();
 	}
 
 	@Override

@@ -20,12 +20,13 @@ public class Game {
 
 	public Game(int window_width, int window_height, String title) {
 		window = new JFrame(title);
-		window.setSize(window_width, window_width);
+		window.setSize(window_width, window_height);
 		window.setResizable(false);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setFocusable(true);
 		window.setLocationRelativeTo(null); // Open window in the center of the screen
 		window.setVisible(true);
+		// System.out.println(String.format("H : %d, W : %d", window.getHeight(), window.getWidth()));
 		
 		canvas = new Canvas();
 		canvas.setPreferredSize(new Dimension(window_width, window_height));

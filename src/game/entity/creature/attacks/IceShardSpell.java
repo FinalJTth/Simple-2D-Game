@@ -63,21 +63,20 @@ public class IceShardSpell extends ProjectileAttacks {
 		}
 	}
 
-	
 	// create bbox with proper direction
-		private Rectangle createBoundingBox(int width, int height) {
-			String direction = gameThread.getWorld().getEntityManager().getPlayer().getFacingDirection();
-			Rectangle r;
-			if (direction == "UP") {
-				r = new Rectangle((int) 44, (int) 40, height, width);
-			} else if (direction == "DOWN") {
-				r = new Rectangle((int) 36, (int) 38, height, width);
-			} else if (direction == "LEFT") {
-				r = new Rectangle((int) 25, (int) 32, width, height);
-			} else {
-				r = new Rectangle((int) 42, (int) 44, width, height);
-			}
-			return r;
+	private Rectangle createBoundingBox(int width, int height) {
+		String direction = gameThread.getWorld().getEntityManager().getPlayer().getFacingDirection();
+		Rectangle r;
+		if (direction == "UP") {
+			r = new Rectangle((int) 44, (int) 40, height, width);
+		} else if (direction == "DOWN") {
+			r = new Rectangle((int) 36, (int) 38, height, width);
+		} else if (direction == "LEFT") {
+			r = new Rectangle((int) 25, (int) 32, width, height);
+		} else {
+			r = new Rectangle((int) 42, (int) 44, width, height);
 		}
+		return r;
+	}
 
 }
