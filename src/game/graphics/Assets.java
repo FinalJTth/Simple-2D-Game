@@ -16,6 +16,8 @@ public class Assets {
 			player_wizard_dead_right;
 	public static BufferedImage[] iceShardSpell_firing, iceShardSpell_hit;
 	public static BufferedImage iceShardSpell_bullet;
+	public static BufferedImage[] blast_firing, blast_hit;
+	public static BufferedImage blast_bullet;
 	public static BufferedImage[] play_button, sound_ON_button, sound_OFF_button, exit_button;
 	public static BufferedImage play_button_normal, sound_ON_button_normal, sound_OFF_button_normal, exit_button_normal;
 	public static BufferedImage play_button_hover, sound_ON_button_hover, sound_OFF_button_hover, exit_button_hover;
@@ -119,6 +121,23 @@ public class Assets {
 			}
 		}
 
+		// normal blast
+		SpriteSheet normalBlastSheet = new SpriteSheet(ImageLoader.loadImage("res/texture/normal_blast/blast2.png"));
+		SpriteSheet normalBlastSheet2 = new SpriteSheet(ImageLoader.loadImage("res/texture/normal_blast/impact01.png"));
+		blast_firing = new BufferedImage[5];
+		blast_hit = new BufferedImage[7];
+		BufferedImage tmp;
+		for (int x = 0; x < 13; x++) {
+			if (x < 5) {
+				blast_firing[x] = normalBlastSheet.crop(0, x * 32, 64, 32);
+			} else if (x == 5) {
+				blast_bullet = normalBlastSheet.crop(0, x * 32, 64, 32);
+			} else {
+				tmp = normalBlastSheet2.crop((x - 2) * 64, 0, 64, 64);
+				blast_hit[x - 6] = Utils.rotateImage(tmp, 105);
+			}
+		}
+
 		SpriteSheet bigBlobSheet = new SpriteSheet(
 				ImageLoader.loadImage("res/texture/minion/bigBlob/bigBlobMinionSprite.png"));
 		big_blob_idle = new BufferedImage[6];
@@ -136,7 +155,7 @@ public class Assets {
 				}
 			}
 		}
-		
+
 		SpriteSheet smallBlobSheet = new SpriteSheet(
 				ImageLoader.loadImage("res/texture/minion/smallBlob/smallBlobMinionSprite.png"));
 		small_blob_idle = new BufferedImage[8];
@@ -148,8 +167,7 @@ public class Assets {
 			for (int y = 0; y < 10; y++) {
 				if (x == 2) {
 					small_blob_attack[y] = smallBlobSheet.crop(y * 80, x * 80, 80, 80);
-				}
-				else if (y < 8) {
+				} else if (y < 8) {
 					if (x == 0) {
 						small_blob_idle[y] = smallBlobSheet.crop(y * 80, x * 80, 80, 80);
 					} else if (x == 1) {

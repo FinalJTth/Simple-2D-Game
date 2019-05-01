@@ -63,6 +63,25 @@ public class SpellBullet {
 		isFinished = false;
 		handleDirectionChange();
 	}
+	
+	public SpellBullet(GameThread gameThread, BufferedImage img, BufferedImage[] deadAnimImg,int deadAnimSpeed, String direction,
+			float speed, int damage, float originX, float originY, Rectangle bounds) {
+		this.gameThread = gameThread;
+		BufferedImage[] tmp = new BufferedImage[1];
+		tmp[0] = img;
+		animation = new TemporaryAnimation(100, tmp);
+		this.deadAnimation = new TemporaryAnimation(deadAnimSpeed, deadAnimImg);
+		this.direction = direction;
+		this.speed = speed;
+		this.damage = damage;
+		this.xPos = originX;
+		this.yPos = originY;
+		this.bounds = bounds;
+		
+		isAlive = true;
+		isFinished = false;
+		handleDirectionChange();
+	}
 
 	public void move() {
 		if (direction == "UP") {

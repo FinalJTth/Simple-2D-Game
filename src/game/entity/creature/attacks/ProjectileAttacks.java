@@ -80,6 +80,8 @@ public abstract class ProjectileAttacks {
 	
 	protected abstract void handleDirectionChange();
 	
+	protected abstract Rectangle createBoundingBox(int width, int height);
+	
 	public void render(Graphics2D g2d) {
 		if (isFiring) {
 			// draw image(rotated) accordingly to handleDirectionChange()

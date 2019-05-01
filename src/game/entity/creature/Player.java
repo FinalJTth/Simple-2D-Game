@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import game.engine.Game;
 import game.engine.GameThread;
 import game.entity.creature.attacks.IceShardSpell;
+import game.entity.creature.attacks.NormalBlast;
 import game.entity.creature.attacks.ProjectileAttacks;
 import game.graphics.Animation;
 import game.graphics.Assets;
@@ -22,7 +23,7 @@ public class Player extends Creatures {
 	private final Game game;
 	private final Animation animationDown, animationUp, animationLeft, animationRight;
 	private final Animation animationDeadDown, animationDeadUp, animationDeadLeft, animationDeadRight;
-	private String currentAttack;
+	private String currentAttack;	// ICE NORMAL
 	private int attackCoolDown, mana;
 	private long lastTimeCoolDown, attackCoolDownTimer, knockBackTimer, lastTimeKnockBack, chargeManaTimer,
 			lastTimeChargeMana;
@@ -31,7 +32,7 @@ public class Player extends Creatures {
 	public Player(GameThread gameThread, float x, float y) {
 		super(gameThread, x, y, Creatures.DEFAULT_CREATURE_WIDTH, Creatures.DEFAULT_CREATURE_HEIGHT, 1000, 6.0f);
 		this.game = gameThread.getGame();
-		this.currentAttack = "ICE";
+		this.currentAttack = "NORMAL";
 		this.mana = DEFAULT_MANA;
 		maxMana = DEFAULT_MANA;
 		isBeingKnockedBack = false;
@@ -55,13 +56,21 @@ public class Player extends Creatures {
 		animationDeadRight = new TemporaryAnimation(ANIMATION_SPEED, Assets.player_wizard_dead_right);
 
 		ProjectileAttacks.addAttack(new IceShardSpell(gameThread, this));
-
+		ProjectileAttacks.addAttack(new NormalBlast(gameThread, this));
 	}
 
 	public void attack() {
 		if (!isCastingAttack) {
 			if (currentAttack == "ICE") {
 				ProjectileAttacks atk = ProjectileAttacks.attackList.get(0);
+				if (atk.getManaCost() <= mana) {
+					attackCoolDown = atk.getCoolDown();
+					isCastingAttack = true;
+					atk.fire();
+					decreaseMana(atk.getManaCost());
+				}
+			} else if (currentAttack == "NORMAL") {
+				ProjectileAttacks atk = ProjectileAttacks.attackList.get(1);
 				if (atk.getManaCost() <= mana) {
 					attackCoolDown = atk.getCoolDown();
 					isCastingAttack = true;
@@ -83,6 +92,15 @@ public class Player extends Creatures {
 		if (chargeManaTimer > 500 && mana < maxMana) {
 			mana += 10;
 			chargeManaTimer = 0;
+		}
+	}
+	
+	public void switchAttack() {
+		System.out.println(currentAttack);
+		if (currentAttack == "NORMAL") {
+			currentAttack = "ICE";
+		} else if (currentAttack == "ICE") {
+			currentAttack = "NORMAL";
 		}
 	}
 
@@ -108,7 +126,6 @@ public class Player extends Creatures {
 	@Override
 	public void update() {
 		if (isAlive) {
-			System.out.println(isCastingAttack);
 			animationDown.timerCounter();
 			animationLeft.timerCounter();
 			animationRight.timerCounter();
@@ -179,9 +196,12 @@ public class Player extends Creatures {
 		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_D)) {
 			xMove = speed;
 		}
+		// prevent player from charging mana while attacking
 		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_SPACE) && !game.getMouseManager().isLeftPressed()) {
 			chargeMana();
-
+		}
+		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_Q)) {
+			switchAttack();
 		}
 	}
 
