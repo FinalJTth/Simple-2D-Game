@@ -22,6 +22,7 @@ public class Assets {
 	public static BufferedImage play_button_onClick, sound_ON_button_onClick, sound_OFF_button_onClick,
 			exit_button_onClick;
 	public static BufferedImage[] big_blob_idle, big_blob_walk, big_blob_attack;
+	public static BufferedImage[] small_blob_idle, small_blob_walk, small_blob_attack, small_blob_dead;
 	public static BufferedImage[] evil_sorcerer_slide, evil_sorcerer_attack;
 	public static BufferedImage[] dirt_tile, space_tile, rock_tile;
 
@@ -132,6 +133,30 @@ public class Assets {
 					big_blob_walk[y] = bigBlobSheet.crop(y * 80, x * 80, 80, 80);
 				} else if (x == 2) {
 					big_blob_attack[y] = bigBlobSheet.crop(y * 80, x * 80, 80, 80);
+				}
+			}
+		}
+		
+		SpriteSheet smallBlobSheet = new SpriteSheet(
+				ImageLoader.loadImage("res/texture/minion/smallBlob/smallBlobMinionSprite.png"));
+		small_blob_idle = new BufferedImage[8];
+		small_blob_walk = new BufferedImage[8];
+		small_blob_attack = new BufferedImage[10];
+		small_blob_dead = new BufferedImage[8];
+		for (int x = 0; x < 4; x++) {
+			cnt = 0;
+			for (int y = 0; y < 10; y++) {
+				if (x == 2) {
+					small_blob_attack[y] = smallBlobSheet.crop(y * 80, x * 80, 80, 80);
+				}
+				else if (y < 8) {
+					if (x == 0) {
+						small_blob_idle[y] = smallBlobSheet.crop(y * 80, x * 80, 80, 80);
+					} else if (x == 1) {
+						small_blob_walk[y] = smallBlobSheet.crop(y * 80, x * 80, 80, 80);
+					} else if (x == 3) {
+						small_blob_dead[y] = smallBlobSheet.crop(y * 80, x * 80, 80, 80);
+					}
 				}
 			}
 		}
