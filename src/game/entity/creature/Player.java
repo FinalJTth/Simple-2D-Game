@@ -196,6 +196,7 @@ public class Player extends Creatures {
 	public void hurt(int damage) {
 		health -= damage;
 		if (health <= 0) {
+			health = 0;
 			isAlive = false;
 		}
 	}
@@ -277,6 +278,7 @@ public class Player extends Creatures {
 		return (float) mana / maxMana * bounds.width;
 	}
 
+	@Override
 	protected BufferedImage getCurrentAnimationFrame() {
 		if (isAlive) {
 			if (facingDirection == "LEFT") {
