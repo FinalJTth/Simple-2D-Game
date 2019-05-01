@@ -13,7 +13,7 @@ public class IceShardSpell extends ProjectileAttacks {
 	private static final int ANIMATION_SPEED = 100, DEFAULT_MANA_COST = 10;
 
 	public IceShardSpell(GameThread gameThread, Creatures source) {
-		super(gameThread, source, 6.0f, 100, 1000, DEFAULT_MANA_COST);
+		super(gameThread, source, 7.0f, 100, 1000, DEFAULT_MANA_COST);
 
 		animationFiring = new TemporaryAnimation(ANIMATION_SPEED, Assets.iceShardSpell_firing);
 		animationHit = new TemporaryAnimation(ANIMATION_SPEED, Assets.iceShardSpell_hit);
@@ -29,7 +29,7 @@ public class IceShardSpell extends ProjectileAttacks {
 				animationFiring.reset();
 				source.doneAttacking();
 				// create new ice bullet to prevent old one disappear
-				firedBullet.add(new SpellBullet(gameThread, Assets.iceShardSpell_bullet, animationHit,
+				firedBullet.add(new SpellBullet(gameThread, Assets.iceShardSpell_bullet, Assets.iceShardSpell_hit, 100,
 						source.getFacingDirection(), speed, damage, source.getxPos() + xOffset,
 						source.getyPos() + yOffset, createBoundingBox(30, 24)));
 			}

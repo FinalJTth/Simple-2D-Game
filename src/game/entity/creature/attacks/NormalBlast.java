@@ -12,7 +12,7 @@ import game.graphics.TemporaryAnimation;
 public class NormalBlast extends ProjectileAttacks {
 
 	public NormalBlast(GameThread gameThread, Creatures source) {
-		super(gameThread, source, 6.0f, 20, 100, 2);
+		super(gameThread, source, 8.0f, 20, 0, 0);
 
 		animationFiring = new TemporaryAnimation(10, Assets.blast_firing);
 		animationHit = new TemporaryAnimation(20, Assets.blast_hit);

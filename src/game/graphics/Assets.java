@@ -8,24 +8,30 @@ public class Assets {
 
 	public static final int SPRITESHEET_WIDTH = 56, SPRITESHEET_HEIGHT = 56;
 
-	public static BufferedImage grass, lava;
 	public static BufferedImage crosshair;
+
 	public static BufferedImage medium_spikey_tree;
+
 	public static BufferedImage[] player_wizard_down, player_wizard_up, player_wizard_left, player_wizard_right;
 	public static BufferedImage[] player_wizard_dead_down, player_wizard_dead_up, player_wizard_dead_left,
 			player_wizard_dead_right;
+
 	public static BufferedImage[] iceShardSpell_firing, iceShardSpell_hit;
 	public static BufferedImage iceShardSpell_bullet;
 	public static BufferedImage[] blast_firing, blast_hit;
 	public static BufferedImage blast_bullet;
+	public static BufferedImage[] fireball_bullet, fireball_hit;
+
 	public static BufferedImage[] play_button, sound_ON_button, sound_OFF_button, exit_button;
 	public static BufferedImage play_button_normal, sound_ON_button_normal, sound_OFF_button_normal, exit_button_normal;
 	public static BufferedImage play_button_hover, sound_ON_button_hover, sound_OFF_button_hover, exit_button_hover;
 	public static BufferedImage play_button_onClick, sound_ON_button_onClick, sound_OFF_button_onClick,
 			exit_button_onClick;
+
 	public static BufferedImage[] big_blob_idle, big_blob_walk, big_blob_attack;
 	public static BufferedImage[] small_blob_idle, small_blob_walk, small_blob_attack, small_blob_dead;
 	public static BufferedImage[] evil_sorcerer_slide, evil_sorcerer_attack;
+
 	public static BufferedImage[] dirt_tile, space_tile, rock_tile;
 
 	private static int cnt = 0;
@@ -138,6 +144,20 @@ public class Assets {
 			}
 		}
 
+		// fireball
+		SpriteSheet fireballSheet = new SpriteSheet(ImageLoader.loadImage("res/texture/fireball/fireball_sprite.png"));
+		fireball_bullet = new BufferedImage[5];
+		fireball_hit = new BufferedImage[3];
+		for (int x = 0; x < 8; x++) {
+			if (x < 5) {
+				tmp = fireballSheet.crop(0, x * 128, 128, 128);
+				fireball_bullet[x] = Utils.resize(tmp, 0.5f);
+			} else {
+				tmp = fireballSheet.crop(0, x * 128, 128, 128);
+				fireball_hit[x - 5] = Utils.resize(tmp, 0.5f);
+			}
+		}
+
 		SpriteSheet bigBlobSheet = new SpriteSheet(
 				ImageLoader.loadImage("res/texture/minion/bigBlob/bigBlobMinionSprite.png"));
 		big_blob_idle = new BufferedImage[6];
@@ -239,9 +259,6 @@ public class Assets {
 		sound_OFF_button[1] = sound_OFF_button_hover;
 		sound_OFF_button[2] = sound_OFF_button_onClick;
 
-		// TODO temporary code. Will be replaced by SpriteSheet later.
-		grass = ImageLoader.loadImage("res/texture/grass.png");
-		lava = ImageLoader.loadImage("res/texture/lava.png");
 	}
 
 }

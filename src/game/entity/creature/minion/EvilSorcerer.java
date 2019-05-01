@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 import game.engine.GameThread;
 import game.entity.creature.Player;
+import game.entity.creature.attacks.ProjectileAttacks;
 import game.graphics.Animation;
 import game.graphics.Assets;
 import game.utils.Utils;
@@ -14,10 +15,14 @@ public class EvilSorcerer extends Minion {
 
 	private static final int DEFAULT_ATTACK_RANGE = 250;
 
+	private int attackCoolDown;
+	private long attackCoolDownTimer, lastTimeCoolDown;
+
 	public EvilSorcerer(GameThread gameThread, float xPos, float yPos, int health) {
 		super(gameThread, xPos, yPos, 300, 300, health, 2.0f, 100, 50);
 
 		chaseRange = 800;
+		isCastingAttack = false;
 
 		bounds.x = 100;
 		bounds.y = 80;
@@ -29,12 +34,27 @@ public class EvilSorcerer extends Minion {
 	}
 
 	public void attack() {
-		isCastingAttack = true;
+		if (!isCastingAttack && attackCoolDown == 0) {
+			ProjectileAttacks atk = ProjectileAttacks.attackList.get(0);
+			attackCoolDown = atk.getCoolDown();
+			isCastingAttack = true;
+			atk.fire();
+		}
+	}
+	
+	private void attackCooldownTimer() {
+		attackCoolDownTimer += System.currentTimeMillis() - lastTimeCoolDown;
+		lastTimeCoolDown = System.currentTimeMillis();
+		if (attackCoolDownTimer > attackCoolDown) {
+			attackCoolDown = 0;
+			attackCoolDownTimer = 0;
+		}
 	}
 
 	@Override
 	public void update() {
 		if (isAlive) {
+			attackCooldownTimer();
 			animationWalk.timerCounter();
 			animationAttack.timerCounter();
 			if (detectPlayerInChaseRange(gameThread.getWorld().getEntityManager().getPlayer())) {

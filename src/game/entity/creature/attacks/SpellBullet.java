@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import game.engine.GameThread;
 import game.entity.Entity;
 import game.entity.creature.Creatures;
+import game.entity.creature.Player;
 import game.graphics.Animation;
 import game.graphics.TemporaryAnimation;
 import game.utils.Utils;
@@ -28,44 +29,45 @@ public class SpellBullet {
 
 	private ArrayList<Rectangle> rec = new ArrayList<Rectangle>();
 
-	public SpellBullet(GameThread gameThread, TemporaryAnimation anim, TemporaryAnimation deadAnim, String direction,
-			float speed, int damage, float originX, float originY, Rectangle bounds) {
+	public SpellBullet(GameThread gameThread, BufferedImage[] img, int animSpeed, BufferedImage[] deadAnim,
+			int deadAnimSpeed, String direction, float speed, int damage, float originX, float originY,
+			Rectangle bounds) {
 		this.gameThread = gameThread;
-		this.animation = anim;
-		this.deadAnimation = deadAnim;
+		animation = new TemporaryAnimation(animSpeed, img);
+		this.deadAnimation = new TemporaryAnimation(deadAnimSpeed, deadAnim);
 		this.direction = direction;
 		this.speed = speed;
 		this.damage = damage;
 		this.xPos = originX;
 		this.yPos = originY;
 		this.bounds = bounds;
-		
+
 		isAlive = true;
 		isFinished = false;
 		handleDirectionChange();
 	}
 
-	public SpellBullet(GameThread gameThread, BufferedImage img, TemporaryAnimation deadAnim, String direction,
+	public SpellBullet(GameThread gameThread, BufferedImage img, BufferedImage[] deadAnim, String direction,
 			float speed, int damage, float originX, float originY, Rectangle bounds) {
 		this.gameThread = gameThread;
 		BufferedImage[] tmp = new BufferedImage[1];
 		tmp[0] = img;
 		animation = new TemporaryAnimation(100, tmp);
-		this.deadAnimation = deadAnim;
+		this.deadAnimation = new TemporaryAnimation(100, deadAnim);
 		this.direction = direction;
 		this.speed = speed;
 		this.damage = damage;
 		this.xPos = originX;
 		this.yPos = originY;
 		this.bounds = bounds;
-		
+
 		isAlive = true;
 		isFinished = false;
 		handleDirectionChange();
 	}
-	
-	public SpellBullet(GameThread gameThread, BufferedImage img, BufferedImage[] deadAnimImg,int deadAnimSpeed, String direction,
-			float speed, int damage, float originX, float originY, Rectangle bounds) {
+
+	public SpellBullet(GameThread gameThread, BufferedImage img, BufferedImage[] deadAnimImg, int deadAnimSpeed,
+			String direction, float speed, int damage, float originX, float originY, Rectangle bounds) {
 		this.gameThread = gameThread;
 		BufferedImage[] tmp = new BufferedImage[1];
 		tmp[0] = img;
@@ -77,7 +79,7 @@ public class SpellBullet {
 		this.xPos = originX;
 		this.yPos = originY;
 		this.bounds = bounds;
-		
+
 		isAlive = true;
 		isFinished = false;
 		handleDirectionChange();
@@ -94,7 +96,7 @@ public class SpellBullet {
 			xPos += speed;
 		}
 	}
-	
+
 	private void handleDirectionChange() {
 		if (direction == "UP") {
 			rotationAngle = 270;
@@ -110,9 +112,11 @@ public class SpellBullet {
 	public boolean checkEntityCollision(float xOffset, float yOffset) {
 		for (Entity e : gameThread.getWorld().getEntityManager().getEntities()) {
 			if (e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset))) {
+				if (e instanceof Player)
+					return false;
 				if (e instanceof Creatures) {
 					Creatures c = (Creatures) e;
-					c.hurt(damage);	// deal damage to target creature
+					c.hurt(damage); // deal damage to target creature
 				}
 				return true;
 			}
@@ -131,20 +135,22 @@ public class SpellBullet {
 			if (deadAnimation.isDone()) {
 				isFinished = true;
 				deadAnimation.reset();
-				return ;
+				return;
 			}
 		}
 		// prevent triggering multiple checkEntityCollision overkilling creature
 		if (isAlive && (checkEntityCollision(speed, 0f) || checkEntityCollision(0f, speed))) {
 			isAlive = false;
-			return ;
+			return;
 		}
 		// prevent deadAnimation from moving
 		if (isAlive) {
 			move();
 			animation.timerCounter();
+			if (animation.isDone())
+				animation.reset();
 		}
-		
+
 	}
 
 	public void render(Graphics2D g2d) {
@@ -163,7 +169,8 @@ public class SpellBullet {
 					(int) (yPos - gameThread.getGameCamera().getyOffset()), null);
 	}
 
-	// tell IceShardSpell that bullet is completely hit target and finish dead animation
+	// tell IceShardSpell that bullet is completely hit target and finish dead
+	// animation
 	public boolean isFinished() {
 		return isFinished;
 	}
