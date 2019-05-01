@@ -7,7 +7,7 @@ public class KeyManager implements KeyListener {
 	
 	private boolean[] keys = new boolean[256];
 
-	public boolean up, down, left, right, spacebar, escape;
+	public boolean up, down, left, right, spacebar, escape, q;
 
 	public void update() {
 		up = keys[KeyEvent.VK_W];
@@ -16,6 +16,7 @@ public class KeyManager implements KeyListener {
 		right = keys[KeyEvent.VK_D];
 		spacebar = keys[KeyEvent.VK_SPACE];
 		escape = keys[KeyEvent.VK_ESCAPE];
+		q = keys[KeyEvent.VK_Q];
 	}
 	
 	@Override

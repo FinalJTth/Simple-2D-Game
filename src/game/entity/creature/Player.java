@@ -14,6 +14,7 @@ import game.graphics.Animation;
 import game.graphics.Assets;
 import game.graphics.TemporaryAnimation;
 import game.listener.MouseManager;
+import game.utils.Timer;;
 
 public class Player extends Creatures {
 
@@ -24,7 +25,7 @@ public class Player extends Creatures {
 	private final Animation animationDown, animationUp, animationLeft, animationRight;
 	private final Animation animationDeadDown, animationDeadUp, animationDeadLeft, animationDeadRight;
 	private String currentAttack;	// ICE NORMAL
-	private int attackCoolDown, mana;
+	private int attackCoolDown, mana, switchAttackTimer;
 	private long lastTimeCoolDown, attackCoolDownTimer, knockBackTimer, lastTimeKnockBack, chargeManaTimer,
 			lastTimeChargeMana;
 	private boolean isBeingKnockedBack;
@@ -57,6 +58,8 @@ public class Player extends Creatures {
 
 		ProjectileAttacks.addAttack(new IceShardSpell(gameThread, this));
 		ProjectileAttacks.addAttack(new NormalBlast(gameThread, this));
+		
+		switchAttackTimer = 0;
 	}
 
 	public void attack() {
@@ -201,7 +204,17 @@ public class Player extends Creatures {
 			chargeMana();
 		}
 		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_Q)) {
-			switchAttack();
+			// add delay to each Q pressed for 0.5 sec
+			if (!Timer.threadList.isEmpty()) {
+				if (!Timer.threadList.get(switchAttackTimer).isAlive()) {
+					switchAttack();
+					Timer.threadList.remove(switchAttackTimer);
+					switchAttackTimer = Timer.newTimer(500);
+				}
+			} else {
+				switchAttack();
+				switchAttackTimer = Timer.newTimer(500);
+			}
 		}
 	}
 
