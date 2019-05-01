@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import game.engine.GameThread;
 import game.entity.EntityManager;
 import game.entity.creature.Player;
+import game.entity.creature.minion.MinionSpawner;
 import game.entity.statics.Tree;
 import game.tile.Tile;
 import game.utils.Utils;

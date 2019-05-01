@@ -144,7 +144,6 @@ public class Player extends Creatures {
 		MouseManager mouse = game.getMouseManager();
 		if (mouse.isLeftPressed()) {
 			attack();
-			System.out.println("FIRE");
 		}
 	}
 

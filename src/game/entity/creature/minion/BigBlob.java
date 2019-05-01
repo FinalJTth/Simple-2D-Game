@@ -14,10 +14,11 @@ import game.utils.Utils;
 
 public class BigBlob extends Minion {
 
+	private static final int DEFAULT_WIDHT = 200, DEFAULT_HEIGHT = 200;
 	private Animation animationAttack, animationWalk, animationIdle;
 
-	public BigBlob(GameThread gameThread, float xPos, float yPos, int width, int height) {
-		super(gameThread, xPos, yPos, width, height, 3000, 1.0f, 100, 10);
+	public BigBlob(GameThread gameThread, float xPos, float yPos) {
+		super(gameThread, xPos, yPos, DEFAULT_WIDHT, DEFAULT_HEIGHT, 3000, 1.0f, 100, 10);
 
 		chaseRange = 300;
 		// System.out.println(String.format("x : %d, y : %d", bounds.x, bounds.y));
