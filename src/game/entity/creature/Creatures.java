@@ -157,7 +157,6 @@ public abstract class Creatures extends Entity {
 		health -= damage;
 		if (health <= 0) {
 			isAlive = false;
-			gameThread.getWorld().getEntityManager().removeEntity(this);
 		}
 	}
 

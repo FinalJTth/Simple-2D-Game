@@ -38,15 +38,19 @@ public class BigBlob extends Minion {
 
 	@Override
 	public void update() {
-		animationIdle.timerCounter();
-		animationWalk.timerCounter();
-		// moving mechanism
-		if (detectPlayerInChaseRange(gameThread.getWorld().getEntityManager().getPlayer())) {
-			facingDirection = getFacingDirectionFromPlayerPos();
-			chasePlayer(gameThread.getWorld().getEntityManager().getPlayer());
-			hurtPlayerOnHit();
+		if (isAlive) {
+			animationIdle.timerCounter();
+			animationWalk.timerCounter();
+			// moving mechanism
+			if (detectPlayerInChaseRange(gameThread.getWorld().getEntityManager().getPlayer())) {
+				facingDirection = getFacingDirectionFromPlayerPos();
+				chasePlayer(gameThread.getWorld().getEntityManager().getPlayer());
+				hurtPlayerOnHit();
+			} else {
+				moveRandomly();
+			}
 		} else {
-			moveRandomly();
+			gameThread.getWorld().getEntityManager().removeEntity(this);
 		}
 	}
 
@@ -70,7 +74,7 @@ public class BigBlob extends Minion {
 	@Override
 	public void attack() {
 		isCastingAttack = true;
-		
+
 	}
 
 	@Override

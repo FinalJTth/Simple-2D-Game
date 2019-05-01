@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import game.engine.GameThread;
 import game.entity.creature.Creatures;
 import game.entity.creature.Player;
+import game.graphics.Animation;
 import game.tile.Tile;
 import javafx.scene.shape.Ellipse;
 
@@ -15,6 +16,7 @@ public abstract class Minion extends Creatures {
 	protected int randomInt, chaseRange, attackRange, attackDamage;
 	protected boolean isWalking;
 	protected String lastFacingDirection;
+	protected Animation animationWalk, animationIdle, animationAttack, animationDead;
 
 	// for randomly move purpose
 	protected long timer, lastTime;

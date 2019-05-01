@@ -13,42 +13,46 @@ import game.utils.Utils;
 public class EvilSorcerer extends Minion {
 
 	private static final int DEFAULT_ATTACK_RANGE = 250;
-	private Animation animMove, animAttack;
 
 	public EvilSorcerer(GameThread gameThread, float xPos, float yPos, int health) {
 		super(gameThread, xPos, yPos, 300, 300, health, 2.0f, 100, 50);
 
 		chaseRange = 800;
-		
+
 		bounds.x = 100;
 		bounds.y = 80;
 		bounds.width = 80;
 		bounds.height = 200;
-		
-		animMove = new Animation(100, Assets.evil_sorcerer_slide);
-		animAttack = new Animation(100, Assets.evil_sorcerer_attack);
+
+		animationWalk = new Animation(100, Assets.evil_sorcerer_slide);
+		animationAttack = new Animation(100, Assets.evil_sorcerer_attack);
 	}
-	
+
 	public void attack() {
 		isCastingAttack = true;
 	}
 
 	@Override
 	public void update() {
-		animMove.timerCounter();
-		animAttack.timerCounter();
-		if (detectPlayerInChaseRange(gameThread.getWorld().getEntityManager().getPlayer())) {
-			facingDirection = getFacingDirectionFromPlayerPos();
-			if (getThisAndPlayerRange() <= DEFAULT_ATTACK_RANGE) {
-				attack();
+		if (isAlive) {
+			animationWalk.timerCounter();
+			animationAttack.timerCounter();
+			if (detectPlayerInChaseRange(gameThread.getWorld().getEntityManager().getPlayer())) {
+				facingDirection = getFacingDirectionFromPlayerPos();
+				if (getThisAndPlayerRange() <= DEFAULT_ATTACK_RANGE) {
+					attack();
+				} else {
+					chasePlayer(gameThread.getWorld().getEntityManager().getPlayer());
+					hurtPlayerOnHit();
+				}
+
 			} else {
-				chasePlayer(gameThread.getWorld().getEntityManager().getPlayer());
-				hurtPlayerOnHit();
+				moveRandomly();
 			}
-			
 		} else {
-			moveRandomly();
+			gameThread.getWorld().getEntityManager().removeEntity(this);
 		}
+
 	}
 
 	@Override
@@ -71,24 +75,23 @@ public class EvilSorcerer extends Minion {
 	protected BufferedImage getCurrentAnimationFrame() {
 		if (isCastingAttack) {
 			if (facingDirection == "RIGHT") {
-				return animAttack.getCurrentFrame();
+				return animationAttack.getCurrentFrame();
 			} else if (facingDirection == "LEFT") {
-				return Utils.flipImageHorizontally(animAttack.getCurrentFrame());
+				return Utils.flipImageHorizontally(animationAttack.getCurrentFrame());
 			} else if (facingDirection == "UP") {
-				return animAttack.getCurrentFrame();
+				return animationAttack.getCurrentFrame();
 			} else {
-				return Utils.flipImageHorizontally(animAttack.getCurrentFrame());
+				return Utils.flipImageHorizontally(animationAttack.getCurrentFrame());
 			}
-		}
-		else  {
+		} else {
 			if (facingDirection == "RIGHT") {
-				return animMove.getCurrentFrame();
+				return animationWalk.getCurrentFrame();
 			} else if (facingDirection == "LEFT") {
-				return Utils.flipImageHorizontally(animMove.getCurrentFrame());
+				return Utils.flipImageHorizontally(animationWalk.getCurrentFrame());
 			} else if (facingDirection == "UP") {
-				return animMove.getCurrentFrame();
+				return animationWalk.getCurrentFrame();
 			} else {
-				return Utils.flipImageHorizontally(animMove.getCurrentFrame());
+				return Utils.flipImageHorizontally(animationWalk.getCurrentFrame());
 			}
 		}
 	}

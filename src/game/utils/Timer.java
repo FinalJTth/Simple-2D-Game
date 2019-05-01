@@ -14,7 +14,6 @@ public class Timer {
 			public void run() {
 				while (true) {
 					timePast += 10;
-					System.out.println(timePast);
 					if (timePast >= time) {
 						timePast = 0;
 						return;
