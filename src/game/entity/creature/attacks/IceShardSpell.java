@@ -10,10 +10,10 @@ import game.utils.Utils;
 
 public class IceShardSpell extends ProjectileAttacks {
 
-	private static final int ANIMATION_SPEED = 100;
+	private static final int ANIMATION_SPEED = 100, DEFAULT_MANA_COST = 10;
 
 	public IceShardSpell(GameThread gameThread, Creatures source) {
-		super(gameThread, source, 6.0f, 100, 1000);
+		super(gameThread, source, 6.0f, 100, 1000, DEFAULT_MANA_COST);
 
 		animationFiring = new TemporaryAnimation(ANIMATION_SPEED, Assets.iceShardSpell_firing);
 		animationHit = new TemporaryAnimation(ANIMATION_SPEED, Assets.iceShardSpell_hit);

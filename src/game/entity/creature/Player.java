@@ -16,12 +16,14 @@ import game.tile.Tile;
 
 public class Player extends Creatures {
 
-	private static final int ANIMATION_SPEED = 200;
+	private static final int ANIMATION_SPEED = 200, DEFAULT_MANA = 100;
+
+	private final int maxMana;
 
 	private Game game;
 	private Animation animationDown, animationUp, animationLeft, animationRight;
 	private String currentAttack;
-	private int attackCoolDown;
+	private int attackCoolDown, mana;
 	private long lastTimeCoolDown, attackCoolDownTimer, knockBackTimer, lastTimeKnockBack;
 	private boolean isBeingKnockedBack;
 
@@ -29,6 +31,8 @@ public class Player extends Creatures {
 		super(gameThread, x, y, Creatures.DEFAULT_CREATURE_WIDTH, Creatures.DEFAULT_CREATURE_HEIGHT, 1000, 6.0f);
 		this.game = gameThread.getGame();
 		this.currentAttack = "ICE";
+		this.mana = DEFAULT_MANA;
+		maxMana = DEFAULT_MANA;
 		isBeingKnockedBack = false;
 		System.out.println("Player init");
 
@@ -48,22 +52,32 @@ public class Player extends Creatures {
 	}
 
 	public void attack() {
-		isCastingAttack = true;
-		if (currentAttack == "ICE") {
-			ProjectileAttacks atk = ProjectileAttacks.attackList.get(0);
-			attackCoolDown = atk.getCoolDown();
-			atk.fire();
+		if (!isCastingAttack) {
+			isCastingAttack = true;
+			if (currentAttack == "ICE") {
+				ProjectileAttacks atk = ProjectileAttacks.attackList.get(0);
+				if (atk.getManaCost() <= mana) {
+					attackCoolDown = atk.getCoolDown();
+					atk.fire();
+					decreaseMana(atk.getManaCost());
+				}
+			}
 		}
+
+	}
+
+	public void decreaseMana(int manaCost) {
+		mana -= manaCost;
 	}
 
 	public void knockBack(int damageReceived, String enemyFacingDirection) {
 		float knockBackSpeed = damageReceived;
 		isBeingKnockedBack = true;
 
-		if (enemyFacingDirection == "LEFT") {	// meaning enemy is on player's right
+		if (enemyFacingDirection == "LEFT") { // meaning enemy is on player's right
 			xMove = -knockBackSpeed;
 			facingDirection = "RIGHT";
-		} else if (enemyFacingDirection == "RIGHT"){
+		} else if (enemyFacingDirection == "RIGHT") {
 			xMove = knockBackSpeed;
 			facingDirection = "LEFT";
 		} else if (enemyFacingDirection == "DOWN") {
@@ -75,8 +89,6 @@ public class Player extends Creatures {
 		}
 	}
 
-	
-	
 	@Override
 	public void update() {
 		animationDown.timerCounter();
@@ -85,9 +97,9 @@ public class Player extends Creatures {
 		animationUp.timerCounter();
 
 		attackCooldownTimer();
-		
+
 		ProjectileAttacks.updateAttacks();
-		
+
 		if (isBeingKnockedBack) {
 			moveWithFixedDirection();
 			knockbackTimer();
@@ -100,7 +112,7 @@ public class Player extends Creatures {
 		}
 		gameThread.getGameCamera().focusCameraOnEntity(this);
 	}
-	
+
 	private void attackCooldownTimer() {
 		attackCoolDownTimer += System.currentTimeMillis() - lastTimeCoolDown;
 		lastTimeCoolDown = System.currentTimeMillis();
@@ -109,7 +121,7 @@ public class Player extends Creatures {
 			attackCoolDownTimer = 0;
 		}
 	}
-	
+
 	private void knockbackTimer() {
 		knockBackTimer += System.currentTimeMillis() - lastTimeKnockBack;
 		lastTimeKnockBack = System.currentTimeMillis();
@@ -140,6 +152,7 @@ public class Player extends Creatures {
 //			
 //		}
 	}
+
 	public void getMouseInput() {
 		MouseManager mouse = game.getMouseManager();
 		if (mouse.isLeftPressed()) {
@@ -160,14 +173,25 @@ public class Player extends Creatures {
 		// draw collision checking (bounding) box
 		g2d.drawRect((int) (xPos + bounds.x - gameThread.getGameCamera().getxOffset()),
 				(int) (yPos + bounds.y - gameThread.getGameCamera().getyOffset()), bounds.width, bounds.height);
-		
-		
 
 		/*
 		 * g2d.fillRect((int) (xPos + bounds.x -
 		 * gameThread.getGameCamera().getxOffset()), (int) (yPos + bounds.y -
 		 * gameThread.getGameCamera().getyOffset()), bounds.width, bounds.height);
 		 */
+	}
+
+	public void drawPlayerHUD(Graphics2D g2d) {
+		Color defaultColor = g2d.getColor();
+		g2d.setColor(Color.red);
+		g2d.fillRect(40, 530, (int) gameThread.getWorld().getEntityManager().getPlayer().getHealthBarWidth() * 18, 20);
+		g2d.setColor(Color.blue);
+		g2d.fillRect(40, 550, (int) getManaBarWidth() * 18, 20);
+		g2d.setColor(defaultColor);
+	}
+
+	private float getManaBarWidth() {
+		return (float) mana / maxMana * bounds.width;
 	}
 
 	protected BufferedImage getCurrentAnimationFrame() {
@@ -182,26 +206,22 @@ public class Player extends Creatures {
 		}
 	}
 
-	
 	public void getFacingDirectionFromMouse() {
 		MouseManager mouse = gameThread.getGame().getMouseManager();
 		float mouseX = mouse.getMouseX();
 		float mouseY = mouse.getMouseY();
-		float centerX = (float) (xPos + width / 2);
-		float centerY = (float) (yPos + height / 2);
 		// if we use getWindow().getWidth() will return window's width + border size
 		float windowW = gameThread.getGame().getWindow().getContentPane().getSize().width;
 		float windowH = gameThread.getGame().getWindow().getContentPane().getSize().height;
-		if ((mouseY > (-windowH/windowW)*mouseX + windowH) && (mouseY < windowH / windowW * mouseX)) {
+		if ((mouseY > (-windowH / windowW) * mouseX + windowH) && (mouseY < windowH / windowW * mouseX)) {
 			facingDirection = "RIGHT";
-		} else if ((mouseY > (-windowH/windowW)*mouseX + windowH) && (mouseY > windowH / windowW * mouseX)) {
+		} else if ((mouseY > (-windowH / windowW) * mouseX + windowH) && (mouseY > windowH / windowW * mouseX)) {
 			facingDirection = "DOWN";
-		} else if ((mouseY < (-windowH/windowW)*mouseX + windowH) && (mouseY < windowH / windowW * mouseX)) {
+		} else if ((mouseY < (-windowH / windowW) * mouseX + windowH) && (mouseY < windowH / windowW * mouseX)) {
 			facingDirection = "UP";
-		} else if ((mouseY < (-windowH/windowW)*mouseX + windowH) && (mouseY > windowH / windowW * mouseX)) {
+		} else if ((mouseY < (-windowH / windowW) * mouseX + windowH) && (mouseY > windowH / windowW * mouseX)) {
 			facingDirection = "LEFT";
 		}
-		
-		
+
 	}
 }

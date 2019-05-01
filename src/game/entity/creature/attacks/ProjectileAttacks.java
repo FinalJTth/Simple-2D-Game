@@ -35,7 +35,7 @@ public abstract class ProjectileAttacks {
 
 	// Class stuff
 	protected GameThread gameThread;
-	protected final int damage, coolDown;
+	protected final int damage, coolDown, manaCost;
 	protected final float speed;
 	
 	protected float xPos, yPos;
@@ -50,12 +50,13 @@ public abstract class ProjectileAttacks {
 	
 	protected ArrayList<SpellBullet> firedBullet = new ArrayList<SpellBullet>();
 
-	public ProjectileAttacks(GameThread gameThread, Creatures source, float speed, int damage, int coolDown) {
+	public ProjectileAttacks(GameThread gameThread, Creatures source, float speed, int damage, int coolDown, int manaCost) {
 		this.gameThread = gameThread;
 		this.source = source;
 		this.speed = speed;
 		this.damage = damage;
 		this.coolDown = coolDown;
+		this.manaCost = manaCost;
 	}
 
 	public void fire() {
@@ -94,5 +95,9 @@ public abstract class ProjectileAttacks {
 
 	public int getCoolDown() {
 		return coolDown;
+	}
+	
+	public int getManaCost() {
+		return manaCost;
 	}
 }

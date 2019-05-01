@@ -107,9 +107,8 @@ public class GameThread implements Runnable {
 		// draw here
 		if (State.getState() == gameState && !isPaused) {
 			State.getState().render(g2d);
-			// draw player's healthBar
-			g2d.setColor(Color.red);
-			g2d.fillRect(40, 550, (int) getWorld().getEntityManager().getPlayer().getHealthBarWidth() * 18, 20);
+			// draw player's HUD
+			getWorld().getEntityManager().getPlayer().drawPlayerHUD(g2d);
 		} else if (State.getState() == menuState) {
 			menuState.render(g2d);
 		}
