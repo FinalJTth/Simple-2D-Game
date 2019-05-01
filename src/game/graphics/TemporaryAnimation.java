@@ -8,6 +8,7 @@ public class TemporaryAnimation extends Animation {
 
 	public TemporaryAnimation(int speed, BufferedImage[] frames) {
 		super(speed, frames);
+		isDoneForOnce = false;
 	}
 
 	@Override
@@ -20,7 +21,7 @@ public class TemporaryAnimation extends Animation {
 				index++;
 				timer = 0;
 				if (index >= frames.length) {
-					index = 0;
+					index = frames.length - 1;
 					isDoneForOnce = true;
 				}
 			}
@@ -29,6 +30,7 @@ public class TemporaryAnimation extends Animation {
 
 	public void reset() {
 		isDoneForOnce = false;
+		index = 0;
 	}
 	
 	public boolean isDone() {

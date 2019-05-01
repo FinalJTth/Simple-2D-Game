@@ -11,20 +11,21 @@ import game.entity.creature.attacks.IceShardSpell;
 import game.entity.creature.attacks.ProjectileAttacks;
 import game.graphics.Animation;
 import game.graphics.Assets;
+import game.graphics.TemporaryAnimation;
 import game.listener.MouseManager;
-import game.tile.Tile;
 
 public class Player extends Creatures {
 
 	private static final int ANIMATION_SPEED = 200, DEFAULT_MANA = 100;
 
 	private final int maxMana;
-
-	private Game game;
-	private Animation animationDown, animationUp, animationLeft, animationRight;
+	private final Game game;
+	private final Animation animationDown, animationUp, animationLeft, animationRight;
+	private final Animation animationDeadDown, animationDeadUp, animationDeadLeft, animationDeadRight;
 	private String currentAttack;
 	private int attackCoolDown, mana;
-	private long lastTimeCoolDown, attackCoolDownTimer, knockBackTimer, lastTimeKnockBack, chargeManaTimer, lastTimeChargeMana;
+	private long lastTimeCoolDown, attackCoolDownTimer, knockBackTimer, lastTimeKnockBack, chargeManaTimer,
+			lastTimeChargeMana;
 	private boolean isBeingKnockedBack;
 
 	public Player(GameThread gameThread, float x, float y) {
@@ -34,6 +35,7 @@ public class Player extends Creatures {
 		this.mana = DEFAULT_MANA;
 		maxMana = DEFAULT_MANA;
 		isBeingKnockedBack = false;
+		isAlive = true;
 		System.out.println("Player init");
 
 		// overrides super constructor bounding box set
@@ -46,6 +48,11 @@ public class Player extends Creatures {
 		animationUp = new Animation(ANIMATION_SPEED, Assets.player_wizard_up);
 		animationLeft = new Animation(ANIMATION_SPEED, Assets.player_wizard_left);
 		animationRight = new Animation(ANIMATION_SPEED, Assets.player_wizard_right);
+
+		animationDeadDown = new TemporaryAnimation(ANIMATION_SPEED, Assets.player_wizard_dead_down);
+		animationDeadUp = new TemporaryAnimation(ANIMATION_SPEED, Assets.player_wizard_dead_up);
+		animationDeadLeft = new TemporaryAnimation(ANIMATION_SPEED, Assets.player_wizard_dead_left);
+		animationDeadRight = new TemporaryAnimation(ANIMATION_SPEED, Assets.player_wizard_dead_right);
 
 		ProjectileAttacks.addAttack(new IceShardSpell(gameThread, this));
 
@@ -69,7 +76,7 @@ public class Player extends Creatures {
 	public void decreaseMana(int manaCost) {
 		mana -= manaCost;
 	}
-	
+
 	public void chargeMana() {
 		chargeManaTimer += System.currentTimeMillis() - lastTimeChargeMana;
 		lastTimeChargeMana = System.currentTimeMillis();
@@ -100,26 +107,33 @@ public class Player extends Creatures {
 
 	@Override
 	public void update() {
-		animationDown.timerCounter();
-		animationLeft.timerCounter();
-		animationRight.timerCounter();
-		animationUp.timerCounter();
+		if (isAlive) {
+			animationDown.timerCounter();
+			animationLeft.timerCounter();
+			animationRight.timerCounter();
+			animationUp.timerCounter();
 
-		attackCooldownTimer();
+			attackCooldownTimer();
 
-		ProjectileAttacks.updateAttacks();
+			ProjectileAttacks.updateAttacks();
 
-		if (isBeingKnockedBack) {
-			moveWithFixedDirection();
-			knockbackTimer();
+			if (isBeingKnockedBack) {
+				moveWithFixedDirection();
+				knockbackTimer();
+			} else {
+				getKeyboardInput();
+				getMouseInput();
+				getFacingDirectionFromMouse();
+				// move();
+				moveWithFixedDirection();
+			}
+			gameThread.getGameCamera().focusCameraOnEntity(this);
 		} else {
-			getKeyboardInput();
-			getMouseInput();
-			getFacingDirectionFromMouse();
-			// move();
-			moveWithFixedDirection();
+			animationDeadDown.timerCounter();
+			animationDeadLeft.timerCounter();
+			animationDeadRight.timerCounter();
+			animationDeadUp.timerCounter();
 		}
-		gameThread.getGameCamera().focusCameraOnEntity(this);
 	}
 
 	private void attackCooldownTimer() {
@@ -137,6 +151,14 @@ public class Player extends Creatures {
 		if (knockBackTimer > 200) {
 			knockBackTimer = 0;
 			isBeingKnockedBack = false;
+		}
+	}
+
+	@Override
+	public void hurt(int damage) {
+		health -= damage;
+		if (health <= 0) {
+			isAlive = false;
 		}
 	}
 
@@ -158,7 +180,7 @@ public class Player extends Creatures {
 		}
 		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_SPACE) && attackCoolDown == 0) {
 			chargeMana();
-			
+
 		}
 	}
 
@@ -190,6 +212,7 @@ public class Player extends Creatures {
 		 */
 	}
 
+	// this method is called at gameThread because it would get render at top
 	public void drawPlayerHUD(Graphics2D g2d) {
 		Color defaultColor = g2d.getColor();
 		g2d.setColor(Color.red);
@@ -204,15 +227,28 @@ public class Player extends Creatures {
 	}
 
 	protected BufferedImage getCurrentAnimationFrame() {
-		if (facingDirection == "LEFT") {
-			return animationLeft.getCurrentFrame();
-		} else if (facingDirection == "RIGHT") {
-			return animationRight.getCurrentFrame();
-		} else if (facingDirection == "UP") {
-			return animationUp.getCurrentFrame();
+		if (isAlive) {
+			if (facingDirection == "LEFT") {
+				return animationLeft.getCurrentFrame();
+			} else if (facingDirection == "RIGHT") {
+				return animationRight.getCurrentFrame();
+			} else if (facingDirection == "UP") {
+				return animationUp.getCurrentFrame();
+			} else {
+				return animationDown.getCurrentFrame();
+			}
 		} else {
-			return animationDown.getCurrentFrame();
+			if (facingDirection == "LEFT") {
+				return animationDeadLeft.getCurrentFrame();
+			} else if (facingDirection == "RIGHT") {
+				return animationDeadRight.getCurrentFrame();
+			} else if (facingDirection == "UP") {
+				return animationDeadUp.getCurrentFrame();
+			} else {
+				return animationDeadDown.getCurrentFrame();
+			}
 		}
+
 	}
 
 	public void getFacingDirectionFromMouse() {

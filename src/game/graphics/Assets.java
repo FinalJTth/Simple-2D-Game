@@ -12,6 +12,8 @@ public class Assets {
 	public static BufferedImage crosshair;
 	public static BufferedImage medium_spikey_tree;
 	public static BufferedImage[] player_wizard_down, player_wizard_up, player_wizard_left, player_wizard_right;
+	public static BufferedImage[] player_wizard_dead_down, player_wizard_dead_up, player_wizard_dead_left,
+			player_wizard_dead_right;
 	public static BufferedImage[] iceShardSpell_firing, iceShardSpell_hit;
 	public static BufferedImage iceShardSpell_bullet;
 	public static BufferedImage[] play_button, sound_ON_button, sound_OFF_button, exit_button;
@@ -30,28 +32,46 @@ public class Assets {
 		SpriteSheet playerSheet = new SpriteSheet(ImageLoader.loadImage("res/texture/wizard_animation_sprite.png"));
 
 		player_wizard_down = new BufferedImage[4];
-		player_wizard_down[0] = playerSheet.crop(0, 0, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
-		player_wizard_down[1] = playerSheet.crop(56, 0, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
-		player_wizard_down[2] = playerSheet.crop(56 * 2, 0, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
-		player_wizard_down[3] = playerSheet.crop(56 * 3, 0, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
+		for (int x = 0; x < 4; x++) {
+			player_wizard_down[x] = playerSheet.crop(56 * x, 0, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
+		}
 
 		player_wizard_left = new BufferedImage[4];
-		player_wizard_left[0] = playerSheet.crop(0, 56, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
-		player_wizard_left[1] = playerSheet.crop(56, 56, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
-		player_wizard_left[2] = playerSheet.crop(56 * 2, 56, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
-		player_wizard_left[3] = playerSheet.crop(56 * 3, 56, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
+		for (int x = 0; x < 4; x++) {
+			player_wizard_left[x] = playerSheet.crop(56 * x, 56, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
+		}
 
 		player_wizard_right = new BufferedImage[4];
-		player_wizard_right[0] = playerSheet.crop(0, 56 * 2, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
-		player_wizard_right[1] = playerSheet.crop(56, 56 * 2, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
-		player_wizard_right[2] = playerSheet.crop(56 * 2, 56 * 2, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
-		player_wizard_right[3] = playerSheet.crop(56 * 3, 56 * 2, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
+		for (int x = 0; x < 4; x++) {
+			player_wizard_right[x] = playerSheet.crop(56 * x, 56 * 2, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
+		}
 
 		player_wizard_up = new BufferedImage[4];
-		player_wizard_up[0] = playerSheet.crop(0, 56 * 3, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
-		player_wizard_up[1] = playerSheet.crop(56, 56 * 3, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
-		player_wizard_up[2] = playerSheet.crop(56 * 2, 56 * 3, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
-		player_wizard_up[3] = playerSheet.crop(56 * 3, 56 * 3, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
+		for (int x = 0; x < 4; x++) {
+			player_wizard_up[x] = playerSheet.crop(56 * x, 56 * 3, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
+		}
+
+		player_wizard_dead_down = new BufferedImage[4];
+		for (int x = 0; x < 4; x++) {
+			player_wizard_dead_down[x] = playerSheet.crop(56 * x + 12 * 56, 0, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
+		}
+
+		player_wizard_dead_left = new BufferedImage[4];
+		for (int x = 0; x < 4; x++) {
+			player_wizard_dead_left[x] = playerSheet.crop(56 * x + 12 * 56, 56, SPRITESHEET_WIDTH, SPRITESHEET_HEIGHT);
+		}
+
+		player_wizard_dead_right = new BufferedImage[4];
+		for (int x = 0; x < 4; x++) {
+			player_wizard_dead_right[x] = playerSheet.crop(56 * x + 12 * 56, 56 * 2, SPRITESHEET_WIDTH,
+					SPRITESHEET_HEIGHT);
+		}
+
+		player_wizard_dead_up = new BufferedImage[4];
+		for (int x = 0; x < 4; x++) {
+			player_wizard_dead_up[x] = playerSheet.crop(56 * x + 12 * 56, 56 * 3, SPRITESHEET_WIDTH,
+					SPRITESHEET_HEIGHT);
+		}
 
 		// trees
 		SpriteSheet treeSheet = new SpriteSheet(ImageLoader.loadImage("res/texture/trees.png"));
@@ -114,9 +134,9 @@ public class Assets {
 				}
 			}
 		}
-		
+
 		// UI
-		
+
 		crosshair = ImageLoader.loadImage("res/texture/crosshairRed.png");
 
 		SpriteSheet buttonSheet = new SpriteSheet(ImageLoader.loadImage("res/menuButton/buttonSheet.png"));
