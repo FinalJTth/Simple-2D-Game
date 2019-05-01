@@ -73,7 +73,7 @@ public class Player extends Creatures {
 	public void chargeMana() {
 		chargeManaTimer += System.currentTimeMillis() - lastTimeChargeMana;
 		lastTimeChargeMana = System.currentTimeMillis();
-		if (chargeManaTimer > 500) {
+		if (chargeManaTimer > 500 && mana < maxMana) {
 			mana += 10;
 			chargeManaTimer = 0;
 		}
