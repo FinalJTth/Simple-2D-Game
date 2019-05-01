@@ -18,7 +18,7 @@ import game.utils.Timer;;
 
 public class Player extends Creatures {
 
-	private static final int ANIMATION_SPEED = 200, DEFAULT_MANA = 100;
+	private static final int ANIMATION_SPEED = 200, DEFAULT_MANA = 100, CHARGE_MANA_TIME = 500, MANA_GAINED_FROM_CHARGING = 10;
 
 	private final int maxMana;
 	private final Game game;
@@ -92,8 +92,12 @@ public class Player extends Creatures {
 	public void chargeMana() {
 		chargeManaTimer += System.currentTimeMillis() - lastTimeChargeMana;
 		lastTimeChargeMana = System.currentTimeMillis();
-		if (chargeManaTimer > 500 && mana < maxMana) {
-			mana += 10;
+		if (chargeManaTimer > CHARGE_MANA_TIME && mana < maxMana) {
+			if (mana + MANA_GAINED_FROM_CHARGING >= maxMana) {
+				mana = maxMana;
+			} else {
+				mana += MANA_GAINED_FROM_CHARGING;
+			}
 			chargeManaTimer = 0;
 		}
 	}
