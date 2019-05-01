@@ -22,6 +22,7 @@ public class Assets {
 	public static BufferedImage play_button_onClick, sound_ON_button_onClick, sound_OFF_button_onClick,
 			exit_button_onClick;
 	public static BufferedImage[] big_blob_idle, big_blob_walk, big_blob_attack;
+	public static BufferedImage[] evil_sorcerer_slide, evil_sorcerer_attack;
 	public static BufferedImage[] dirt_tile, space_tile, rock_tile;
 
 	private static int cnt = 0;
@@ -132,6 +133,25 @@ public class Assets {
 				} else if (x == 2) {
 					big_blob_attack[y] = bigBlobSheet.crop(y * 80, x * 80, 80, 80);
 				}
+			}
+		}
+
+		SpriteSheet evilSorcererSheet = new SpriteSheet(
+				ImageLoader.loadImage("res/texture/minion/evilWizard/sorcerer_sprite.png"));
+		evil_sorcerer_attack = new BufferedImage[10];
+		evil_sorcerer_slide = new BufferedImage[25];
+		cnt = 0;
+		for (int x = 0; x < 6; x++) {
+			for (int y = 0; y < 6; y++) {
+				System.out.println(cnt);
+				if (cnt == 35)
+					break;
+				if (cnt < 25) {
+					evil_sorcerer_slide[cnt] = evilSorcererSheet.crop(x * 100, y * 100, 100, 100);
+				} else {
+					evil_sorcerer_attack[cnt - 25] = evilSorcererSheet.crop(x * 100, y * 100, 100, 100);
+				}
+				cnt++;
 			}
 		}
 
