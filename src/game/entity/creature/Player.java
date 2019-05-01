@@ -24,7 +24,7 @@ public class Player extends Creatures {
 	private Animation animationDown, animationUp, animationLeft, animationRight;
 	private String currentAttack;
 	private int attackCoolDown, mana;
-	private long lastTimeCoolDown, attackCoolDownTimer, knockBackTimer, lastTimeKnockBack;
+	private long lastTimeCoolDown, attackCoolDownTimer, knockBackTimer, lastTimeKnockBack, chargeManaTimer, lastTimeChargeMana;
 	private boolean isBeingKnockedBack;
 
 	public Player(GameThread gameThread, float x, float y) {
@@ -68,6 +68,15 @@ public class Player extends Creatures {
 
 	public void decreaseMana(int manaCost) {
 		mana -= manaCost;
+	}
+	
+	public void chargeMana() {
+		chargeManaTimer += System.currentTimeMillis() - lastTimeChargeMana;
+		lastTimeChargeMana = System.currentTimeMillis();
+		if (chargeManaTimer > 500) {
+			mana += 10;
+			chargeManaTimer = 0;
+		}
 	}
 
 	public void knockBack(int damageReceived, String enemyFacingDirection) {
@@ -147,10 +156,10 @@ public class Player extends Creatures {
 		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_D)) {
 			xMove = speed;
 		}
-//		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_SPACE) && attackCoolDown == 0) {
-//			attack();
-//			
-//		}
+		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_SPACE) && attackCoolDown == 0) {
+			chargeMana();
+			
+		}
 	}
 
 	public void getMouseInput() {
