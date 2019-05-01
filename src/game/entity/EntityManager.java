@@ -7,6 +7,7 @@ import java.util.Comparator;
 import game.engine.GameThread;
 import game.entity.creature.Player;
 import game.entity.creature.minion.BigBlob;
+import game.entity.creature.minion.EvilSorcerer;
 import game.entity.creature.minion.MinionSpawner;
 
 public class EntityManager {
@@ -30,8 +31,9 @@ public class EntityManager {
 		this.player = player;
 		entities = new ArrayList<Entity>();
 		addEntity(player);
-		// addEntity(new BigBlob(gameThread, 800, 800, 200, 200));
-		bigBlobSpawner = new MinionSpawner(gameThread, 800, 800);
+		addEntity(new BigBlob(gameThread, 100, 100));
+		addEntity(new EvilSorcerer(gameThread, 650, 800, 1000));
+		// bigBlobSpawner = new MinionSpawner(gameThread, 800, 800);
 	}
 
 	public void update() {
@@ -40,7 +42,7 @@ public class EntityManager {
 			e.update();
 		}
 		entities.sort(renderSorter);
-		bigBlobSpawner.update();
+		// bigBlobSpawner.update();
 	}
 
 	public void render(Graphics2D g2d) {

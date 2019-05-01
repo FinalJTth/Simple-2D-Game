@@ -68,7 +68,7 @@ public class BigBlob extends Minion {
 	}
 
 	@Override
-	public void attack(Player player) {
+	public void attack() {
 		isCastingAttack = true;
 		
 	}

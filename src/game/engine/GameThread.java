@@ -127,6 +127,10 @@ public class GameThread implements Runnable {
 		for (BufferedImage img : Utils.imageToRender) {
 			g2d.drawImage(img, x, y, null);
 			x += img.getWidth();
+			if (x >= game.getWindow().getContentPane().getSize().width) {
+				y += img.getHeight();
+				x = 0;
+			}
 		}
 		// end debugging
 		

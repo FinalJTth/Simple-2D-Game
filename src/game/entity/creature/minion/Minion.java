@@ -45,6 +45,17 @@ public abstract class Minion extends Creatures {
 		return true;
 	}
 
+	protected int getThisAndPlayerRange() {
+		Player player = gameThread.getWorld().getEntityManager().getPlayer();
+		Rectangle rec = player.getBoundingBox();
+		double playerX = (double) (player.getxPos() + rec.getX() + rec.getWidth() / 2);
+		double playerY = (double) (player.getyPos() + rec.getY() + rec.getHeight() / 2);
+		double centerX = (double) (xPos + bounds.x + bounds.width / 2);
+		double centerY = (double) (yPos + bounds.y + bounds.height / 2);
+		
+		return (int) (Math.sqrt(Math.pow(playerX - centerX, 2) + Math.pow(playerY - centerY, 2)));
+	}
+
 	protected void chasePlayer(Player player) {
 		float playerX = player.getxPos();
 		float playerY = player.getyPos();
@@ -145,6 +156,6 @@ public abstract class Minion extends Creatures {
 
 	}
 
-	public abstract void attack(Player player);
+	public abstract void attack();
 
 }

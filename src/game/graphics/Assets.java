@@ -168,13 +168,14 @@ public class Assets {
 		cnt = 0;
 		for (int x = 0; x < 6; x++) {
 			for (int y = 0; y < 6; y++) {
-				System.out.println(cnt);
 				if (cnt == 35)
 					break;
 				if (cnt < 25) {
-					evil_sorcerer_slide[cnt] = evilSorcererSheet.crop(x * 100, y * 100, 100, 100);
+					evil_sorcerer_slide[cnt] = evilSorcererSheet.crop(y * 100, x * 100, 100, 100);
+					// Utils.addToRenderImg(evil_sorcerer_slide[cnt]);
 				} else {
-					evil_sorcerer_attack[cnt - 25] = evilSorcererSheet.crop(x * 100, y * 100, 100, 100);
+					evil_sorcerer_attack[cnt - 25] = evilSorcererSheet.crop(y * 100, x * 100, 100, 100);
+					// Utils.addToRenderImg(evil_sorcerer_attack[cnt - 25]);
 				}
 				cnt++;
 			}
