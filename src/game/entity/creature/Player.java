@@ -60,11 +60,11 @@ public class Player extends Creatures {
 
 	public void attack() {
 		if (!isCastingAttack) {
-			isCastingAttack = true;
 			if (currentAttack == "ICE") {
 				ProjectileAttacks atk = ProjectileAttacks.attackList.get(0);
 				if (atk.getManaCost() <= mana) {
 					attackCoolDown = atk.getCoolDown();
+					isCastingAttack = true;
 					atk.fire();
 					decreaseMana(atk.getManaCost());
 				}
@@ -108,6 +108,7 @@ public class Player extends Creatures {
 	@Override
 	public void update() {
 		if (isAlive) {
+			System.out.println(isCastingAttack);
 			animationDown.timerCounter();
 			animationLeft.timerCounter();
 			animationRight.timerCounter();
@@ -178,7 +179,7 @@ public class Player extends Creatures {
 		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_D)) {
 			xMove = speed;
 		}
-		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_SPACE) && attackCoolDown == 0) {
+		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_SPACE) && !game.getMouseManager().isLeftPressed()) {
 			chargeMana();
 
 		}
