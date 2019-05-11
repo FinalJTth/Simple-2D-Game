@@ -21,8 +21,8 @@ public abstract class Minion extends Creatures {
 	protected boolean isMovable, isMoved;
 
 	public Minion(GameThread gameThread, float xPos, float yPos, int width, int height, int health, float speed,
-			int attackRange, int attackDamage) {
-		super(gameThread, xPos, yPos, width, height, health, speed);
+			int attackRange, int attackDamage, boolean collidable) {
+		super(gameThread, xPos, yPos, width, height, health, speed, collidable);
 
 		this.attackRange = attackRange;
 		this.attackDamage = attackDamage;
@@ -34,10 +34,10 @@ public abstract class Minion extends Creatures {
 
 	protected boolean detectPlayerInChaseRange(Player player) {
 		Rectangle rec = player.getBoundingBox();
-		double playerX = (double) (player.getxPos() + rec.getX() + rec.getWidth() / 2);
-		double playerY = (double) (player.getyPos() + rec.getY() + rec.getHeight() / 2);
-		double centerX = (double) (xPos + bounds.x + bounds.width / 2);
-		double centerY = (double) (yPos + bounds.y + bounds.height / 2);
+		double playerX = player.getxPos() + rec.getX() + rec.getWidth() / 2;
+		double playerY = player.getyPos() + rec.getY() + rec.getHeight() / 2;
+		double centerX = xPos + bounds.x + bounds.width / 2;
+		double centerY = yPos + bounds.y + bounds.height / 2;
 
 		if (Math.sqrt(Math.pow(playerX - centerX, 2) + Math.pow(playerY - centerY, 2)) > chaseRange) {
 			return false;
@@ -148,10 +148,11 @@ public abstract class Minion extends Creatures {
 			player.knockBack(attackDamage, facingDirection);
 		} else if (getCollisionBounds(0f, yMove).intersects(player.getCollisionBounds(0, 0))) {
 			player.hurt(attackDamage);
-			if (yMove > 0)
+			if (yMove > 0) {
 				player.knockBack(attackDamage, "DOWN");
-			else
+			} else {
 				player.knockBack(attackDamage, "UP");
+			}
 		}
 
 	}

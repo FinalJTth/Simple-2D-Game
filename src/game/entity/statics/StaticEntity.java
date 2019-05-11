@@ -5,10 +5,8 @@ import game.entity.Entity;
 
 public abstract class StaticEntity extends Entity {
 
-	public StaticEntity(GameThread gameThread, float xPos, float yPos, int width, int height) {
-		super(gameThread, xPos, yPos, width, height);
+	public StaticEntity(GameThread gameThread, float xPos, float yPos, int width, int height, boolean collidable) {
+		super(gameThread, xPos, yPos, width, height, collidable);
 	}
 
-	
-	
 }

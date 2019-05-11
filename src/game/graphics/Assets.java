@@ -14,6 +14,8 @@ public class Assets {
 	public static BufferedImage[] floating_crystal;
 	public static BufferedImage[] portal;
 
+	public static BufferedImage[] big_floating_crystal;
+
 	public static BufferedImage[] player_wizard_down, player_wizard_up, player_wizard_left, player_wizard_right;
 	public static BufferedImage[] player_wizard_dead_down, player_wizard_dead_up, player_wizard_dead_left,
 			player_wizard_dead_right;
@@ -36,6 +38,8 @@ public class Assets {
 	public static BufferedImage[] evil_sorcerer_slide, evil_sorcerer_attack;
 
 	public static BufferedImage[] dirt_tile, space_tile, rock_tile;
+
+	public static BufferedImage[] dirt_cliff_tile;
 
 	private static int cnt = 0;
 
@@ -86,7 +90,7 @@ public class Assets {
 					SPRITESHEET_HEIGHT);
 		}
 
-		// trees
+		// tree
 		SpriteSheet treeSheet = new SpriteSheet(ImageLoader.loadImage("res/texture/trees.png"));
 		medium_spikey_tree = treeSheet.crop(129, 279, 60, 75);
 
@@ -110,10 +114,11 @@ public class Assets {
 		}
 		space_tile = new BufferedImage[8];
 		for (int x = 0; x < 8; x++) {
-			if (x < 4)
+			if (x < 4) {
 				space_tile[x] = darkDimensionSheet.crop(16 * x + 16, 240, 32, 32);
-			else
+			} else {
 				space_tile[x] = darkDimensionSheet.crop(16 * (x - 4) + 16, 272, 32, 32);
+			}
 		}
 
 		floating_crystal = new BufferedImage[4];
@@ -129,13 +134,14 @@ public class Assets {
 		cnt = 0;
 		for (int x = 0; x < 3; x++) {
 			for (int y = 0; y < 4; y++) {
-				if (cnt == 11)
+				if (cnt == 11) {
 					break;
-				if (cnt < 6)
+				}
+				if (cnt < 6) {
 					iceShardSpell_firing[cnt] = Utils.resize(iceShardSheet.crop(y * 70, x * 70, 70, 70), 1.5f);
-				else if (cnt == 6)
+				} else if (cnt == 6) {
 					iceShardSpell_bullet = Utils.resize(iceShardSheet.crop(y * 70, x * 70, 70, 70), 1.5f);
-				else {
+				} else {
 					iceShardSpell_hit[cnt - 7] = Utils.resize(iceShardSheet.crop(y * 70, x * 70, 70, 70), 1.5f);
 				}
 
@@ -236,8 +242,9 @@ public class Assets {
 		cnt = 0;
 		for (int x = 0; x < 6; x++) {
 			for (int y = 0; y < 6; y++) {
-				if (cnt == 35)
+				if (cnt == 35) {
 					break;
+				}
 				if (cnt < 25) {
 					evil_sorcerer_slide[cnt] = evilSorcererSheet.crop(y * 100, x * 100, 100, 100);
 					// Utils.addToRenderImg(evil_sorcerer_slide[cnt]);

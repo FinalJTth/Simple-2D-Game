@@ -20,8 +20,9 @@ public abstract class Creatures extends Entity {
 	protected String facingDirection;
 	protected boolean isCastingAttack, isAlive;
 
-	public Creatures(GameThread gameThread, float xPos, float yPos, int width, int height, int health, float speed) {
-		super(gameThread, xPos, yPos, width, height);
+	public Creatures(GameThread gameThread, float xPos, float yPos, int width, int height, int health, float speed,
+			boolean collidable) {
+		super(gameThread, xPos, yPos, width, height, collidable);
 		this.health = health;
 		maxHealth = health;
 		this.speed = speed;
@@ -158,7 +159,11 @@ public abstract class Creatures extends Entity {
 	}
 
 	protected boolean collisionWithTile(int x, int y) {
-		return !gameThread.getGameState().getWorld().getTile(x, y).isSolid();
+		if (gameThread.getGameState().getWorld().getRawTile()[x][y] < 256) {
+			return !gameThread.getGameState().getWorld().getTile(x, y).isSolid();
+		} else {
+			return !gameThread.getGameState().getWorld().getCliffTile(x, y).isSolid();
+		}
 	}
 
 	public void hurt(int damage) {

@@ -36,7 +36,7 @@ public class Player extends Creatures {
 	private ArrayList<ProjectileAttacks> attackList = new ArrayList<ProjectileAttacks>();
 
 	public Player(GameThread gameThread, float x, float y) {
-		super(gameThread, x, y, Creatures.DEFAULT_CREATURE_WIDTH, Creatures.DEFAULT_CREATURE_HEIGHT, 1000, 6.0f);
+		super(gameThread, x, y, Creatures.DEFAULT_CREATURE_WIDTH, Creatures.DEFAULT_CREATURE_HEIGHT, 1000, 6.0f, true);
 		this.game = gameThread.getGame();
 		this.currentAttack = "NORMAL";
 		this.mana = DEFAULT_MANA;
@@ -131,6 +131,10 @@ public class Player extends Creatures {
 		} else if (currentAttack == "FIRE") {
 			currentAttack = "NORMAL";
 		}
+	}
+	
+	private void addAttack(ProjectileAttacks atk) {
+		attackList.add(atk);
 	}
 
 	public void knockBack(int damageReceived, String enemyFacingDirection) {

@@ -11,13 +11,15 @@ public abstract class Entity {
 	protected float xPos, yPos;
 	protected int width, height;
 	protected Rectangle bounds;
+	protected boolean collidable;
 
-	public Entity(GameThread gameThread, float xPos, float yPos, int width, int height) {
+	public Entity(GameThread gameThread, float xPos, float yPos, int width, int height, boolean collidable) {
 		this.gameThread = gameThread;
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.width = width;
 		this.height = height;
+		this.collidable = collidable;
 
 		bounds = new Rectangle(0, 0, width, height);
 		// System.out.println(String.format("x = %d, y = %d, w = %d, h = %d", bounds.x,
@@ -30,10 +32,14 @@ public abstract class Entity {
 
 	public boolean checkEntityCollision(float xOffset, float yOffset) {
 		for (Entity e : gameThread.getWorld().getEntityManager().getEntities()) {
-			if (e.equals(this))
+			if (e.equals(this)) {
 				continue;
-			if (e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset)))
+			}
+			if (!this.collidable == true) {
+				return false;
+			} else if (e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset))) {
 				return true;
+			}
 		}
 		return false;
 	}

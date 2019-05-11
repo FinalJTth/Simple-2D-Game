@@ -2,12 +2,9 @@ package game.entity.creature.minion;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import game.engine.GameThread;
-import game.entity.creature.Player;
 import game.graphics.Animation;
 import game.graphics.Assets;
 import game.graphics.TemporaryAnimation;
@@ -20,8 +17,8 @@ public class BigBlob extends CrystalAttackingMinion {
 	private TemporaryAnimation animationAttack;
 	private long attackCoolDownTimer, lastTimeCoolDown;
 
-	public BigBlob(GameThread gameThread, float xPos, float yPos) {
-		super(gameThread, xPos, yPos, DEFAULT_WIDHT, DEFAULT_HEIGHT, 3000, 1.0f, 100, 10);
+	public BigBlob(GameThread gameThread, float xPos, float yPos, boolean collidable) {
+		super(gameThread, xPos, yPos, DEFAULT_WIDHT, DEFAULT_HEIGHT, 3000, 1.0f, 100, 10, collidable);
 
 		chaseRange = 300;
 		// System.out.println(String.format("x : %d, y : %d", bounds.x, bounds.y));

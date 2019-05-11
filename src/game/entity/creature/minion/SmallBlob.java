@@ -2,12 +2,9 @@ package game.entity.creature.minion;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import game.engine.GameThread;
-import game.entity.creature.Player;
 import game.graphics.Animation;
 import game.graphics.Assets;
 import game.graphics.TemporaryAnimation;

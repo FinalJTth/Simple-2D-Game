@@ -27,6 +27,7 @@ public class EntityManager {
 		public int compare(Entity a, Entity b) {
 			if (a.getyPos() + a.getHeight() < b.getyPos() + b.getHeight())
 				return -1;
+			}
 			return 1;
 		};
 	};
