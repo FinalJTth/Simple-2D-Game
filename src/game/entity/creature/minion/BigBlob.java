@@ -10,12 +10,15 @@ import game.engine.GameThread;
 import game.entity.creature.Player;
 import game.graphics.Animation;
 import game.graphics.Assets;
+import game.graphics.TemporaryAnimation;
 import game.utils.Utils;
 
-public class BigBlob extends Minion {
+public class BigBlob extends Minion implements CrystalAttacker {
 
 	private static final int DEFAULT_WIDHT = 200, DEFAULT_HEIGHT = 200;
-	private Animation animationAttack, animationWalk, animationIdle;
+	private Animation animationWalk, animationIdle;
+	private TemporaryAnimation animationAttack;
+	private long attackCoolDownTimer, lastTimeCoolDown;
 
 	public BigBlob(GameThread gameThread, float xPos, float yPos) {
 		super(gameThread, xPos, yPos, DEFAULT_WIDHT, DEFAULT_HEIGHT, 3000, 1.0f, 100, 10);
@@ -30,7 +33,7 @@ public class BigBlob extends Minion {
 		bounds.width = width / 2 - 10;
 		bounds.height = height / 2 - 10;
 
-		animationAttack = new Animation(100, Assets.big_blob_attack);
+		animationAttack = new TemporaryAnimation(100, Assets.big_blob_attack);
 		animationIdle = new Animation(100, Assets.big_blob_idle);
 		animationWalk = new Animation(100, Assets.big_blob_walk);
 
@@ -38,16 +41,31 @@ public class BigBlob extends Minion {
 
 	@Override
 	public void update() {
-		if (isAlive) {
+		if (isCastingAttack) {
+			animationAttack.timerCounter();
+			countAttackCooldown();
+			if (animationAttack.isDone()) {
+				animationAttack.reset();
+				isCastingAttack = false;
+			}
+		} else if (isAlive) {
 			animationIdle.timerCounter();
 			animationWalk.timerCounter();
+			countAttackCooldown();
 			// moving mechanism
-			if (detectPlayerInChaseRange(gameThread.getWorld().getEntityManager().getPlayer())) {
-				facingDirection = getFacingDirectionFromPlayerPos();
-				chasePlayer(gameThread.getWorld().getEntityManager().getPlayer());
-				hurtPlayerOnHit();
+//			if (detectPlayerInChaseRange(gameThread.getWorld().getEntityManager().getPlayer())) {
+//				facingDirection = getFacingDirectionFromPlayerPos();
+//				chasePlayer(gameThread.getWorld().getEntityManager().getPlayer());
+//				hurtPlayerOnHit();
+//			} else {
+//				moveRandomly();
+//			}
+			if (getDistanceToCrystal() < 180) {
+				isWalking = false;
+				if (attackCoolDownTimer == 0)
+					attackCrystal();
 			} else {
-				moveRandomly();
+				moveToCrystal();
 			}
 		} else {
 			gameThread.getWorld().getEntityManager().removeEntity(this);
@@ -79,6 +97,17 @@ public class BigBlob extends Minion {
 
 	@Override
 	protected BufferedImage getCurrentAnimationFrame() {
+		if (isCastingAttack) {
+			if (facingDirection == "LEFT") {
+				return animationAttack.getCurrentFrame();
+			} else if (facingDirection == "RIGHT") {
+				return Utils.flipImageHorizontally(animationAttack.getCurrentFrame());
+			} else if (facingDirection == "UP") {
+				return animationAttack.getCurrentFrame();
+			} else {
+				return Utils.flipImageHorizontally(animationAttack.getCurrentFrame());
+			}
+		}
 		if (isWalking) {
 			if (facingDirection == "LEFT") {
 				return animationWalk.getCurrentFrame();
@@ -101,6 +130,57 @@ public class BigBlob extends Minion {
 			}
 		}
 
+	}
+
+	@Override
+	public void attackCrystal() {
+		isCastingAttack = true;
+		gameThread.getWorld().getEntityManager().getCenterCrystal().hurt(50);
+	}
+
+	private void countAttackCooldown() {
+		attackCoolDownTimer += System.currentTimeMillis() - lastTimeCoolDown;
+		lastTimeCoolDown = System.currentTimeMillis();
+		if (attackCoolDownTimer > 3000) {
+			attackCoolDownTimer = 0;
+		}
+	}
+
+	@Override
+	public float getDistanceToCrystal() {
+		float crystalX = gameThread.getWorld().getEntityManager().getCenterCrystal().getxPos();
+		float crystalY = gameThread.getWorld().getEntityManager().getCenterCrystal().getyPos();
+
+		return (float) (Math.sqrt(Math.pow(xPos - crystalX, 2) + Math.pow(yPos - crystalY, 2)));
+	}
+
+	@Override
+	public void moveToCrystal() {
+		float crystalX = gameThread.getWorld().getEntityManager().getCenterCrystal().getxPos();
+		float crystalY = gameThread.getWorld().getEntityManager().getCenterCrystal().getyPos();
+		isWalking = true;
+
+		if (xPos + bounds.x < crystalX + gameThread.getWorld().getEntityManager().getCenterCrystal().getWidth()) {
+			xMove = speed;
+		} else if (xPos + bounds.x > crystalX
+				+ gameThread.getWorld().getEntityManager().getCenterCrystal().getWidth()) {
+			xMove = -speed;
+		}
+		if (yPos + bounds.y + bounds.height < crystalY
+				+ gameThread.getWorld().getEntityManager().getCenterCrystal().getHeight()) {
+			yMove = speed;
+		} else if (yPos + bounds.y + bounds.height > crystalY
+				+ gameThread.getWorld().getEntityManager().getCenterCrystal().getHeight()) {
+			yMove = -speed;
+		} else if (yPos + bounds.y + bounds.height == crystalY
+				+ gameThread.getWorld().getEntityManager().getCenterCrystal().getHeight()) {
+			yMove = 0;
+			// System.out.println("y = 0");
+		}
+		moveWithFixedDirection();
+		if (xMove == 0 && yMove == 0) {
+			isWalking = false;
+		}
 	}
 
 }

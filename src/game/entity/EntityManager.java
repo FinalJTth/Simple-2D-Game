@@ -37,7 +37,7 @@ public class EntityManager {
 		addEntity(player);
 		centerCrystal = new CenterFloatingCrystal(gameThread, 600, 600, 60, 180);
 		addEntity(centerCrystal);
-		addEntity(new BigBlob(gameThread, 100, 100));
+		addEntity(new BigBlob(gameThread, 100, 400));
 		// addEntity(new EvilSorcerer(gameThread, 650, 800, 1000));
 		addEntity(new SmallBlob(gameThread, 200, 600));
 		addEntity(new SmallBlob(gameThread, 100, 700));
