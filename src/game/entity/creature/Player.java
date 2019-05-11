@@ -100,12 +100,8 @@ public class Player extends Creatures {
 	}
 	
 	private void updateAttack() {
-		if (currentAttack == "ICE") {
-			attackList.get(0).update();;
-		} else if (currentAttack == "NORMAL") {
-			attackList.get(1).update();
-		} else if (currentAttack == "FIRE") {
-			attackList.get(2).update();
+		for (ProjectileAttacks atk : attackList) {
+			atk.update();
 		}
 	}
 
