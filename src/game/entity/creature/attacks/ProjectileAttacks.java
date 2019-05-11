@@ -41,7 +41,6 @@ public abstract class ProjectileAttacks {
 	}
 
 	public void fire() {
-		System.out.println("FIRE");
 		handleDirectionChange(); // handle all direction change when start firing
 		isFiring = true;
 	}

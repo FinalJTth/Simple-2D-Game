@@ -18,12 +18,12 @@ public class SpellBullet {
 
 	private final float speed;
 	private final int damage;
-	private final String direction;
+	protected final String direction;
 	private final TemporaryAnimation animation, deadAnimation;
 
 	private GameThread gameThread;
 	private Rectangle bounds;
-	private int rotationAngle;
+	protected double rotationAngle;
 	private float xPos, yPos;
 	private boolean isAlive, isFinished;
 
@@ -47,25 +47,7 @@ public class SpellBullet {
 		handleDirectionChange();
 	}
 
-	public SpellBullet(GameThread gameThread, BufferedImage img, BufferedImage[] deadAnim, String direction,
-			float speed, int damage, float originX, float originY, Rectangle bounds) {
-		this.gameThread = gameThread;
-		BufferedImage[] tmp = new BufferedImage[1];
-		tmp[0] = img;
-		animation = new TemporaryAnimation(100, tmp);
-		this.deadAnimation = new TemporaryAnimation(100, deadAnim);
-		this.direction = direction;
-		this.speed = speed;
-		this.damage = damage;
-		this.xPos = originX;
-		this.yPos = originY;
-		this.bounds = bounds;
-
-		isAlive = true;
-		isFinished = false;
-		handleDirectionChange();
-	}
-
+	// for no animation bullet
 	public SpellBullet(GameThread gameThread, BufferedImage img, BufferedImage[] deadAnimImg, int deadAnimSpeed,
 			String direction, float speed, int damage, float originX, float originY, Rectangle bounds) {
 		this.gameThread = gameThread;
@@ -85,16 +67,18 @@ public class SpellBullet {
 		handleDirectionChange();
 	}
 
-	public void move() {
-		if (direction == "UP") {
-			yPos -= speed;
-		} else if (direction == "DOWN") {
-			yPos += speed;
-		} else if (direction == "LEFT") {
-			xPos -= speed;
-		} else {
-			xPos += speed;
-		}
+	protected void move() {
+//		if (direction == "UP") {
+//			yPos -= speed;
+//		} else if (direction == "DOWN") {
+//			yPos += speed;
+//		} else if (direction == "LEFT") {
+//			xPos -= speed;
+//		} else {
+//			xPos += speed;
+//		}
+		xPos += (float) (speed * Math.cos(Math.toRadians(rotationAngle)));
+		yPos += (float) (speed * Math.sin(Math.toRadians(rotationAngle)));
 	}
 
 	private void handleDirectionChange() {
@@ -109,7 +93,7 @@ public class SpellBullet {
 		}
 	}
 
-	public boolean checkEntityCollision(float xOffset, float yOffset) {
+	protected boolean checkEntityCollision(float xOffset, float yOffset) {
 		for (Entity e : gameThread.getWorld().getEntityManager().getEntities()) {
 			if (e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset))) {
 				if (e instanceof Player)
@@ -124,7 +108,7 @@ public class SpellBullet {
 		return false;
 	}
 
-	public Rectangle getCollisionBounds(float xOffset, float yOffset) {
+	protected Rectangle getCollisionBounds(float xOffset, float yOffset) {
 		return new Rectangle((int) (xPos + bounds.x + xOffset), (int) (yPos + bounds.y + yOffset), bounds.width,
 				bounds.height);
 	}

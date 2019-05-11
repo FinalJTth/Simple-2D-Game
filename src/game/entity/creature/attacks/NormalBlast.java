@@ -27,7 +27,7 @@ public class NormalBlast extends ProjectileAttacks {
 				animationFiring.reset();
 				source.doneAttacking();
 				// create new ice bullet to prevent old one disappear
-				firedBullet.add(new SpellBullet(gameThread, Assets.blast_bullet, Assets.blast_hit, 30,
+				firedBullet.add(new ScatterSpellBullet(gameThread, Assets.blast_bullet, Assets.blast_hit, 30,
 						source.getFacingDirection(), speed, damage, source.getxPos() + xOffset,
 						source.getyPos() + yOffset, createBoundingBox(30, 24)));
 			}
@@ -41,19 +41,19 @@ public class NormalBlast extends ProjectileAttacks {
 	protected void handleDirectionChange() {
 		String facingDirection = source.getFacingDirection();
 		if (facingDirection == "UP") {
-			rotationAngle = 270;
+			rotationAngle = 270 + Math.random() * 8 - 4;
 			xOffset = 0;
 			yOffset = -source.getHeight() + 20;
 		} else if (facingDirection == "DOWN") {
-			rotationAngle = 90;
+			rotationAngle = 90 + Math.random() * 8 - 4;
 			xOffset = 0;
 			yOffset = source.getHeight();
 		} else if (facingDirection == "LEFT") {
-			rotationAngle = 180;
+			rotationAngle = 180 + Math.random() * 8 - 4;
 			xOffset = -source.getWidth() + 10;
 			yOffset = 20;
 		} else {
-			rotationAngle = 0;
+			rotationAngle = 0 + Math.random() * 8 - 4;
 			xOffset = source.getWidth() - 8;
 			yOffset = 20;
 		}

@@ -19,7 +19,6 @@ public class FireBallSpell extends ProjectileAttacks {
 	@Override
 	public void update() {
 		if (isFiring) {
-			System.out.println("KUY");
 			animationFiring.timerCounter();
 			if (animationFiring.isDone()) {
 				isFiring = false;
