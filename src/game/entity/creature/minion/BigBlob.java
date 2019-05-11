@@ -94,12 +94,6 @@ public class BigBlob extends CrystalAttackingMinion {
 	}
 
 	@Override
-	public void attack() {
-		isCastingAttack = true;
-
-	}
-
-	@Override
 	protected BufferedImage getCurrentAnimationFrame() {
 		if (isCastingAttack) {
 

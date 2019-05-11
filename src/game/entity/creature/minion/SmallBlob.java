@@ -95,12 +95,6 @@ public class SmallBlob extends CrystalAttackingMinion {
 	}
 
 	@Override
-	public void attack() {
-		isCastingAttack = true;
-
-	}
-
-	@Override
 	protected BufferedImage getCurrentAnimationFrame() {
 		if (isWalking) {
 			if (facingDirection == "LEFT") {

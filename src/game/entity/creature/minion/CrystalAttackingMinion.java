@@ -1,8 +1,5 @@
 package game.entity.creature.minion;
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-
 import game.engine.GameThread;
 
 public abstract class CrystalAttackingMinion extends Minion {
@@ -11,30 +8,6 @@ public abstract class CrystalAttackingMinion extends Minion {
 			float speed, int attackRange, int attackDamage) {
 		super(gameThread, xPos, yPos, width, height, health, speed, attackRange, attackDamage);
 		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public void attack() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	protected BufferedImage getCurrentAnimationFrame() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void update() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void render(Graphics2D g2d) {
-		// TODO Auto-generated method stub
-
 	}
 
 	public abstract void attackCrystal();
