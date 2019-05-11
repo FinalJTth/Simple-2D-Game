@@ -11,9 +11,9 @@ import game.entity.creature.minion.BigBlob;
 import game.entity.creature.minion.SmallBlob;
 
 public class WaveManager {
-	
+
 	private final GameThread gameThread;
-	
+
 	private LinkedList<ArrayList<Integer>> waveCreatures;
 	private WaveSpawner spawner;
 
@@ -22,41 +22,60 @@ public class WaveManager {
 
 		waveCreatures = new LinkedList<ArrayList<Integer>>();
 		// wave 0
-		waveCreatures.add(new ArrayList<Integer> (Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)));
+		waveCreatures
+				.add(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
 		// wave 1
-		waveCreatures.add(new ArrayList<Integer> (Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)));
+		waveCreatures.add(new ArrayList<Integer>(
+				Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
 		// wave 2
-		waveCreatures.add(new ArrayList<Integer> (Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)));
+		waveCreatures.add(
+				new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)));
 		// wave 3
-		waveCreatures.add(new ArrayList<Integer> (Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)));
+		waveCreatures.add(new ArrayList<Integer>(
+				Arrays.asList(0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0)));
 		// wave 4
-		waveCreatures.add(new ArrayList<Integer> (Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)));
+		waveCreatures
+				.add(new ArrayList<Integer>(Arrays.asList(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1)));
+		// wave 5
+		waveCreatures
+				.add(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
+		// wave 6
+		waveCreatures
+				.add(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
+		// wave 7
+		waveCreatures
+				.add(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
+		// wave 8
+		waveCreatures
+				.add(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
+		// wave 9
+		waveCreatures
+				.add(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
 	}
-	
+
 	public void update() {
 		handleWaveChange();
 		spawner.update();
 	}
-	
+
 	public void render(Graphics2D g2d) {
 		spawner.render(g2d);
 	}
-	
+
 	private void handleWaveChange() {
 		if (!gameThread.getWorld().getEntityManager().isAnyCreatureAlive()) {
 			spawner = new WaveSpawner(gameThread, createCreatureListFromNumber());
-			System.out.println(spawner);
 		}
 	}
-	
+
 	private ArrayList<Creatures> createCreatureListFromNumber() {
 		ArrayList<Integer> list = waveCreatures.peek();
 		ArrayList<Creatures> out = new ArrayList<Creatures>();
 		float xPos = 0, yPos = 0;
-		for (int i = 0 ;i<list.size();i++) {
+		for (int i = 0; i < list.size(); i++) {
 			int creatureID = list.get(i);
-			switch (i % 4 + 1) {	// split creature to 4 portal
-			case 1:	// upper left
+			switch (i % 4 + 1) { // split creature to 4 portal
+			case 1: // upper left
 				xPos = 200;
 				yPos = 200;
 				break;
