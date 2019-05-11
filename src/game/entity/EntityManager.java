@@ -13,6 +13,7 @@ import game.entity.creature.minion.spawner.BigBlobSpawner;
 import game.entity.creature.minion.spawner.MinionSpawner;
 import game.entity.statics.CenterFloatingCrystal;
 import game.entity.statics.FloatingCrystal;
+import game.entity.statics.Tree;
 
 public class EntityManager {
 
@@ -27,7 +28,6 @@ public class EntityManager {
 		public int compare(Entity a, Entity b) {
 			if (a.getyPos() + a.getHeight() < b.getyPos() + b.getHeight())
 				return -1;
-
 			return 1;
 		};
 	};
@@ -39,6 +39,7 @@ public class EntityManager {
 		addEntity(player);
 		centerCrystal = new CenterFloatingCrystal(gameThread, 600, 600, 100, 300);
 		addEntity(centerCrystal);
+		addEntity(new Tree(gameThread, 550, 200, 60, 75));
 		addEntity(new BigBlob(gameThread, 100, 400));
 		addEntity(new BigBlob(gameThread, 800, 400));
 		// addEntity(new EvilSorcerer(gameThread, 650, 800, 1000));

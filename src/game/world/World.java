@@ -7,6 +7,7 @@ import game.engine.GameThread;
 import game.entity.EntityManager;
 import game.entity.creature.Player;
 import game.entity.creature.minion.spawner.MinionSpawner;
+import game.entity.statics.CenterFloatingCrystal;
 import game.entity.statics.Tree;
 import game.tile.Tile;
 import game.utils.Utils;
@@ -21,11 +22,10 @@ public class World {
 
 	public World(GameThread gameThread, String path) {
 		this.gameThread = gameThread;
-		entityManager = new EntityManager(gameThread, new Player(gameThread, 100, 100));
-		entityManager.addEntity(new Tree(gameThread, 550, 200, 60, 75));
 		
 		loadWorld(path);
 		
+		entityManager = new EntityManager(gameThread, new Player(gameThread, 100, 100));
 		entityManager.getPlayer().setxPos(playerSpawnX);
 		entityManager.getPlayer().setyPos(playerSpawnY);
 	}
