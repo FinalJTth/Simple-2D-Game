@@ -158,11 +158,7 @@ public abstract class Creatures extends Entity {
 	}
 
 	protected boolean collisionWithTile(int x, int y) {
-		if (gameThread.getGameState().getWorld().getRawTile()[x][y] < 256) {
-			return !gameThread.getGameState().getWorld().getTile(x, y).isSolid();
-		} else {
-			return !gameThread.getGameState().getWorld().getCliffTile(x, y).isSolid();
-		}
+		return !gameThread.getGameState().getWorld().getTile(x, y).isSolid();
 	}
 
 	public void hurt(int damage) {
