@@ -10,6 +10,7 @@ import game.entity.creature.minion.BigBlob;
 import game.entity.creature.minion.EvilSorcerer;
 import game.entity.creature.minion.MinionSpawner;
 import game.entity.creature.minion.SmallBlob;
+import game.entity.statics.CenterFloatingCrystal;
 import game.entity.statics.FloatingCrystal;
 
 public class EntityManager {
@@ -18,6 +19,7 @@ public class EntityManager {
 	private Player player;
 	private ArrayList<Entity> entities;
 	private MinionSpawner bigBlobSpawner;
+	private CenterFloatingCrystal centerCrystal;
 	
 	private Comparator<Entity> renderSorter = new Comparator<Entity>() {
 		@Override
@@ -33,10 +35,13 @@ public class EntityManager {
 		this.player = player;
 		entities = new ArrayList<Entity>();
 		addEntity(player);
+		centerCrystal = new CenterFloatingCrystal(gameThread, 600, 600, 60, 180);
+		addEntity(centerCrystal);
 		addEntity(new BigBlob(gameThread, 100, 100));
 		// addEntity(new EvilSorcerer(gameThread, 650, 800, 1000));
-		addEntity(new SmallBlob(gameThread, 100, 500));
-		addEntity(new FloatingCrystal(gameThread, 600, 600, 60, 180));
+		addEntity(new SmallBlob(gameThread, 200, 600));
+		addEntity(new SmallBlob(gameThread, 100, 700));
+//		addEntity(new SmallBlob(gameThread, 300, 500));
 		// bigBlobSpawner = new MinionSpawner(gameThread, 800, 800);
 	}
 
@@ -80,5 +85,10 @@ public class EntityManager {
 	public ArrayList<Entity> getEntities() {
 		return entities;
 	}
+	
+	public CenterFloatingCrystal getCenterCrystal() {
+		return centerCrystal;
+	}
+	
 
 }
