@@ -12,6 +12,7 @@ public class Assets {
 
 	public static BufferedImage medium_spikey_tree;
 	public static BufferedImage[] floating_crystal;
+	public static BufferedImage[] portal;
 
 	public static BufferedImage[] player_wizard_down, player_wizard_up, player_wizard_left, player_wizard_right;
 	public static BufferedImage[] player_wizard_dead_down, player_wizard_dead_up, player_wizard_dead_left,
@@ -88,6 +89,13 @@ public class Assets {
 		// trees
 		SpriteSheet treeSheet = new SpriteSheet(ImageLoader.loadImage("res/texture/trees.png"));
 		medium_spikey_tree = treeSheet.crop(129, 279, 60, 75);
+
+		// portal
+		SpriteSheet portalSheet = new SpriteSheet(ImageLoader.loadImage("res/texture/MagicMirror.png"));
+		portal = new BufferedImage[5];
+		for (int x = 0; x < 5; x++) {
+			portal[x] = portalSheet.crop(0, x * 128, 128, 128);
+		}
 
 		// dark dimension map
 		SpriteSheet darkDimensionSheet = new SpriteSheet(
