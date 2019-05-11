@@ -14,25 +14,6 @@ import game.utils.Utils;
 
 public abstract class ProjectileAttacks {
 
-	// Static stuff
-	public static ArrayList<ProjectileAttacks> attackList = new ArrayList<ProjectileAttacks>();
-
-	public static void addAttack(ProjectileAttacks atk) {
-		attackList.add(atk);
-	}
-
-	public static void updateAttacks() {
-		for (ProjectileAttacks atk : attackList) {
-			atk.update();
-		}
-	}
-
-	public static void renderAttacks(Graphics2D g2d) {
-		for (ProjectileAttacks atk : attackList) {
-			atk.render(g2d);
-		}
-	}
-
 	// Class stuff
 	protected GameThread gameThread;
 	protected final int damage, coolDown, manaCost;

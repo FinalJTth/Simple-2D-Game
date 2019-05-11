@@ -35,7 +35,7 @@ public class EntityManager {
 		addEntity(new BigBlob(gameThread, 100, 100));
 		addEntity(new EvilSorcerer(gameThread, 650, 800, 1000));
 		addEntity(new SmallBlob(gameThread, 100, 500));
-		bigBlobSpawner = new MinionSpawner(gameThread, 800, 800);
+		// bigBlobSpawner = new MinionSpawner(gameThread, 800, 800);
 	}
 
 	public void update() {

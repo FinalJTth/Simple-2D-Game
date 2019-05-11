@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import game.engine.Game;
 import game.engine.GameThread;
@@ -31,6 +32,8 @@ public class Player extends Creatures {
 	private long lastTimeCoolDown, attackCoolDownTimer, knockBackTimer, lastTimeKnockBack, chargeManaTimer,
 			lastTimeChargeMana;
 	private boolean isBeingKnockedBack;
+	
+	private ArrayList<ProjectileAttacks> attackList = new ArrayList<ProjectileAttacks>();
 
 	public Player(GameThread gameThread, float x, float y) {
 		super(gameThread, x, y, Creatures.DEFAULT_CREATURE_WIDTH, Creatures.DEFAULT_CREATURE_HEIGHT, 1000, 6.0f);
@@ -58,9 +61,10 @@ public class Player extends Creatures {
 		animationDeadLeft = new TemporaryAnimation(ANIMATION_SPEED, Assets.player_wizard_dead_left);
 		animationDeadRight = new TemporaryAnimation(ANIMATION_SPEED, Assets.player_wizard_dead_right);
 
-		ProjectileAttacks.addAttack(new IceShardSpell(gameThread, this));
-		ProjectileAttacks.addAttack(new NormalBlast(gameThread, this));
-		ProjectileAttacks.addAttack(new FireBallSpell(gameThread, this));
+		attackList.add(new IceShardSpell(gameThread, this));
+		attackList.add(new NormalBlast(gameThread, this));
+		attackList.add(new FireBallSpell(gameThread, this));
+		
 
 		switchAttackTimer = 0;
 	}
@@ -68,7 +72,7 @@ public class Player extends Creatures {
 	public void attack() {
 		if (!isCastingAttack && attackCoolDown == 0) {
 			if (currentAttack == "ICE") {
-				ProjectileAttacks atk = ProjectileAttacks.attackList.get(0);
+				ProjectileAttacks atk = attackList.get(0);
 				if (atk.getManaCost() <= mana) {
 					attackCoolDown = atk.getCoolDown();
 					isCastingAttack = true;
@@ -76,7 +80,7 @@ public class Player extends Creatures {
 					decreaseMana(atk.getManaCost());
 				}
 			} else if (currentAttack == "NORMAL") {
-				ProjectileAttacks atk = ProjectileAttacks.attackList.get(1);
+				ProjectileAttacks atk = attackList.get(1);
 				if (atk.getManaCost() <= mana) {
 					attackCoolDown = atk.getCoolDown();
 					isCastingAttack = true;
@@ -84,7 +88,7 @@ public class Player extends Creatures {
 					decreaseMana(atk.getManaCost());
 				}
 			} else if (currentAttack == "FIRE") {
-				ProjectileAttacks atk = ProjectileAttacks.attackList.get(2);
+				ProjectileAttacks atk = attackList.get(2);
 				if (atk.getManaCost() <= mana) {
 					attackCoolDown = atk.getCoolDown();
 					isCastingAttack = true;
@@ -93,7 +97,16 @@ public class Player extends Creatures {
 				}
 			}
 		}
-
+	}
+	
+	private void updateAttack() {
+		if (currentAttack == "ICE") {
+			attackList.get(0).update();;
+		} else if (currentAttack == "NORMAL") {
+			attackList.get(1).update();
+		} else if (currentAttack == "FIRE") {
+			attackList.get(2).update();
+		}
 	}
 
 	public void decreaseMana(int manaCost) {
@@ -153,7 +166,7 @@ public class Player extends Creatures {
 
 			attackCooldownTimer();
 
-			ProjectileAttacks.updateAttacks();
+			updateAttack();
 
 			if (isBeingKnockedBack) {
 				moveWithFixedDirection();
@@ -245,7 +258,9 @@ public class Player extends Creatures {
 
 	@Override
 	public void render(Graphics2D g2d) {
-		ProjectileAttacks.renderAttacks(g2d);
+		for (ProjectileAttacks atk : attackList) {
+			atk.render(g2d);
+		}
 		g2d.drawImage(getCurrentAnimationFrame(), (int) (xPos - gameThread.getGameCamera().getxOffset()),
 				(int) (yPos - gameThread.getGameCamera().getyOffset()), width, height, null);
 
