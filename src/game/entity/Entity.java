@@ -11,7 +11,6 @@ public abstract class Entity {
 	protected float xPos, yPos;
 	protected int width, height;
 	protected Rectangle bounds;
-	protected boolean collidable;
 
 	public Entity(GameThread gameThread, float xPos, float yPos, int width, int height) {
 		this.gameThread = gameThread;
@@ -34,9 +33,7 @@ public abstract class Entity {
 			if (e.equals(this)) {
 				continue;
 			}
-			if (!this.collidable == true) {
-				return false;
-			} else if (e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset))) {
+			if (e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset))) {
 				return true;
 			}
 		}
