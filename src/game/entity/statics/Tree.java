@@ -8,8 +8,8 @@ import game.graphics.Assets;
 
 public class Tree extends StaticEntity {
 
-	public Tree(GameThread gameThread, float xPos, float yPos, int width, int height, boolean collidable) {
-		super(gameThread, xPos, yPos, width, height, collidable);
+	public Tree(GameThread gameThread, float xPos, float yPos, int width, int height) {
+		super(gameThread, xPos, yPos, width, height);
 
 		bounds.x = 16;
 		bounds.y = 48;

@@ -20,9 +20,8 @@ public abstract class Creatures extends Entity {
 	protected String facingDirection;
 	protected boolean isCastingAttack, isAlive;
 
-	public Creatures(GameThread gameThread, float xPos, float yPos, int width, int height, int health, float speed,
-			boolean collidable) {
-		super(gameThread, xPos, yPos, width, height, collidable);
+	public Creatures(GameThread gameThread, float xPos, float yPos, int width, int height, int health, float speed) {
+		super(gameThread, xPos, yPos, width, height);
 		this.health = health;
 		maxHealth = health;
 		this.speed = speed;

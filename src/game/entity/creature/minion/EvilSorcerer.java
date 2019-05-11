@@ -21,8 +21,8 @@ public class EvilSorcerer extends Minion {
 	private ProjectileAttacks fireball;
 
 
-	public EvilSorcerer(GameThread gameThread, float xPos, float yPos, int health, boolean collidable) {
-		super(gameThread, xPos, yPos, 300, 300, health, 2.0f, 100, 50, collidable);
+	public EvilSorcerer(GameThread gameThread, float xPos, float yPos, int health) {
+		super(gameThread, xPos, yPos, 300, 300, health, 2.0f, 100, 50);
 
 		chaseRange = 800;
 		isCastingAttack = false;
@@ -38,7 +38,6 @@ public class EvilSorcerer extends Minion {
 		fireball = new FireBallSpell(gameThread, this);
 	}
 
-	@Override
 	public void attack() {
 		if (!isCastingAttack && attackCoolDown == 0) {
 //			ProjectileAttacks atk = ProjectileAttacks.attackList.get(0);

@@ -27,7 +27,7 @@ public class MinionSpawner {
 
 		if (timer > DELAY) {
 			timer = 0;
-			gameThread.getWorld().getEntityManager().addEntity(new BigBlob(gameThread, xPos, yPos, true));
+			gameThread.getWorld().getEntityManager().addEntity(new BigBlob(gameThread, xPos, yPos));
 		}
 	}
 

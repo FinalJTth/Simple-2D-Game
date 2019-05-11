@@ -17,8 +17,8 @@ public class BigBlob extends CrystalAttackingMinion {
 	private TemporaryAnimation animationAttack;
 	private long attackCoolDownTimer, lastTimeCoolDown;
 
-	public BigBlob(GameThread gameThread, float xPos, float yPos, boolean collidable) {
-		super(gameThread, xPos, yPos, DEFAULT_WIDHT, DEFAULT_HEIGHT, 3000, 1.0f, 100, 10, collidable);
+	public BigBlob(GameThread gameThread, float xPos, float yPos) {
+		super(gameThread, xPos, yPos, DEFAULT_WIDHT, DEFAULT_HEIGHT, 3000, 1.0f, 100, 10);
 
 		chaseRange = 300;
 		// System.out.println(String.format("x : %d, y : %d", bounds.x, bounds.y));

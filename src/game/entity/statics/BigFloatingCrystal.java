@@ -14,7 +14,7 @@ public class BigFloatingCrystal extends StaticEntity {
 
 	public BigFloatingCrystal(GameThread gameThread, float xPos, float yPos, int width, int height,
 			boolean collidable) {
-		super(gameThread, xPos, yPos, width, height, collidable);
+		super(gameThread, xPos, yPos, width, height);
 		bounds.width = (width + 20) / 3;
 		bounds.height = (width) / 3;
 		bounds.x = (width - bounds.width) / 2;

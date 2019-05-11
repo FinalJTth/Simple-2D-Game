@@ -21,8 +21,8 @@ public abstract class Minion extends Creatures {
 	protected boolean isMovable, isMoved;
 
 	public Minion(GameThread gameThread, float xPos, float yPos, int width, int height, int health, float speed,
-			int attackRange, int attackDamage, boolean collidable) {
-		super(gameThread, xPos, yPos, width, height, health, speed, collidable);
+			int attackRange, int attackDamage) {
+		super(gameThread, xPos, yPos, width, height, health, speed);
 
 		this.attackRange = attackRange;
 		this.attackDamage = attackDamage;
