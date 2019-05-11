@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 import game.engine.GameThread;
+import game.entity.creature.Creatures;
 import game.entity.creature.Player;
 import game.entity.creature.minion.BigBlob;
 import game.entity.creature.minion.EvilSorcerer;
 import game.entity.creature.minion.SmallBlob;
 import game.entity.creature.minion.spawner.BigBlobSpawner;
 import game.entity.creature.minion.spawner.MinionSpawner;
+import game.entity.creature.minion.spawner.WaveManager;
 import game.entity.statics.CenterFloatingCrystal;
 import game.entity.statics.FloatingCrystal;
 import game.entity.statics.Tree;
@@ -20,8 +22,10 @@ public class EntityManager {
 	private GameThread gameThread;
 	private Player player;
 	private ArrayList<Entity> entities;
+	private ArrayList<Creatures> waveCreatures;
 	private MinionSpawner bigBlobSpawner;
 	private CenterFloatingCrystal centerCrystal;
+	private WaveManager waveManager;
 
 	private Comparator<Entity> renderSorter = new Comparator<Entity>() {
 		@Override
@@ -35,6 +39,9 @@ public class EntityManager {
 	public EntityManager(GameThread gameThread, Player player) {
 		this.gameThread = gameThread;
 		this.player = player;
+
+		waveManager = new WaveManager(gameThread);
+
 		entities = new ArrayList<Entity>();
 		addEntity(player);
 		centerCrystal = new CenterFloatingCrystal(gameThread, 600, 600, 100, 300);
@@ -57,6 +64,7 @@ public class EntityManager {
 		}
 		entities.sort(renderSorter);
 		bigBlobSpawner.update();
+		waveManager.update();
 	}
 
 	public void render(Graphics2D g2d) {
@@ -67,6 +75,13 @@ public class EntityManager {
 	}
 
 	// Getters & Setters
+	public void addWaveCreature(Creatures e) {
+		waveCreatures.add(e);
+	}
+
+	public ArrayList<Creatures> getWaveCreature() {
+		return waveCreatures;
+	}
 
 	public void addEntity(Entity e) {
 		entities.add(e);

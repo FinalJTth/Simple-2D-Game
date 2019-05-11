@@ -22,13 +22,13 @@ public class ScatterSpellBullet extends SpellBullet {
 	
 	private void handleDirectionChange() {
 		if (direction == "UP") {
-			rotationAngle = 270 + Math.random() * 8 - 4;
+			rotationAngle = 270 + Math.random() * 12 - 4;
 		} else if (direction == "DOWN") {
-			rotationAngle = 90 + Math.random() * 8 - 4;
+			rotationAngle = 90 + Math.random() * 12 - 4;
 		} else if (direction == "LEFT") {
-			rotationAngle = 180 + Math.random() * 8 - 4;
+			rotationAngle = 180 + Math.random() * 12 - 4;
 		} else {
-			rotationAngle = 0 + Math.random() * 8 - 4;
+			rotationAngle = 0 + Math.random() * 12 - 4;
 		}
 	}
 	
