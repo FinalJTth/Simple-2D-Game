@@ -13,7 +13,7 @@ import game.graphics.Assets;
 import game.graphics.TemporaryAnimation;
 import game.utils.Utils;
 
-public class SmallBlob extends Minion implements CrystalAttacker {
+public class SmallBlob extends CrystalAttackingMinion {
 
 	private static final int DEFAULT_WIDHT = 50, DEFAULT_HEIGHT = 50;
 
@@ -54,7 +54,7 @@ public class SmallBlob extends Minion implements CrystalAttacker {
 //			} else {
 //				moveRandomly();
 //			}
-			if (getDistanceToCrystal() < 125) {
+			if (getDistanceToCrystal() < 90) {
 				attackCrystal();
 			} else
 				moveToCrystal();
@@ -74,8 +74,8 @@ public class SmallBlob extends Minion implements CrystalAttacker {
 	@Override
 	public void render(Graphics2D g2d) {
 		if (isExploding) {
-			g2d.drawImage(animationExplode.getCurrentFrame(), (int) (xPos - gameThread.getGameCamera().getxOffset()) - 40,
-					(int) (yPos - gameThread.getGameCamera().getyOffset()) - 40, width * 2, height * 2, null);
+			g2d.drawImage(animationExplode.getCurrentFrame(), (int) (xPos - gameThread.getGameCamera().getxOffset()) - 100,
+					(int) (yPos - gameThread.getGameCamera().getyOffset()) - 100, width * 3, height * 3, null);
 		} else if (isAlive) {
 			g2d.drawImage(getCurrentAnimationFrame(), (int) (xPos - gameThread.getGameCamera().getxOffset()),
 					(int) (yPos - gameThread.getGameCamera().getyOffset()), width, height, null);
@@ -130,41 +130,4 @@ public class SmallBlob extends Minion implements CrystalAttacker {
 		isExploding = true;
 		gameThread.getWorld().getEntityManager().getCenterCrystal().hurt(50);
 	}
-
-	@Override
-	public float getDistanceToCrystal() {
-		float crystalX = gameThread.getWorld().getEntityManager().getCenterCrystal().getxPos();
-		float crystalY = gameThread.getWorld().getEntityManager().getCenterCrystal().getyPos();
-
-		return (float) (Math.sqrt(Math.pow(xPos - crystalX, 2) + Math.pow(yPos - crystalY, 2)));
-	}
-
-	@Override
-	public void moveToCrystal() {
-		float crystalX = gameThread.getWorld().getEntityManager().getCenterCrystal().getxPos();
-		float crystalY = gameThread.getWorld().getEntityManager().getCenterCrystal().getyPos();
-		isWalking = true;
-
-		if (xPos + bounds.x < crystalX + gameThread.getWorld().getEntityManager().getCenterCrystal().getWidth()) {
-			xMove = speed;
-		} else if (xPos + bounds.x > crystalX + gameThread.getWorld().getEntityManager().getCenterCrystal().getWidth()) {
-			xMove = -speed;
-		}
-		if (yPos + bounds.y + bounds.height < crystalY
-				+ gameThread.getWorld().getEntityManager().getCenterCrystal().getHeight()) {
-			yMove = speed;
-		} else if (yPos + bounds.y + bounds.height > crystalY
-				+ gameThread.getWorld().getEntityManager().getCenterCrystal().getHeight()) {
-			yMove = -speed;
-		} else if (yPos + bounds.y + bounds.height == crystalY
-				+ gameThread.getWorld().getEntityManager().getCenterCrystal().getHeight()) {
-			yMove = 0;
-			// System.out.println("y = 0");
-		}
-		moveWithFixedDirection();
-		if (xMove == 0 && yMove == 0) {
-			isWalking = false;
-		}
-	}
-
 }

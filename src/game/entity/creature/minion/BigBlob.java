@@ -13,7 +13,7 @@ import game.graphics.Assets;
 import game.graphics.TemporaryAnimation;
 import game.utils.Utils;
 
-public class BigBlob extends Minion implements CrystalAttacker {
+public class BigBlob extends CrystalAttackingMinion {
 
 	private static final int DEFAULT_WIDHT = 200, DEFAULT_HEIGHT = 200;
 	private Animation animationWalk, animationIdle;
@@ -41,17 +41,11 @@ public class BigBlob extends Minion implements CrystalAttacker {
 
 	@Override
 	public void update() {
-		if (isCastingAttack) {
-			animationAttack.timerCounter();
-			countAttackCooldown();
-			if (animationAttack.isDone()) {
-				animationAttack.reset();
-				isCastingAttack = false;
-			}
-		} else if (isAlive) {
+		if (isAlive) {
 			animationIdle.timerCounter();
 			animationWalk.timerCounter();
 			countAttackCooldown();
+			setFacingDirectionFromCrystalPos();
 			// moving mechanism
 //			if (detectPlayerInChaseRange(gameThread.getWorld().getEntityManager().getPlayer())) {
 //				facingDirection = getFacingDirectionFromPlayerPos();
@@ -60,13 +54,23 @@ public class BigBlob extends Minion implements CrystalAttacker {
 //			} else {
 //				moveRandomly();
 //			}
-			if (getDistanceToCrystal() < 180) {
-				isWalking = false;
-				if (attackCoolDownTimer == 0)
-					attackCrystal();
+			if (isCastingAttack) {
+				animationAttack.timerCounter();
+
+				if (animationAttack.isDone()) {
+					animationAttack.reset();
+					isCastingAttack = false;
+				}
 			} else {
-				moveToCrystal();
+				if (getDistanceToCrystal() < 120) {
+					isWalking = false;
+					if (attackCoolDownTimer == 0)
+						attackCrystal();
+				} else {
+					moveToCrystal();
+				}
 			}
+
 		} else {
 			gameThread.getWorld().getEntityManager().removeEntity(this);
 		}
@@ -98,6 +102,7 @@ public class BigBlob extends Minion implements CrystalAttacker {
 	@Override
 	protected BufferedImage getCurrentAnimationFrame() {
 		if (isCastingAttack) {
+
 			if (facingDirection == "LEFT") {
 				return animationAttack.getCurrentFrame();
 			} else if (facingDirection == "RIGHT") {
@@ -131,13 +136,7 @@ public class BigBlob extends Minion implements CrystalAttacker {
 		}
 
 	}
-
-	@Override
-	public void attackCrystal() {
-		isCastingAttack = true;
-		gameThread.getWorld().getEntityManager().getCenterCrystal().hurt(50);
-	}
-
+	
 	private void countAttackCooldown() {
 		attackCoolDownTimer += System.currentTimeMillis() - lastTimeCoolDown;
 		lastTimeCoolDown = System.currentTimeMillis();
@@ -147,40 +146,8 @@ public class BigBlob extends Minion implements CrystalAttacker {
 	}
 
 	@Override
-	public float getDistanceToCrystal() {
-		float crystalX = gameThread.getWorld().getEntityManager().getCenterCrystal().getxPos();
-		float crystalY = gameThread.getWorld().getEntityManager().getCenterCrystal().getyPos();
-
-		return (float) (Math.sqrt(Math.pow(xPos - crystalX, 2) + Math.pow(yPos - crystalY, 2)));
+	public void attackCrystal() {
+		isCastingAttack = true;
+		gameThread.getWorld().getEntityManager().getCenterCrystal().hurt(50);
 	}
-
-	@Override
-	public void moveToCrystal() {
-		float crystalX = gameThread.getWorld().getEntityManager().getCenterCrystal().getxPos();
-		float crystalY = gameThread.getWorld().getEntityManager().getCenterCrystal().getyPos();
-		isWalking = true;
-
-		if (xPos + bounds.x < crystalX + gameThread.getWorld().getEntityManager().getCenterCrystal().getWidth()) {
-			xMove = speed;
-		} else if (xPos + bounds.x > crystalX
-				+ gameThread.getWorld().getEntityManager().getCenterCrystal().getWidth()) {
-			xMove = -speed;
-		}
-		if (yPos + bounds.y + bounds.height < crystalY
-				+ gameThread.getWorld().getEntityManager().getCenterCrystal().getHeight()) {
-			yMove = speed;
-		} else if (yPos + bounds.y + bounds.height > crystalY
-				+ gameThread.getWorld().getEntityManager().getCenterCrystal().getHeight()) {
-			yMove = -speed;
-		} else if (yPos + bounds.y + bounds.height == crystalY
-				+ gameThread.getWorld().getEntityManager().getCenterCrystal().getHeight()) {
-			yMove = 0;
-			// System.out.println("y = 0");
-		}
-		moveWithFixedDirection();
-		if (xMove == 0 && yMove == 0) {
-			isWalking = false;
-		}
-	}
-
 }
