@@ -35,10 +35,10 @@ public class EvilSorcerer extends Minion {
 
 	public void attack() {
 		if (!isCastingAttack && attackCoolDown == 0) {
-			ProjectileAttacks atk = ProjectileAttacks.attackList.get(0);
-			attackCoolDown = atk.getCoolDown();
-			isCastingAttack = true;
-			atk.fire();
+//			ProjectileAttacks atk = ProjectileAttacks.attackList.get(0);
+//			attackCoolDown = atk.getCoolDown();
+//			isCastingAttack = true;
+//			atk.fire();
 		}
 	}
 	

@@ -10,12 +10,15 @@ import game.engine.GameThread;
 import game.entity.creature.Player;
 import game.graphics.Animation;
 import game.graphics.Assets;
+import game.graphics.TemporaryAnimation;
 import game.utils.Utils;
 
-public class BigBlob extends Minion {
+public class BigBlob extends CrystalAttackingMinion {
 
 	private static final int DEFAULT_WIDHT = 200, DEFAULT_HEIGHT = 200;
-	private Animation animationAttack, animationWalk, animationIdle;
+	private Animation animationWalk, animationIdle;
+	private TemporaryAnimation animationAttack;
+	private long attackCoolDownTimer, lastTimeCoolDown;
 
 	public BigBlob(GameThread gameThread, float xPos, float yPos) {
 		super(gameThread, xPos, yPos, DEFAULT_WIDHT, DEFAULT_HEIGHT, 3000, 1.0f, 100, 10);
@@ -30,7 +33,7 @@ public class BigBlob extends Minion {
 		bounds.width = width / 2 - 10;
 		bounds.height = height / 2 - 10;
 
-		animationAttack = new Animation(100, Assets.big_blob_attack);
+		animationAttack = new TemporaryAnimation(100, Assets.big_blob_attack);
 		animationIdle = new Animation(100, Assets.big_blob_idle);
 		animationWalk = new Animation(100, Assets.big_blob_walk);
 
@@ -41,14 +44,33 @@ public class BigBlob extends Minion {
 		if (isAlive) {
 			animationIdle.timerCounter();
 			animationWalk.timerCounter();
+			countAttackCooldown();
+			setFacingDirectionFromCrystalPos();
 			// moving mechanism
-			if (detectPlayerInChaseRange(gameThread.getWorld().getEntityManager().getPlayer())) {
-				facingDirection = getFacingDirectionFromPlayerPos();
-				chasePlayer(gameThread.getWorld().getEntityManager().getPlayer());
-				hurtPlayerOnHit();
+//			if (detectPlayerInChaseRange(gameThread.getWorld().getEntityManager().getPlayer())) {
+//				facingDirection = getFacingDirectionFromPlayerPos();
+//				chasePlayer(gameThread.getWorld().getEntityManager().getPlayer());
+//				hurtPlayerOnHit();
+//			} else {
+//				moveRandomly();
+//			}
+			if (isCastingAttack) {
+				animationAttack.timerCounter();
+
+				if (animationAttack.isDone()) {
+					animationAttack.reset();
+					isCastingAttack = false;
+				}
 			} else {
-				moveRandomly();
+				if (getDistanceToCrystal() < 160) {
+					isWalking = false;
+					if (attackCoolDownTimer == 0)
+						attackCrystal();
+				} else {
+					moveToCrystal();
+				}
 			}
+
 		} else {
 			gameThread.getWorld().getEntityManager().removeEntity(this);
 		}
@@ -72,13 +94,19 @@ public class BigBlob extends Minion {
 	}
 
 	@Override
-	public void attack() {
-		isCastingAttack = true;
-
-	}
-
-	@Override
 	protected BufferedImage getCurrentAnimationFrame() {
+		if (isCastingAttack) {
+
+			if (facingDirection == "LEFT") {
+				return animationAttack.getCurrentFrame();
+			} else if (facingDirection == "RIGHT") {
+				return Utils.flipImageHorizontally(animationAttack.getCurrentFrame());
+			} else if (facingDirection == "UP") {
+				return animationAttack.getCurrentFrame();
+			} else {
+				return Utils.flipImageHorizontally(animationAttack.getCurrentFrame());
+			}
+		}
 		if (isWalking) {
 			if (facingDirection == "LEFT") {
 				return animationWalk.getCurrentFrame();
@@ -102,5 +130,18 @@ public class BigBlob extends Minion {
 		}
 
 	}
+	
+	private void countAttackCooldown() {
+		attackCoolDownTimer += System.currentTimeMillis() - lastTimeCoolDown;
+		lastTimeCoolDown = System.currentTimeMillis();
+		if (attackCoolDownTimer > 3000) {
+			attackCoolDownTimer = 0;
+		}
+	}
 
+	@Override
+	public void attackCrystal() {
+		isCastingAttack = true;
+		gameThread.getWorld().getEntityManager().getCenterCrystal().hurt(50);
+	}
 }

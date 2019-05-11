@@ -6,8 +6,6 @@ import game.engine.GameThread;
 import game.entity.creature.Creatures;
 import game.entity.creature.Player;
 import game.graphics.Animation;
-import game.tile.Tile;
-import javafx.scene.shape.Ellipse;
 
 public abstract class Minion extends Creatures {
 
@@ -54,7 +52,7 @@ public abstract class Minion extends Creatures {
 		double playerY = (double) (player.getyPos() + rec.getY() + rec.getHeight() / 2);
 		double centerX = (double) (xPos + bounds.x + bounds.width / 2);
 		double centerY = (double) (yPos + bounds.y + bounds.height / 2);
-		
+
 		return (int) (Math.sqrt(Math.pow(playerX - centerX, 2) + Math.pow(playerY - centerY, 2)));
 	}
 
@@ -157,7 +155,4 @@ public abstract class Minion extends Creatures {
 		}
 
 	}
-
-	public abstract void attack();
-
 }

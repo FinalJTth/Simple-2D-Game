@@ -11,6 +11,8 @@ public class Assets {
 	public static BufferedImage crosshair;
 
 	public static BufferedImage medium_spikey_tree;
+	public static BufferedImage[] floating_crystal;
+	public static BufferedImage[] portal;
 
 	public static BufferedImage[] player_wizard_down, player_wizard_up, player_wizard_left, player_wizard_right;
 	public static BufferedImage[] player_wizard_dead_down, player_wizard_dead_up, player_wizard_dead_left,
@@ -21,6 +23,7 @@ public class Assets {
 	public static BufferedImage[] blast_firing, blast_hit;
 	public static BufferedImage blast_bullet;
 	public static BufferedImage[] fireball_bullet, fireball_hit;
+	public static BufferedImage[] small_blob_explosion;
 
 	public static BufferedImage[] play_button, sound_ON_button, sound_OFF_button, exit_button;
 	public static BufferedImage play_button_normal, sound_ON_button_normal, sound_OFF_button_normal, exit_button_normal;
@@ -87,6 +90,13 @@ public class Assets {
 		SpriteSheet treeSheet = new SpriteSheet(ImageLoader.loadImage("res/texture/trees.png"));
 		medium_spikey_tree = treeSheet.crop(129, 279, 60, 75);
 
+		// portal
+		SpriteSheet portalSheet = new SpriteSheet(ImageLoader.loadImage("res/texture/MagicMirror.png"));
+		portal = new BufferedImage[5];
+		for (int x = 0; x < 5; x++) {
+			portal[x] = portalSheet.crop(0, x * 128, 128, 128);
+		}
+
 		// dark dimension map
 		SpriteSheet darkDimensionSheet = new SpriteSheet(
 				ImageLoader.loadImage("res/texture/darkDimension/darkdimension_sheet.png"));
@@ -105,6 +115,12 @@ public class Assets {
 			else
 				space_tile[x] = darkDimensionSheet.crop(16 * (x - 4) + 16, 272, 32, 32);
 		}
+
+		floating_crystal = new BufferedImage[4];
+		for (int x = 0; x < 3; x++) {
+			floating_crystal[x] = darkDimensionSheet.crop(400 + (x * 16), 16, 16, 48);
+		}
+		floating_crystal[3] = darkDimensionSheet.crop(416, 16, 16, 48);
 
 		// ice shard spell
 		SpriteSheet iceShardSheet = new SpriteSheet(ImageLoader.loadImage("res/texture/ice_shard/iceShardSprite.png"));
@@ -196,6 +212,20 @@ public class Assets {
 						small_blob_dead[y] = smallBlobSheet.crop(y * 80, x * 80, 80, 80);
 					}
 				}
+			}
+		}
+
+		SpriteSheet smallBlobExplosionSheet = new SpriteSheet(
+				ImageLoader.loadImage("res/texture/minion/smallBlob/explosion.png"));
+		small_blob_explosion = new BufferedImage[65];
+		cnt = 0;
+		for (int y = 0; y < 7; y++) {
+			for (int x = 0; x < 10; x++) {
+				small_blob_explosion[cnt] = smallBlobExplosionSheet.crop(x * 100, y * 100, 100, 100);
+				// Utils.addToRenderImg(small_blob_explosion[cnt]);
+				cnt++;
+				if (cnt >= 65)
+					break;
 			}
 		}
 
