@@ -35,12 +35,14 @@ public class EntityManager {
 		this.player = player;
 		entities = new ArrayList<Entity>();
 		addEntity(player);
-		centerCrystal = new CenterFloatingCrystal(gameThread, 600, 600, 60, 180);
+		centerCrystal = new CenterFloatingCrystal(gameThread, 600, 600, 100, 300);
 		addEntity(centerCrystal);
 		addEntity(new BigBlob(gameThread, 100, 400));
+		addEntity(new BigBlob(gameThread, 800, 400));
 		// addEntity(new EvilSorcerer(gameThread, 650, 800, 1000));
 		addEntity(new SmallBlob(gameThread, 200, 600));
 		addEntity(new SmallBlob(gameThread, 100, 700));
+		addEntity(new SmallBlob(gameThread, 800, 700));
 //		addEntity(new SmallBlob(gameThread, 300, 500));
 		// bigBlobSpawner = new MinionSpawner(gameThread, 800, 800);
 	}

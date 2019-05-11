@@ -46,6 +46,7 @@ public class SmallBlob extends CrystalAttackingMinion {
 		if (isAlive && !isExploding) {
 			animationIdle.timerCounter();
 			animationWalk.timerCounter();
+			setFacingDirectionFromCrystalPos();
 			// moving mechanism
 //			if (detectPlayerInChaseRange(gameThread.getWorld().getEntityManager().getPlayer())) {
 //				facingDirection = getFacingDirectionFromPlayerPos();
@@ -54,7 +55,7 @@ public class SmallBlob extends CrystalAttackingMinion {
 //			} else {
 //				moveRandomly();
 //			}
-			if (getDistanceToCrystal() < 90) {
+			if (getDistanceToCrystal() < 80) {
 				attackCrystal();
 			} else
 				moveToCrystal();

@@ -16,7 +16,7 @@ public abstract class CrystalAttackingMinion extends Minion {
 	@Override
 	public void attack() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -28,17 +28,17 @@ public abstract class CrystalAttackingMinion extends Minion {
 	@Override
 	public void update() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void render(Graphics2D g2d) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public abstract void attackCrystal();
-	
+
 	public float getDistanceToCrystal() {
 		float crystalX = gameThread.getWorld().getEntityManager().getCenterCrystal().getCenterX();
 		float crystalY = gameThread.getWorld().getEntityManager().getCenterCrystal().getCenterY();
@@ -48,24 +48,20 @@ public abstract class CrystalAttackingMinion extends Minion {
 	}
 
 	public void moveToCrystal() {
-		float crystalX = gameThread.getWorld().getEntityManager().getCenterCrystal().getxPos();
-		float crystalY = gameThread.getWorld().getEntityManager().getCenterCrystal().getyPos();
+		float crystalX = gameThread.getWorld().getEntityManager().getCenterCrystal().getCenterX();
+		float crystalY = gameThread.getWorld().getEntityManager().getCenterCrystal().getCenterY();
 		isWalking = true;
 
-		if (xPos + bounds.x < crystalX + gameThread.getWorld().getEntityManager().getCenterCrystal().getWidth()) {
+		if (xPos + bounds.x < crystalX) {
 			xMove = speed;
-		} else if (xPos + bounds.x > crystalX
-				+ gameThread.getWorld().getEntityManager().getCenterCrystal().getWidth()) {
+		} else if (xPos + bounds.x > crystalX) {
 			xMove = -speed;
 		}
-		if (yPos + bounds.y + bounds.height < crystalY
-				+ gameThread.getWorld().getEntityManager().getCenterCrystal().getHeight()) {
+		if (yPos + bounds.y + bounds.height < crystalY) {
 			yMove = speed;
-		} else if (yPos + bounds.y + bounds.height > crystalY
-				+ gameThread.getWorld().getEntityManager().getCenterCrystal().getHeight()) {
+		} else if (yPos + bounds.y + bounds.height > crystalY) {
 			yMove = -speed;
-		} else if (yPos + bounds.y + bounds.height == crystalY
-				+ gameThread.getWorld().getEntityManager().getCenterCrystal().getHeight()) {
+		} else if (yPos + bounds.y + bounds.height == crystalY) {
 			yMove = 0;
 			// System.out.println("y = 0");
 		}

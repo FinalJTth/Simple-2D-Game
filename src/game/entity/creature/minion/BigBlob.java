@@ -62,7 +62,7 @@ public class BigBlob extends CrystalAttackingMinion {
 					isCastingAttack = false;
 				}
 			} else {
-				if (getDistanceToCrystal() < 120) {
+				if (getDistanceToCrystal() < 160) {
 					isWalking = false;
 					if (attackCoolDownTimer == 0)
 						attackCrystal();
