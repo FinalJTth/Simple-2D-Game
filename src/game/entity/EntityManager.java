@@ -62,9 +62,6 @@ public class EntityManager {
 			Entity e = entities.get(i);
 			e.update();
 		}
-		for (Creatures e : waveCreatures) {
-			e.update();
-		}
 		entities.sort(renderSorter);
 		waveManager.update();
 	}
@@ -74,18 +71,17 @@ public class EntityManager {
 		for (Entity e : entities) {
 			e.render(g2d);
 		}
-		for (Creatures e : waveCreatures) {
-			e.render(g2d);
-		}
 	}
 
 	// Getters & Setters
-	public void addWaveCreature(Creatures e) {
-		waveCreatures.add(e);
-	}
 
-	public ArrayList<Creatures> getWaveCreature() {
-		return waveCreatures;
+	public boolean isAnyCreatureAlive() {
+		for (Entity e : entities) {
+			if (e instanceof Creatures && !(e instanceof Player)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void addEntity(Entity e) {

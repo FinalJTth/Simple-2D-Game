@@ -9,21 +9,17 @@ import game.engine.GameThread;
 import game.entity.creature.Creatures;
 import game.entity.creature.minion.BigBlob;
 import game.entity.creature.minion.SmallBlob;
-import game.utils.Timer;
 
 public class WaveManager {
 	
 	private final GameThread gameThread;
 	
-	private long currentTime, lastTime;
 	private LinkedList<ArrayList<Integer>> waveCreatures;
 	private WaveSpawner spawner;
 
 	public WaveManager(GameThread gameThread) {
 		this.gameThread = gameThread;
-		lastTime = System.currentTimeMillis();
-		
-		Timer.newGameTimer();
+
 		waveCreatures = new LinkedList<ArrayList<Integer>>();
 		// wave 0
 		waveCreatures.add(new ArrayList<Integer> (Arrays.asList(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)));
@@ -47,8 +43,9 @@ public class WaveManager {
 	}
 	
 	private void handleWaveChange() {
-		if (gameThread.getWorld().getEntityManager().getWaveCreature().isEmpty()) {
+		if (!gameThread.getWorld().getEntityManager().isAnyCreatureAlive()) {
 			spawner = new WaveSpawner(gameThread, createCreatureListFromNumber());
+			System.out.println(spawner);
 		}
 	}
 	

@@ -9,6 +9,8 @@ import game.entity.creature.minion.BigBlob;
 
 public class WaveSpawner extends MinionSpawner {
 
+	private static final int DELAY = 500;
+	
 	private ArrayList<Creatures> minionToSpawn;
 	private int minionIndex;
 	private final float xPos1 = 200, yPos1 = 200, xPos2 = 1000, yPos2 = 200, xPos3 = 200, yPos3 = 1000, xPos4 = 1000, yPos4 = 1000;
@@ -40,7 +42,7 @@ public class WaveSpawner extends MinionSpawner {
 			timer = 0;
 			if (minionIndex < minionToSpawn.size()) {
 				for (int i = 0; i<4 ;i++) {
-					gameThread.getWorld().getEntityManager().addWaveCreature(minionToSpawn.get(minionIndex));
+					gameThread.getWorld().getEntityManager().addEntity(minionToSpawn.get(minionIndex));
 					minionIndex++;
 				}
 			}
