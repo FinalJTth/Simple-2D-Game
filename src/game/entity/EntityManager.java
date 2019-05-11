@@ -10,6 +10,7 @@ import game.entity.creature.minion.BigBlob;
 import game.entity.creature.minion.EvilSorcerer;
 import game.entity.creature.minion.MinionSpawner;
 import game.entity.creature.minion.SmallBlob;
+import game.entity.statics.FloatingCrystal;
 
 public class EntityManager {
 
@@ -33,8 +34,9 @@ public class EntityManager {
 		entities = new ArrayList<Entity>();
 		addEntity(player);
 		addEntity(new BigBlob(gameThread, 100, 100));
-		addEntity(new EvilSorcerer(gameThread, 650, 800, 1000));
+		// addEntity(new EvilSorcerer(gameThread, 650, 800, 1000));
 		addEntity(new SmallBlob(gameThread, 100, 500));
+		addEntity(new FloatingCrystal(gameThread, 600, 600, 60, 180));
 		// bigBlobSpawner = new MinionSpawner(gameThread, 800, 800);
 	}
 

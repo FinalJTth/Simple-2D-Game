@@ -11,6 +11,7 @@ public class Assets {
 	public static BufferedImage crosshair;
 
 	public static BufferedImage medium_spikey_tree;
+	public static BufferedImage[] floating_crystal;
 
 	public static BufferedImage[] player_wizard_down, player_wizard_up, player_wizard_left, player_wizard_right;
 	public static BufferedImage[] player_wizard_dead_down, player_wizard_dead_up, player_wizard_dead_left,
@@ -105,6 +106,12 @@ public class Assets {
 			else
 				space_tile[x] = darkDimensionSheet.crop(16 * (x - 4) + 16, 272, 32, 32);
 		}
+		
+		floating_crystal = new BufferedImage[4];
+		for (int x = 0; x < 3; x++) {
+			floating_crystal[x] = darkDimensionSheet.crop(400 + (x * 16), 16, 16, 48);
+		}
+		floating_crystal[3] = darkDimensionSheet.crop(416, 16, 16, 48);
 
 		// ice shard spell
 		SpriteSheet iceShardSheet = new SpriteSheet(ImageLoader.loadImage("res/texture/ice_shard/iceShardSprite.png"));
