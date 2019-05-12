@@ -40,6 +40,7 @@ public class EntityManager {
 		this.gameThread = gameThread;
 		this.player = player;
 
+		waveCreatures = new ArrayList<Creatures>();
 		waveManager = new WaveManager(gameThread);
 
 		entities = new ArrayList<Entity>();
@@ -47,14 +48,13 @@ public class EntityManager {
 		centerCrystal = new CenterFloatingCrystal(gameThread, 600, 600, 100, 300);
 		addEntity(centerCrystal);
 		addEntity(new Tree(gameThread, 550, 200, 60, 75));
-		addEntity(new BigBlob(gameThread, 100, 400));
-		addEntity(new BigBlob(gameThread, 800, 400));
-		// addEntity(new EvilSorcerer(gameThread, 650, 800, 1000));
-		addEntity(new SmallBlob(gameThread, 200, 600));
-		addEntity(new SmallBlob(gameThread, 100, 700));
-		addEntity(new SmallBlob(gameThread, 800, 700));
+//		addEntity(new BigBlob(gameThread, 100, 400));
+//		addEntity(new BigBlob(gameThread, 800, 400));
+//		addEntity(new SmallBlob(gameThread, 200, 600));
+//		addEntity(new SmallBlob(gameThread, 100, 700));
+//		addEntity(new SmallBlob(gameThread, 800, 700));
 //		addEntity(new SmallBlob(gameThread, 300, 500));
-		bigBlobSpawner = new BigBlobSpawner(gameThread, 800, 800);
+		// addEntity(new EvilSorcerer(gameThread, 650, 800, 1000));
 	}
 
 	public void update() {
@@ -63,24 +63,25 @@ public class EntityManager {
 			e.update();
 		}
 		entities.sort(renderSorter);
-		bigBlobSpawner.update();
 		waveManager.update();
 	}
 
 	public void render(Graphics2D g2d) {
-		bigBlobSpawner.render(g2d);
+		waveManager.render(g2d);
 		for (Entity e : entities) {
 			e.render(g2d);
 		}
 	}
 
 	// Getters & Setters
-	public void addWaveCreature(Creatures e) {
-		waveCreatures.add(e);
-	}
 
-	public ArrayList<Creatures> getWaveCreature() {
-		return waveCreatures;
+	public boolean isAnyCreatureAlive() {
+		for (Entity e : entities) {
+			if (e instanceof Creatures && !(e instanceof Player)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void addEntity(Entity e) {

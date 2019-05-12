@@ -12,7 +12,7 @@ public class CenterFloatingCrystal extends FloatingCrystal {
 
 	public CenterFloatingCrystal(GameThread gameThread, float xPos, float yPos, int width, int height) {
 		super(gameThread, xPos, yPos, width, height);
-		health = 1000;
+		health = 1000000000;
 		maxHealth = health;
 	}
 
