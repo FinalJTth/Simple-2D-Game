@@ -62,6 +62,7 @@ public class World {
 				}
 			}
 		}
+		entityManager.render(g2d);
 	}
 
 	public int[][] getRawTile() {
