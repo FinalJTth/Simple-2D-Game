@@ -158,4 +158,12 @@ public class SpellBullet {
 	public boolean isFinished() {
 		return isFinished;
 	}
+	
+	public boolean isOutOfBound() {
+		if (xPos > gameThread.getWorld().getWidth() * 64 || xPos < 0)
+			return true;
+		if (yPos > gameThread.getWorld().getHeight() * 64 || yPos < 0)
+			return true;
+		return false;
+	}
 }

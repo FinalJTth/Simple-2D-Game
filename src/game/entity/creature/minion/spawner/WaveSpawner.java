@@ -9,7 +9,7 @@ import game.entity.creature.minion.BigBlob;
 
 public class WaveSpawner extends MinionSpawner {
 
-	private static final int DELAY = 1000;
+	private static final int DELAY = 5000;
 	
 	private ArrayList<Creatures> minionToSpawn;
 	private int minionIndex;

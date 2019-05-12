@@ -51,7 +51,7 @@ public abstract class ProjectileAttacks {
 		ArrayList<SpellBullet> done = new ArrayList<SpellBullet>();
 		for (SpellBullet sp : firedBullet) {
 			sp.update();
-			if (sp.isFinished())
+			if (sp.isFinished() || sp.isOutOfBound())
 				done.add(sp);
 		}
 		for (SpellBullet sp : done) {
