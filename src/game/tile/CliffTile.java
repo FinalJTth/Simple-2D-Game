@@ -29,6 +29,9 @@ public class CliffTile {
 	public static CliffTile dirtCliffVoidBaseTilesLeft = new CliffTile(Assets.dirt_cliff_tile[18], 274, true);
 	public static CliffTile dirtCliffVoidBaseTilesMiddle = new CliffTile(Assets.dirt_cliff_tile[19], 275, false);
 	public static CliffTile dirtCliffVoidBaseTilesRight = new CliffTile(Assets.dirt_cliff_tile[20], 276, true);
+	public static CliffTile dirtCliffSpaceBaseTilesLeft = new CliffTile(Assets.dirt_cliff_tile[21], 277, true);
+	public static CliffTile dirtCliffSpaceBaseTilesMiddle = new CliffTile(Assets.dirt_cliff_tile[22], 278, false);
+	public static CliffTile dirtCliffSpaceBaseTilesRight = new CliffTile(Assets.dirt_cliff_tile[23], 279, true);
 
 	public static final int TILE_WIDTH = 64, TILE_HEIGHT = 64;
 

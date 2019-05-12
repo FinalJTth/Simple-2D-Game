@@ -112,12 +112,22 @@ public class Assets {
 		for (int x = 1; x < 8; x++) {
 			dirt_tile[x - 1] = darkDimensionSheet.crop(16 * (x + 1), 16, 16, 16);
 		}
+
 		space_tile = new BufferedImage[8];
 		for (int x = 0; x < 8; x++) {
 			if (x < 4) {
 				space_tile[x] = darkDimensionSheet.crop(16 * x + 16, 240, 32, 32);
 			} else {
 				space_tile[x] = darkDimensionSheet.crop(16 * (x - 4) + 16, 272, 32, 32);
+			}
+		}
+
+		dirt_cliff_tile = new BufferedImage[24];
+		cnt = 0;
+		for (int y = 0; y < 8; y++) {
+			for (int x = 0; x < 3; x++) {
+				dirt_cliff_tile[cnt] = darkDimensionSheet.crop(64 + (x * 16), 112 + (y * 16), 16, 16);
+				cnt++;
 			}
 		}
 
@@ -230,8 +240,9 @@ public class Assets {
 				small_blob_explosion[cnt] = smallBlobExplosionSheet.crop(x * 100, y * 100, 100, 100);
 				// Utils.addToRenderImg(small_blob_explosion[cnt]);
 				cnt++;
-				if (cnt >= 65)
+				if (cnt >= 65) {
 					break;
+				}
 			}
 		}
 
