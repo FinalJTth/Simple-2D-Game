@@ -170,7 +170,13 @@ public abstract class Creatures extends Entity {
 		if (health <= 0) {
 			health = 0;
 			isAlive = false;
+			removeBoundingBox();
 		}
+	}
+	
+	private void removeBoundingBox() {
+		bounds.width = 0;
+		bounds.height = 0;
 	}
 
 	protected abstract BufferedImage getCurrentAnimationFrame();
