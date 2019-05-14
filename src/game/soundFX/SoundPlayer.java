@@ -16,14 +16,22 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
 
 public class SoundPlayer {
-
-	protected final GameThread gameThread;
+	
+	public static SoundPlayer small_explosion;
+	public static RepeatingSoundPlayer pewpew;
+	public static SoundPlayer bgm;
+	
+	public static void initSound() {
+		small_explosion = new SoundPlayer("sound/smallBomb.mp3");
+		pewpew = new RepeatingSoundPlayer("sound/pew.wav");
+		bgm = new RepeatingSoundPlayer("sound/bgm.mp3");
+			
+	}
 
 	protected MediaPlayer mediaPlayer;
 	protected boolean isPlaying;
 
-	public SoundPlayer(GameThread gameThread, String path) {
-		this.gameThread = gameThread;
+	public SoundPlayer(String path) {
 
 		isPlaying = false;
 		Media hit = new Media(new File("res/" + path).toURI().toString());
@@ -39,7 +47,7 @@ public class SoundPlayer {
 
 	public void playSound() {
 		mediaPlayer.play();
-
+		mediaPlayer.seek(mediaPlayer.getStartTime());
 //		if (!isPlaying) {
 //			mediaPlayer.play();
 //			isPlaying = true;
@@ -48,5 +56,10 @@ public class SoundPlayer {
 //			mediaPlayer.seek(mediaPlayer.getStartTime());
 //		}
 
+	}
+	
+	public void playNonStop() {
+		mediaPlayer.setCycleCount(mediaPlayer.INDEFINITE);
+		mediaPlayer.play();
 	}
 }

@@ -13,6 +13,7 @@ import game.graphics.Assets;
 import game.graphics.GameCamera;
 import game.listener.KeyManager;
 import game.listener.MouseManager;
+import game.soundFX.SoundPlayer;
 import game.state.GameState;
 import game.state.MenuState;
 import game.state.State;
@@ -87,6 +88,7 @@ public class GameThread implements Runnable {
 
 	public void init() {
 		Assets.init();
+		SoundPlayer.initSound();
 		
 		initScreen("JobJob's Adventure", 800, 600);
 

@@ -9,6 +9,7 @@ import game.engine.GameThread;
 import game.entity.creature.Player;
 import game.entity.statics.Tree;
 import game.graphics.Assets;
+import game.soundFX.SoundPlayer;
 import game.tile.Tile;
 import game.world.World;
 
@@ -30,6 +31,7 @@ public class GameState extends State {
 			gameThread.togglePauseGame();
 			gameThread.setMenuState();
 		}
+		SoundPlayer.bgm.playNonStop();
 	}
 
 	@Override
