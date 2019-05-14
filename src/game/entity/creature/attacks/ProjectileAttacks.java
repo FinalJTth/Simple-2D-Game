@@ -14,7 +14,6 @@ import game.utils.Utils;
 
 public abstract class ProjectileAttacks {
 
-	// Class stuff
 	protected GameThread gameThread;
 	protected final int damage, coolDown, manaCost;
 	protected final float speed;
@@ -24,6 +23,9 @@ public abstract class ProjectileAttacks {
 	protected Creatures source;
 	protected Rectangle bounds;
 	protected TemporaryAnimation animationFiring, animationHit;
+	
+	private long attackCoolDownTimer, lastTimeCoolDown, currentCooldown;
+	private boolean isCooledDown;
 	
 		// for rotating image
 	protected double rotationAngle;
@@ -38,11 +40,17 @@ public abstract class ProjectileAttacks {
 		this.damage = damage;
 		this.coolDown = coolDown;
 		this.manaCost = manaCost;
+		
+		isCooledDown = true;
 	}
 
 	public void fire() {
-		handleDirectionChange(); // handle all direction change when start firing
-		isFiring = true;
+		if (isCooledDown) {
+			handleDirectionChange(); // handle all direction change when start firing
+			isFiring = true;
+			isCooledDown = false;
+		}
+		System.out.println(isCooledDown);
 	}
 	
 	public abstract void update();
@@ -75,9 +83,22 @@ public abstract class ProjectileAttacks {
 		}
 
 	}
+	
+	protected void cooldownTimer() {
+		attackCoolDownTimer += System.currentTimeMillis() - lastTimeCoolDown;
+		lastTimeCoolDown = System.currentTimeMillis();
+		if (attackCoolDownTimer > coolDown) {
+			attackCoolDownTimer = 0;
+			isCooledDown = true;
+		}
+	}
 
 	public int getCoolDown() {
 		return coolDown;
+	}
+	
+	public boolean isCooledDown() {
+		return isCooledDown;
 	}
 	
 	public int getManaCost() {

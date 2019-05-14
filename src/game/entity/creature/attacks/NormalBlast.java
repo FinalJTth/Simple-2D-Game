@@ -31,10 +31,9 @@ public class NormalBlast extends ProjectileAttacks {
 						source.getFacingDirection(), speed, damage, source.getxPos() + xOffset,
 						source.getyPos() + yOffset, createBoundingBox(30, 24)));
 			}
-			updateAllBullets();
-		} else {
-			updateAllBullets();
 		}
+		cooldownTimer();
+		updateAllBullets();
 	}
 
 	@Override

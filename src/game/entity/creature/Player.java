@@ -70,24 +70,21 @@ public class Player extends Creatures {
 		if (!isCastingAttack && attackCoolDown == 0) {
 			if (currentAttack == "ICE") {
 				ProjectileAttacks atk = attackList.get(0);
-				if (atk.getManaCost() <= mana) {
-					attackCoolDown = atk.getCoolDown();
+				if (atk.getManaCost() <= mana && atk.isCooledDown()) {
 					isCastingAttack = true;
 					atk.fire();
 					decreaseMana(atk.getManaCost());
 				}
 			} else if (currentAttack == "NORMAL") {
 				ProjectileAttacks atk = attackList.get(1);
-				if (atk.getManaCost() <= mana) {
-					attackCoolDown = atk.getCoolDown();
+				if (atk.getManaCost() <= mana && atk.isCooledDown()) {
 					isCastingAttack = true;
 					atk.fire();
 					decreaseMana(atk.getManaCost());
 				}
 			} else if (currentAttack == "FIRE") {
 				ProjectileAttacks atk = attackList.get(2);
-				if (atk.getManaCost() <= mana) {
-					attackCoolDown = atk.getCoolDown();
+				if (atk.getManaCost() <= mana && atk.isCooledDown()) {
 					isCastingAttack = true;
 					atk.fire();
 					decreaseMana(atk.getManaCost());
@@ -157,8 +154,6 @@ public class Player extends Creatures {
 			animationRight.timerCounter();
 			animationUp.timerCounter();
 
-			attackCooldownTimer();
-
 			updateAttack();
 
 			if (isBeingKnockedBack) {
@@ -177,15 +172,6 @@ public class Player extends Creatures {
 			animationDeadLeft.timerCounter();
 			animationDeadRight.timerCounter();
 			animationDeadUp.timerCounter();
-		}
-	}
-
-	private void attackCooldownTimer() {
-		attackCoolDownTimer += System.currentTimeMillis() - lastTimeCoolDown;
-		lastTimeCoolDown = System.currentTimeMillis();
-		if (attackCoolDownTimer > attackCoolDown) {
-			attackCoolDown = 0;
-			attackCoolDownTimer = 0;
 		}
 	}
 

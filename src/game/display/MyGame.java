@@ -3,8 +3,6 @@ package game.display;
 import game.engine.GameThread;
 
 public class MyGame {
-
-	private GameThread gameThread;
 	
 	public MyGame() {
 		new Thread(new GameThread()).start();
