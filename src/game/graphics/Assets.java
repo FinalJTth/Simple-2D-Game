@@ -2,6 +2,7 @@ package game.graphics;
 
 import java.awt.image.BufferedImage;
 
+import game.utils.ImageLoader;
 import game.utils.Utils;
 
 public class Assets {

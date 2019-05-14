@@ -7,16 +7,25 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import game.engine.GameThread;
 import game.entity.Entity;
 import game.entity.creature.Player;
 
 public class Utils {
+
+	
 
 	public static ArrayList<Shape> shapeToRender = new ArrayList<Shape>();
 
@@ -54,7 +63,7 @@ public class Utils {
 			return 0;
 		}
 	}
-	
+
 	public static int getRandomIntOnetoFour() {
 		return (int) (Math.random() * 4);
 	}
@@ -68,7 +77,7 @@ public class Utils {
 		img = op.filter(img, null);
 		return img;
 	}
-	
+
 	public static BufferedImage flipImageHorizontally(BufferedImage img) {
 		AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
 		tx.translate(-img.getWidth(null), 0);
