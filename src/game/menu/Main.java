@@ -5,13 +5,14 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		launch(args);
@@ -19,27 +20,41 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		// TODO Auto-generated method stub
-		HBox root = new HBox();
-		root.setSpacing(10);
+		// TODO Auto-generated method stub;
+		MenuAssets.init();
+		VBox root = new VBox();
+		root.setAlignment(Pos.CENTER);
+		root.setSpacing(20);
 		root.setPadding(new Insets(10, 10, 10, 10));
-		root.setPrefHeight(500);
-		primaryStage.setHeight(500);
-		Button testButton = new Button("Run");
-		testButton.setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				new MyGame();
-			}
-		});
-		root.getChildren().addAll(testButton);
+		root.setPrefWidth(800);
+		root.setPrefHeight(600);
+		primaryStage.setHeight(600);
+		
+		Logo logo = new Logo();
+		ButtonPanel buttonPanel = new ButtonPanel();
+		
+//		ImageView iv1 = new ImageView(FX_retro_text_A);
+//		ImageView iv2 = new ImageView(FX_retro_text_B);
+//		ImageView iv3 = new ImageView(FX_retro_text_C);
+//		ImageView iv4 = new ImageView(FX_retro_text_D);
+//		ImageView iv5 = new ImageView(FX_retro_text_E);
+//		ImageView iv6 = new ImageView(FX_retro_text_F);
+//		ImageView iv7 = new ImageView(FX_retro_text_G);
+//		
+//		ImageView iv8 = new ImageView(FX_retro_text_H);
+//		ImageView iv9 = new ImageView(FX_retro_text_I);
+//		ImageView iv10 = new ImageView(FX_retro_text_J);
+//		ImageView iv11 = new ImageView(FX_retro_text_K);
+//		ImageView iv12 = new ImageView(FX_retro_text_L);
+//		ImageView iv13 = new ImageView(FX_retro_text_M);
+//		ImageView iv14 = new ImageView(FX_retro_text_N);
+//		logo1.getChildren().addAll(iv1, iv2, iv3, iv4, iv5, iv6, iv7);
+//		logo2.getChildren().addAll(iv8, iv9, iv10, iv11, iv12, iv13, iv14);
+		root.getChildren().addAll(logo, buttonPanel);
 		Scene scene = new Scene(root);
 		primaryStage.setTitle("JobJob Adventure");
 		primaryStage.setResizable(false);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
-
 }
