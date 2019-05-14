@@ -13,7 +13,6 @@ public class Game {
 	private final JFrame window;
 	private Canvas canvas;
 	
-	private final ScreenFactory screenFactory;
 	private final GameThread gameThread;
 	private final KeyManager keyManager;
 	private final MouseManager mouseManager;
@@ -27,7 +26,7 @@ public class Game {
 		window.setLocationRelativeTo(null); // Open window in the center of the screen
 		window.setVisible(true);
 		// System.out.println(String.format("H : %d, W : %d", window.getHeight(), window.getWidth()));
-		
+
 		canvas = new Canvas();
 		canvas.setPreferredSize(new Dimension(window_width, window_height));
 		canvas.setMaximumSize(new Dimension(window_width, window_height));
@@ -37,7 +36,6 @@ public class Game {
 		window.add(canvas);
 		window.pack();
 		
-		this.screenFactory = new ScreenFactory(this);
 		this.gameThread = new GameThread(this);
 		this.keyManager = new KeyManager();
 		this.mouseManager = new MouseManager();
@@ -63,9 +61,6 @@ public class Game {
 		return keyManager;
 	}
 
-	public ScreenFactory getScreenFactory() {
-		return this.screenFactory;
-	}
 
 	public GameThread getGameThread() {
 		return this.gameThread;

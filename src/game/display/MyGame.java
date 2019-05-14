@@ -8,7 +8,7 @@ public class MyGame {
 
 	public MyGame() {
 		this.game = new Game(800, 600, "My Game");
-		this.game.getScreenFactory().showScreen(new MyScreen(game.getScreenFactory()));
+		
 	}
 
 	public static void main(String[] args) {
