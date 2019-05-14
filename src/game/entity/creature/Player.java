@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import game.engine.Game;
 import game.engine.GameThread;
 import game.entity.creature.attacks.FireBallSpell;
 import game.entity.creature.attacks.IceShardSpell;
@@ -24,7 +23,6 @@ public class Player extends Creatures {
 			MANA_GAINED_FROM_CHARGING = 10;
 
 	private final int maxMana;
-	private final Game game;
 	private final Animation animationDown, animationUp, animationLeft, animationRight;
 	private final Animation animationDeadDown, animationDeadUp, animationDeadLeft, animationDeadRight;
 	private String currentAttack; // ICE NORMAL
@@ -37,7 +35,6 @@ public class Player extends Creatures {
 
 	public Player(GameThread gameThread, float x, float y) {
 		super(gameThread, x, y, Creatures.DEFAULT_CREATURE_WIDTH, Creatures.DEFAULT_CREATURE_HEIGHT, 1000, 6.0f);
-		this.game = gameThread.getGame();
 		this.currentAttack = "NORMAL";
 		this.mana = DEFAULT_MANA;
 		maxMana = DEFAULT_MANA;
@@ -214,23 +211,23 @@ public class Player extends Creatures {
 		xMove = 0;
 		yMove = 0;
 
-		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_W)) {
+		if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_W)) {
 			yMove = -speed;
 		}
-		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_S)) {
+		if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_S)) {
 			yMove = speed;
 		}
-		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_A)) {
+		if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_A)) {
 			xMove = -speed;
 		}
-		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_D)) {
+		if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_D)) {
 			xMove = speed;
 		}
 		// prevent player from charging mana while attacking
-		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_SPACE) && !game.getMouseManager().isLeftPressed()) {
+		if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_SPACE) && !gameThread.getMouseManager().isLeftPressed()) {
 			chargeMana();
 		}
-		if (game.getKeyManager().isKeyPressed(KeyEvent.VK_Q)) {
+		if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_Q)) {
 			// add delay to each Q pressed for 0.5 sec
 			if (!Timer.threadList.isEmpty()) {
 				if (!Timer.threadList.get(switchAttackTimer).isAlive()) {
@@ -246,7 +243,7 @@ public class Player extends Creatures {
 	}
 
 	public void getMouseInput() {
-		MouseManager mouse = game.getMouseManager();
+		MouseManager mouse = gameThread.getMouseManager();
 		if (mouse.isLeftPressed()) {
 			attack();
 		}
@@ -316,12 +313,12 @@ public class Player extends Creatures {
 	}
 
 	public void getFacingDirectionFromMouse() {
-		MouseManager mouse = gameThread.getGame().getMouseManager();
+		MouseManager mouse = gameThread .getMouseManager();
 		float mouseX = mouse.getMouseX();
 		float mouseY = mouse.getMouseY();
 		// if we use getWindow().getWidth() will return window's width + border size
-		float windowW = gameThread.getGame().getWindow().getContentPane().getSize().width;
-		float windowH = gameThread.getGame().getWindow().getContentPane().getSize().height;
+		float windowW = gameThread .getWindow().getContentPane().getSize().width;
+		float windowH = gameThread.getWindow().getContentPane().getSize().height;
 		if ((mouseY > (-windowH / windowW) * mouseX + windowH) && (mouseY < windowH / windowW * mouseX)) {
 			facingDirection = "RIGHT";
 		} else if ((mouseY > (-windowH / windowW) * mouseX + windowH) && (mouseY > windowH / windowW * mouseX)) {
