@@ -22,8 +22,6 @@ public class EntityManager {
 	private GameThread gameThread;
 	private Player player;
 	private ArrayList<Entity> entities;
-	private ArrayList<Creatures> waveCreatures;
-	private MinionSpawner bigBlobSpawner;
 	private CenterFloatingCrystal centerCrystal;
 	private WaveManager waveManager;
 
@@ -40,14 +38,13 @@ public class EntityManager {
 		this.gameThread = gameThread;
 		this.player = player;
 
-		waveCreatures = new ArrayList<Creatures>();
 		waveManager = new WaveManager(gameThread);
 
 		entities = new ArrayList<Entity>();
 		addEntity(player);
-		centerCrystal = new CenterFloatingCrystal(gameThread, 600, 600, 100, 300);
+		centerCrystal = new CenterFloatingCrystal(gameThread, 950, 800, 100, 300);
 		addEntity(centerCrystal);
-		addEntity(new Tree(gameThread, 550, 200, 60, 75));
+//		addEntity(new Tree(gameThread, 550, 200, 60, 75));
 //		addEntity(new BigBlob(gameThread, 100, 400));
 //		addEntity(new BigBlob(gameThread, 800, 400));
 //		addEntity(new SmallBlob(gameThread, 200, 600));

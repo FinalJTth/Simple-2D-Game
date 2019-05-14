@@ -140,15 +140,6 @@ public class GameThread implements Runnable {
 
 	}
 
-	/*
-	 * @Override public void paint(Graphics g) { super.paint(g); Graphics2D g2d =
-	 * (Graphics2D) g; // Graphics2D is more powerful than Graphics
-	 * g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-	 * RenderingHints.VALUE_ANTIALIAS_ON); // Keep game from // lagging if
-	 * (game.getScreenFactory().getCurrentScreen() != null) {
-	 * game.getScreenFactory().getCurrentScreen().onDraw(g2d); } repaint(); }
-	 */
-
 	public void setGameState() {
 		State.setState(gameState);
 	}
@@ -163,7 +154,6 @@ public class GameThread implements Runnable {
 		System.out.println("Paused");
 	}
 
-	// replace getFPS with this one. currentFPS was set in thread loop
 	public int getCurrentFPS() {
 		return currentFPS;
 	}
