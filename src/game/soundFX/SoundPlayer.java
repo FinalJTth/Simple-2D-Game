@@ -13,6 +13,7 @@ import game.engine.GameThread;
 import javafx.application.Platform;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
 
 public class SoundPlayer {
 
@@ -27,21 +28,25 @@ public class SoundPlayer {
 		isPlaying = false;
 		Media hit = new Media(new File("res/" + path).toURI().toString());
 		Platform.runLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
 				mediaPlayer = new MediaPlayer(hit);
-				System.out.println(mediaPlayer);
 			}
 		});
 	}
-	
+
 	public void playSound() {
-		if (!isPlaying) {
-			mediaPlayer.play();
-			isPlaying = true;
-		}
-		
+		mediaPlayer.play();
+
+//		if (!isPlaying) {
+//			mediaPlayer.play();
+//			isPlaying = true;
+//		} else if (mediaPlayer.getStatus() == Status.STOPPED) {
+//			isPlaying = false;
+//			mediaPlayer.seek(mediaPlayer.getStartTime());
+//		}
+
 	}
 }

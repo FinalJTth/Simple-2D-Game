@@ -50,7 +50,6 @@ public abstract class ProjectileAttacks {
 			isFiring = true;
 			isCooledDown = false;
 		}
-		System.out.println(isCooledDown);
 	}
 	
 	public abstract void update();

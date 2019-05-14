@@ -110,7 +110,6 @@ public class WaveManager {
 			}
 		}
 		waveCreatures.remove(0);
-		System.out.println(out);
 		return out;
 	}
 }

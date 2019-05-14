@@ -1,21 +1,24 @@
 package game.entity.creature.attacks;
 
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 
 import game.engine.GameThread;
 import game.entity.creature.Creatures;
-import game.graphics.Animation;
 import game.graphics.Assets;
 import game.graphics.TemporaryAnimation;
+import game.soundFX.RepeatingSoundPlayer;
+import game.soundFX.SoundPlayer;
 
 public class NormalBlast extends ProjectileAttacks {
+	
+	private SoundPlayer pewpew;
 
 	public NormalBlast(GameThread gameThread, Creatures source) {
 		super(gameThread, source, 12.0f, 20, 0, 0);
 
 		animationFiring = new TemporaryAnimation(10, Assets.blast_firing);
 		animationHit = new TemporaryAnimation(20, Assets.blast_hit);
+		pewpew = new RepeatingSoundPlayer(gameThread, "sound/pew.wav");
 	}
 
 	@Override
@@ -30,6 +33,7 @@ public class NormalBlast extends ProjectileAttacks {
 				firedBullet.add(new ScatterSpellBullet(gameThread, Assets.blast_bullet, Assets.blast_hit, 30,
 						source.getFacingDirection(), speed, damage, source.getxPos() + xOffset,
 						source.getyPos() + yOffset, createBoundingBox(30, 24)));
+				pewpew.playSound();
 			}
 		}
 		cooldownTimer();
