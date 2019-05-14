@@ -1,11 +1,11 @@
 package game.display;
 
-import game.engine.Game;
+import game.engine.GameThread;
 
 public class MyGame {
-
+	
 	public MyGame() {
-		new Game(800, 600, "My Game");
+		new Thread(new GameThread()).start();
 	}
 
 	public static void main(String[] args) {

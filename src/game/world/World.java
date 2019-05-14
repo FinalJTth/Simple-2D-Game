@@ -35,11 +35,11 @@ public class World {
 		// render only tiles that player can see (on camera)
 		int rowStart = (int) Math.max(0, gameThread.getGameCamera().getxOffset() / Tile.TILE_WIDTH);
 		int rowEnd = (int) Math.min(width,
-				(gameThread.getGameCamera().getxOffset() + gameThread.getGame().getWindow().getWidth())
+				(gameThread.getGameCamera().getxOffset() + gameThread.getWindow().getWidth())
 						/ Tile.TILE_WIDTH + 1);
 		int colStart = (int) Math.max(0, gameThread.getGameCamera().getyOffset() / Tile.TILE_HEIGHT);
 		int colEnd = (int) Math.min(height,
-				(gameThread.getGameCamera().getyOffset() + gameThread.getGame().getWindow().getHeight())
+				(gameThread.getGameCamera().getyOffset() + gameThread.getWindow().getHeight())
 						/ Tile.TILE_HEIGHT + 1);
 
 		for (int row = rowStart; row < rowEnd; row++) {

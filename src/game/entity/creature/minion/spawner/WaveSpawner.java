@@ -9,11 +9,11 @@ import game.entity.creature.minion.BigBlob;
 
 public class WaveSpawner extends MinionSpawner {
 
-	private static final int DELAY = 5000;
+	private static final int DELAY = 1000;
 	
 	private ArrayList<Creatures> minionToSpawn;
 	private int minionIndex;
-	private final float xPos1 = 200, yPos1 = 200, xPos2 = 1000, yPos2 = 200, xPos3 = 200, yPos3 = 1000, xPos4 = 1000, yPos4 = 1000;
+	private final float xPos1 = 200, yPos1 = 200, xPos2 = 1600, yPos2 = 200, xPos3 = 200, yPos3 = 1600, xPos4 = 1600, yPos4 = 1600;
 
 	public WaveSpawner(GameThread gameThread, ArrayList<Creatures> minionToSpawn) {
 		super(gameThread, 0, 0);

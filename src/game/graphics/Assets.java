@@ -2,8 +2,7 @@ package game.graphics;
 
 import java.awt.image.BufferedImage;
 
-import com.sun.org.apache.bcel.internal.util.ClassLoader;
-
+import game.utils.ImageLoader;
 import game.utils.Utils;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;

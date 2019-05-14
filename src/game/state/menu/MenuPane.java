@@ -49,7 +49,7 @@ public class MenuPane extends VBox {
 			
 			@Override
 			public void handle(ActionEvent e) {
-				MenuPane.this.gameThread.getGame().getWindow().dispose();
+				MenuPane.this.gameThread.getWindow().dispose();
 			}
 		});
 		

@@ -9,6 +9,7 @@ import game.engine.GameThread;
 import game.entity.creature.Creatures;
 import game.entity.creature.minion.BigBlob;
 import game.entity.creature.minion.SmallBlob;
+import game.exception.OutOfWaveException;
 
 public class WaveManager {
 
@@ -64,11 +65,18 @@ public class WaveManager {
 
 	private void handleWaveChange() {
 		if (!gameThread.getWorld().getEntityManager().isAnyCreatureAlive()) {
-			spawner = new WaveSpawner(gameThread, createCreatureListFromNumber());
+			try {
+				spawner = new WaveSpawner(gameThread, createCreatureListFromNumber());
+			} catch (OutOfWaveException e) {
+				System.out.println("out of waves");
+			}
+			
 		}
 	}
 
-	private ArrayList<Creatures> createCreatureListFromNumber() {
+	private ArrayList<Creatures> createCreatureListFromNumber() throws OutOfWaveException {
+		if (waveCreatures.size() == 0)
+			throw new OutOfWaveException();
 		ArrayList<Integer> list = waveCreatures.peek();
 		ArrayList<Creatures> out = new ArrayList<Creatures>();
 		float xPos = 0, yPos = 0;
@@ -76,20 +84,20 @@ public class WaveManager {
 			int creatureID = list.get(i);
 			switch (i % 4 + 1) { // split creature to 4 portal
 			case 1: // upper left
-				xPos = 200;
-				yPos = 200;
+				xPos = 250;
+				yPos = 230;
 				break;
 			case 2: // upper right
-				xPos = 1000;
-				yPos = 200;
+				xPos = 1630;
+				yPos = 250;
 				break;
 			case 3: // lower left
-				xPos = 200;
-				yPos = 1000;
+				xPos = 250;
+				yPos = 1620;
 				break;
 			case 4: // lower right
-				xPos = 1000;
-				yPos = 1000;
+				xPos = 1630;
+				yPos = 1630;
 				break;
 			}
 			switch (creatureID) {
@@ -102,7 +110,6 @@ public class WaveManager {
 			}
 		}
 		waveCreatures.remove(0);
-		System.out.println(out);
 		return out;
 	}
 }

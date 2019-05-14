@@ -7,7 +7,7 @@ import game.tile.Tile;
 public class GameCamera {
 
 	private float xOffset, yOffset;
-	private GameThread gameThread;
+	private final GameThread gameThread;
 
 	public GameCamera(GameThread gameThread, float xOffset, float yOffset) {
 		this.gameThread = gameThread;
@@ -17,8 +17,8 @@ public class GameCamera {
 
 	// set camera to follow entity
 	public void focusCameraOnEntity(Entity e) {
-		xOffset = e.getxPos() - gameThread.getGame().getWindow().getWidth() / 2 + e.getWidth() / 2;
-		yOffset = e.getyPos() - gameThread.getGame().getWindow().getHeight() / 2 + e.getHeight() / 2;
+		xOffset = e.getxPos() - gameThread .getWindow().getWidth() / 2 + e.getWidth() / 2;
+		yOffset = e.getyPos() - gameThread .getWindow().getHeight() / 2 + e.getHeight() / 2;
 
 		checkBlankSpace();
 	}
@@ -28,16 +28,16 @@ public class GameCamera {
 		if (xOffset < 0) {
 			xOffset = 0;
 		} else if (xOffset > gameThread.getGameState().getWorld().getWidth() * Tile.TILE_WIDTH
-				- gameThread.getGame().getWindow().getWidth()) {
+				- gameThread .getWindow().getWidth()) {
 			xOffset = gameThread.getGameState().getWorld().getWidth() * Tile.TILE_WIDTH
-					- gameThread.getGame().getWindow().getWidth();
+					- gameThread .getWindow().getWidth();
 		}
 		if (yOffset < 0) {
 			yOffset = 0;
 		} else if (yOffset > gameThread.getGameState().getWorld().getHeight() * Tile.TILE_HEIGHT
-				- gameThread.getGame().getWindow().getHeight()) {
+				- gameThread .getWindow().getHeight()) {
 			yOffset = gameThread.getGameState().getWorld().getHeight() * Tile.TILE_HEIGHT
-					- gameThread.getGame().getWindow().getHeight();
+					- gameThread.getWindow().getHeight();
 		}
 	}
 

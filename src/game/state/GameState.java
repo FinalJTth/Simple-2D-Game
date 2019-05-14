@@ -9,6 +9,7 @@ import game.engine.GameThread;
 import game.entity.creature.Player;
 import game.entity.statics.Tree;
 import game.graphics.Assets;
+import game.soundFX.SoundPlayer;
 import game.tile.Tile;
 import game.world.World;
 
@@ -24,12 +25,13 @@ public class GameState extends State {
 
 	@Override
 	public void update() {
-		gameThread.getGame().getKeyManager().update();
+		gameThread.getKeyManager().update();
 		world.update();
-		if (gameThread.getGame().getKeyManager().isKeyPressed(KeyEvent.VK_ESCAPE)) {
+		if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_ESCAPE)) {
 			gameThread.togglePauseGame();
 			gameThread.setMenuState();
 		}
+		SoundPlayer.bgm.playNonStop();
 	}
 
 	@Override
@@ -48,10 +50,10 @@ public class GameState extends State {
 				(int) (world.getEntityManager().getPlayer().getyPos()
 						+ world.getEntityManager().getPlayer().getHeight() / 2
 						- gameThread.getGameCamera().getyOffset()),
-				gameThread.getGame().getMouseManager().getMouseX(), gameThread.getGame().getMouseManager().getMouseY());
+				gameThread.getMouseManager().getMouseX(), gameThread.getMouseManager().getMouseY());
 		g2d.setStroke(defaultStroke);
-		g2d.drawImage(Assets.crosshair, gameThread.getGame().getMouseManager().getMouseX() - 25,
-				gameThread.getGame().getMouseManager().getMouseY() - 25, 50, 50, null);
+		g2d.drawImage(Assets.crosshair, gameThread.getMouseManager().getMouseX() - 25,
+				gameThread.getMouseManager().getMouseY() - 25, 50, 50, null);
 	}
 
 	public World getWorld() {

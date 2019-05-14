@@ -1,13 +1,13 @@
 package game.entity.creature.attacks;
 
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 
 import game.engine.GameThread;
 import game.entity.creature.Creatures;
-import game.graphics.Animation;
 import game.graphics.Assets;
 import game.graphics.TemporaryAnimation;
+import game.soundFX.RepeatingSoundPlayer;
+import game.soundFX.SoundPlayer;
 
 public class NormalBlast extends ProjectileAttacks {
 
@@ -30,11 +30,11 @@ public class NormalBlast extends ProjectileAttacks {
 				firedBullet.add(new ScatterSpellBullet(gameThread, Assets.blast_bullet, Assets.blast_hit, 30,
 						source.getFacingDirection(), speed, damage, source.getxPos() + xOffset,
 						source.getyPos() + yOffset, createBoundingBox(30, 24)));
+				SoundPlayer.pewpew.playSound();
 			}
-			updateAllBullets();
-		} else {
-			updateAllBullets();
 		}
+		cooldownTimer();
+		updateAllBullets();
 	}
 
 	@Override
