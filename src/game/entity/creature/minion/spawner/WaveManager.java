@@ -9,6 +9,7 @@ import game.engine.GameThread;
 import game.entity.creature.Creatures;
 import game.entity.creature.minion.BigBlob;
 import game.entity.creature.minion.SmallBlob;
+import game.exception.OutOfWaveException;
 
 public class WaveManager {
 
@@ -64,11 +65,18 @@ public class WaveManager {
 
 	private void handleWaveChange() {
 		if (!gameThread.getWorld().getEntityManager().isAnyCreatureAlive()) {
-			spawner = new WaveSpawner(gameThread, createCreatureListFromNumber());
+			try {
+				spawner = new WaveSpawner(gameThread, createCreatureListFromNumber());
+			} catch (OutOfWaveException e) {
+				System.out.println("out of waves");
+			}
+			
 		}
 	}
 
-	private ArrayList<Creatures> createCreatureListFromNumber() {
+	private ArrayList<Creatures> createCreatureListFromNumber() throws OutOfWaveException {
+		if (waveCreatures.size() == 0)
+			throw new OutOfWaveException();
 		ArrayList<Integer> list = waveCreatures.peek();
 		ArrayList<Creatures> out = new ArrayList<Creatures>();
 		float xPos = 0, yPos = 0;

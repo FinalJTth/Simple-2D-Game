@@ -27,10 +27,9 @@ public class Player extends Creatures {
 	private final Animation animationDeadDown, animationDeadUp, animationDeadLeft, animationDeadRight;
 	private String currentAttack; // ICE NORMAL
 	private int attackCoolDown, mana, switchAttackTimer;
-	private long lastTimeCoolDown, attackCoolDownTimer, knockBackTimer, lastTimeKnockBack, chargeManaTimer,
-			lastTimeChargeMana;
+	private long knockBackTimer, lastTimeKnockBack, chargeManaTimer, lastTimeChargeMana;
 	private boolean isBeingKnockedBack;
-	
+
 	private ArrayList<ProjectileAttacks> attackList = new ArrayList<ProjectileAttacks>();
 
 	public Player(GameThread gameThread, float x, float y) {
@@ -61,7 +60,6 @@ public class Player extends Creatures {
 		attackList.add(new IceShardSpell(gameThread, this));
 		attackList.add(new NormalBlast(gameThread, this));
 		attackList.add(new FireBallSpell(gameThread, this));
-		
 
 		switchAttackTimer = 0;
 	}
@@ -92,7 +90,7 @@ public class Player extends Creatures {
 			}
 		}
 	}
-	
+
 	private void updateAttack() {
 		for (ProjectileAttacks atk : attackList) {
 			atk.update();
@@ -210,7 +208,8 @@ public class Player extends Creatures {
 			xMove = speed;
 		}
 		// prevent player from charging mana while attacking
-		if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_SPACE) && !gameThread.getMouseManager().isLeftPressed()) {
+		if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_SPACE)
+				&& !gameThread.getMouseManager().isLeftPressed()) {
 			chargeMana();
 		}
 		if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_Q)) {
@@ -299,11 +298,11 @@ public class Player extends Creatures {
 	}
 
 	public void getFacingDirectionFromMouse() {
-		MouseManager mouse = gameThread .getMouseManager();
+		MouseManager mouse = gameThread.getMouseManager();
 		float mouseX = mouse.getMouseX();
 		float mouseY = mouse.getMouseY();
 		// if we use getWindow().getWidth() will return window's width + border size
-		float windowW = gameThread .getWindow().getContentPane().getSize().width;
+		float windowW = gameThread.getWindow().getContentPane().getSize().width;
 		float windowH = gameThread.getWindow().getContentPane().getSize().height;
 		if ((mouseY > (-windowH / windowW) * mouseX + windowH) && (mouseY < windowH / windowW * mouseX)) {
 			facingDirection = "RIGHT";
