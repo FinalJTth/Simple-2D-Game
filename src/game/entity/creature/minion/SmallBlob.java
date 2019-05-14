@@ -8,6 +8,7 @@ import game.engine.GameThread;
 import game.graphics.Animation;
 import game.graphics.Assets;
 import game.graphics.TemporaryAnimation;
+import game.soundFX.SoundPlayer;
 import game.utils.Utils;
 
 public class SmallBlob extends CrystalAttackingMinion {
@@ -16,6 +17,7 @@ public class SmallBlob extends CrystalAttackingMinion {
 
 	private TemporaryAnimation animationExplode;
 	private boolean isExploding;
+	private SoundPlayer deadSFX;
 
 	public SmallBlob(GameThread gameThread, float xPos, float yPos) {
 		super(gameThread, xPos, yPos, 100, 100, 150, 1.0f, 100, 10);
@@ -36,6 +38,8 @@ public class SmallBlob extends CrystalAttackingMinion {
 		animationWalk = new Animation(100, Assets.small_blob_walk);
 		animationDead = new TemporaryAnimation(100, Assets.small_blob_dead);
 		animationExplode = new TemporaryAnimation(1000 / 60, Assets.small_blob_explosion);
+		
+		deadSFX = new SoundPlayer(gameThread, "sound/smallBomb.mp3");
 	}
 
 	@Override
@@ -57,6 +61,7 @@ public class SmallBlob extends CrystalAttackingMinion {
 			} else
 				moveToCrystal();
 		} else if (isExploding) {
+			deadSFX.playSound();
 			animationExplode.timerCounter();
 			if (animationExplode.isDone())
 				gameThread.getWorld().getEntityManager().removeEntity(this);
