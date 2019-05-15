@@ -1,6 +1,6 @@
 package game.menu;
 
-import game.display.MyGame;
+import game.engine.GameThread;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -26,7 +26,7 @@ public class ButtonPanel extends VBox {
 			@Override
 			public void handle(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				new MyGame();
+				new Thread(new GameThread()).start();
 			}
 		});
 		
