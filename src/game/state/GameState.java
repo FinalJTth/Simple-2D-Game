@@ -31,7 +31,7 @@ public class GameState extends State {
 			gameThread.togglePauseGame();
 			gameThread.setMenuState();
 		}
-		SoundPlayer.bgm.playNonStop();
+//		SoundPlayer.bgm.playNonStop();
 	}
 
 	@Override

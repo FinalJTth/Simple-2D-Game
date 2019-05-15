@@ -16,13 +16,14 @@ public class SmallBlob extends CrystalAttackingMinion {
 	private static final int DEFAULT_WIDHT = 50, DEFAULT_HEIGHT = 50;
 
 	private TemporaryAnimation animationExplode;
-	private boolean isExploding;
+	private boolean isExploding, isPlayingSound;
 
 	public SmallBlob(GameThread gameThread, float xPos, float yPos) {
 		super(gameThread, xPos, yPos, 100, 100, 150, 1.0f, 100, 10);
 
 		chaseRange = 300;
 		isExploding = false;
+		isPlayingSound = false;
 		// System.out.println(String.format("x : %d, y : %d", bounds.x, bounds.y));
 		// System.out.println(String.format("w : %d, h : %d", bounds.width,
 		// bounds.height));
@@ -59,7 +60,11 @@ public class SmallBlob extends CrystalAttackingMinion {
 			} else
 				moveToCrystal();
 		} else if (isExploding) {
-			SoundPlayer.small_explosion.playSound();
+			if (!isPlayingSound) {
+				SoundPlayer.small_explosion.playSound();
+				isPlayingSound = true;
+			}
+				
 			animationExplode.timerCounter();
 			if (animationExplode.isDone())
 				gameThread.getWorld().getEntityManager().removeEntity(this);
