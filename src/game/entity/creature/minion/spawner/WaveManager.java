@@ -84,7 +84,6 @@ public class WaveManager {
 				isTimerStarted = true;
 			}
 			if (Timer.getCurrentTime() - timer > DELAY_WAVE) {
-				System.out.println(Timer.getCurrentTime() - timer);
 
 				try {
 					spawner = new WaveSpawner(gameThread, createCreatureListFromNumber());

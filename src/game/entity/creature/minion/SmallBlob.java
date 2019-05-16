@@ -91,8 +91,8 @@ public class SmallBlob extends CrystalAttackingMinion {
 			g2d.fillRect((int) (xPos + bounds.x - gameThread.getGameCamera().getxOffset()),
 					(int) (yPos + bounds.y - 20 - gameThread.getGameCamera().getyOffset()), (int) getHealthBarWidth(),
 					8);
-			g2d.drawRect((int) (xPos + bounds.x - gameThread.getGameCamera().getxOffset()),
-					(int) (yPos + bounds.y - gameThread.getGameCamera().getyOffset()), bounds.width, bounds.height);
+//			g2d.drawRect((int) (xPos + bounds.x - gameThread.getGameCamera().getxOffset()),
+//					(int) (yPos + bounds.y - gameThread.getGameCamera().getyOffset()), bounds.width, bounds.height);
 		} else {
 			g2d.drawImage(animationDead.getCurrentFrame(), (int) (xPos - gameThread.getGameCamera().getxOffset()),
 					(int) (yPos - gameThread.getGameCamera().getyOffset()), width, height, null);

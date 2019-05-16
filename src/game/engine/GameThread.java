@@ -168,26 +168,11 @@ public class GameThread implements Runnable {
 			getWorld().getEntityManager().getPlayer().drawPlayerHUD(g2d);
 		} 
 		// draw guide line
-		g2d.drawLine(window.getWidth() / 2, 0, window.getWidth() / 2, window.getHeight());
-		g2d.drawLine(0, window.getHeight() / 2, window.getWidth(),
-				window.getHeight() / 2);
+//		g2d.drawLine(window.getWidth() / 2, 0, window.getWidth() / 2, window.getHeight());
+//		g2d.drawLine(0, window.getHeight() / 2, window.getWidth(),
+//				window.getHeight() / 2);
 
-		g2d.drawString(Integer.toString(currentFPS), 10, 10);
-
-		// for debugging
-		for (Shape s : Utils.shapeToRender) {
-			g2d.draw(s);
-		}
-		int x = 0, y = 0;
-		for (BufferedImage img : Utils.imageToRender) {
-			g2d.drawImage(img, x, y, null);
-			x += img.getWidth();
-			if (x >= window.getContentPane().getSize().width) {
-				y += img.getHeight();
-				x = 0;
-			}
-		}
-		// end debugging
+//		g2d.drawString(Integer.toString(currentFPS), 10, 10);
 		
 		// end drawing
 		bs.show();

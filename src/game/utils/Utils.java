@@ -25,20 +25,6 @@ import game.entity.creature.Player;
 
 public class Utils {
 
-	
-
-	public static ArrayList<Shape> shapeToRender = new ArrayList<Shape>();
-
-	public static void addToRenderShape(Shape s) {
-		shapeToRender.add(s);
-	}
-
-	public static ArrayList<BufferedImage> imageToRender = new ArrayList<BufferedImage>();
-
-	public static void addToRenderImg(BufferedImage img) {
-		imageToRender.add(img);
-	}
-
 	public static String loadFileAsString(String path) {
 		StringBuilder builder = new StringBuilder(); // help adding character to string
 
@@ -96,18 +82,6 @@ public class Utils {
 		g2d.dispose();
 
 		return dimg;
-	}
-
-	// debugging stuff
-	public static void printAllEntities(GameThread gameThread) {
-		for (Entity e : gameThread.getWorld().getEntityManager().getEntities()) {
-			System.out.println(e);
-		}
-	}
-
-	public static void printPlayerXYCoords(GameThread gameThread) {
-		Player player = gameThread.getWorld().getEntityManager().getPlayer();
-		System.out.println("X : " + player.getxPos() + ", Y : " + player.getyPos());
 	}
 
 }
