@@ -90,4 +90,20 @@ public class ButtonPanel extends VBox {
 		this.exitButton = exitButton;
 	}
 
+	public MenuButton getSoundToggleButton() {
+		return soundToggleButton;
+	}
+
+	public void setSoundToggleButton(MenuButton soundToggleButton) {
+		this.soundToggleButton = soundToggleButton;
+	}
+
+	public GameThread getGameThread() {
+		return gameThread;
+	}
+
+	public void setGameThread(GameThread gameThread) {
+		this.gameThread = gameThread;
+	}
+
 }
