@@ -18,14 +18,14 @@ import javafx.scene.media.MediaPlayer.Status;
 public class SoundPlayer {
 	
 	public static SoundPlayer small_explosion;
-	public static RepeatingSoundPlayer pewpew;
+	public static SoundPlayer pewpew;
 	public static SoundPlayer bgm, menuBgm;
 	
 	protected static boolean isSoundOFF = false;
 	
 	public static void initGameSound() {
 		small_explosion = new SoundPlayer("sound/smallBomb.mp3");
-		pewpew = new RepeatingSoundPlayer("sound/pew.wav");
+		pewpew = new SoundPlayer("sound/pew.wav");
 		bgm = new SoundPlayer("sound/bgm.mp3");
 	}
 	
