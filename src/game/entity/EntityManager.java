@@ -114,4 +114,7 @@ public class EntityManager {
 		return centerCrystal;
 	}
 
+	public WaveManager getWaveManager() {
+		return waveManager;
+	}
 }

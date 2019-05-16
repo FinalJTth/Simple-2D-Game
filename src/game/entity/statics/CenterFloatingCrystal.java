@@ -10,11 +10,13 @@ public class CenterFloatingCrystal extends FloatingCrystal {
 
 	private final int maxHealth;
 	private int health;
+	private float defense;
 	private boolean isAlive;
 
 	public CenterFloatingCrystal(GameThread gameThread, float xPos, float yPos, int width, int height) {
 		super(gameThread, xPos, yPos, width, height);
 		health = 10000;
+		defense = 0;	// as % of damageTaken
 		maxHealth = health;
 		bounds.height = 0;
 		bounds.width = 0;
@@ -22,10 +24,14 @@ public class CenterFloatingCrystal extends FloatingCrystal {
 	}
 
 	public void hurt(int damageTaken) {
-		health -= damageTaken;
+		health -= damageTaken - defense * damageTaken;
 		if (health <= 0) {
 			isAlive = false;
 		}
+	}
+	
+	public void upgradeDefense() {
+		defense += 0.1;
 	}
 
 	@Override

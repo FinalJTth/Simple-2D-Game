@@ -16,14 +16,13 @@ import game.graphics.Animation;
 import game.graphics.Assets;
 import game.graphics.TemporaryAnimation;
 import game.listener.MouseManager;
-import game.utils.Timer;;
 
 public class Player extends Creatures {
 
 	private static final int ANIMATION_SPEED = 200, DEFAULT_MANA = 100, CHARGE_MANA_TIME = 500,
 			MANA_GAINED_FROM_CHARGING = 10;
 
-	private final int maxMana;
+	private int maxMana;
 	private final Animation animationDown, animationUp, animationLeft, animationRight;
 	private final Animation animationDeadDown, animationDeadUp, animationDeadLeft, animationDeadRight;
 	private String currentAttack; // ICE NORMAL
@@ -110,6 +109,19 @@ public class Player extends Creatures {
 				mana += MANA_GAINED_FROM_CHARGING;
 			}
 			chargeManaTimer = 0;
+		}
+	}
+	
+	// Upgrade player
+	
+	public void addMaxMana(int mana) {
+		this.maxMana += mana;
+		this.mana = maxMana;
+	}
+	
+	public void upgradeAttack() {
+		for (ProjectileAttacks atk : attackList) {
+			atk.setDamage((int) (atk.getDamage() + atk.getDamage() * 0.12));
 		}
 	}
 
@@ -336,5 +348,9 @@ public class Player extends Creatures {
 			facingDirection = "LEFT";
 		}
 
+	}
+	
+	public int getMaxMana() {
+		return maxMana;
 	}
 }

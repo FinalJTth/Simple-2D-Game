@@ -1,10 +1,12 @@
 package game.entity.creature.minion.spawner;
 
-
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+
+import com.sun.glass.events.KeyEvent;
 
 import game.engine.GameThread;
 import game.entity.creature.Creatures;
@@ -21,13 +23,14 @@ public class WaveManager {
 	private LinkedList<ArrayList<Integer>> waveCreatures;
 	private WaveSpawner spawner;
 	private long timer;
-	private boolean isTimerStarted;
+	private boolean isTimerStarted, isUpgraded;
 	private int waveNo;
 
 	public WaveManager(GameThread gameThread) {
 		this.gameThread = gameThread;
 		Timer.newGameTimer();
 		waveNo = 2;
+		isUpgraded = false;
 
 		waveCreatures = new LinkedList<ArrayList<Integer>>();
 		// wave 0
@@ -46,20 +49,21 @@ public class WaveManager {
 		waveCreatures
 				.add(new ArrayList<Integer>(Arrays.asList(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1)));
 		// wave 5
-		waveCreatures
-				.add(new ArrayList<Integer>(Arrays.asList(1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0)));
+		waveCreatures.add(new ArrayList<Integer>(
+				Arrays.asList(1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0)));
 		// wave 6
-		waveCreatures
-				.add(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
+		waveCreatures.add(new ArrayList<Integer>(
+				Arrays.asList(1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)));
 		// wave 7
-		waveCreatures
-				.add(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
+		waveCreatures.add(new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0,
+				0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1)));
 		// wave 8
 		waveCreatures
-				.add(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
+				.add(new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)));
 		// wave 9
-		waveCreatures
-				.add(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
+		waveCreatures.add(new ArrayList<Integer>(Arrays.asList(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+				1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1,
+				0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0)));
 
 		try {
 			spawner = new WaveSpawner(gameThread, createCreatureListFromNumber());
@@ -77,18 +81,35 @@ public class WaveManager {
 
 	public void render(Graphics2D g2d) {
 		spawner.render(g2d);
-
+		if (!gameThread.getWorld().getEntityManager().isAnyCreatureAlive() && !isUpgraded) {
+			g2d.setFont(new Font("Sans Serif", Font.PLAIN, 24));
+			g2d.drawString("press up arrow to upgrade attack", 280, 300);
+			g2d.drawString("press down arrow to increase mana", 280, 340);
+			g2d.drawString("press left arrow to upgrade crystal's defense", 280, 380);
+		}
 	}
 
 	private void handleWaveChange() {
 		if (!gameThread.getWorld().getEntityManager().isAnyCreatureAlive()) {
-
+			if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_UP) && !isUpgraded) {
+				gameThread.getWorld().getEntityManager().getPlayer()
+						.addMaxMana(gameThread.getWorld().getEntityManager().getPlayer().getMaxMana() - 50);
+				isUpgraded = true;
+			} else if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_DOWN) && !isUpgraded) {
+				gameThread.getWorld().getEntityManager().getPlayer().upgradeAttack();
+				isUpgraded = true;
+			} else if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_LEFT) && !isUpgraded) {
+				gameThread.getWorld().getEntityManager().getCenterCrystal().upgradeDefense();
+				isUpgraded = true;
+			}
 			if (!isTimerStarted) {
 				timer = Timer.getCurrentTime();
 				isTimerStarted = true;
 			}
 			if (Timer.getCurrentTime() - timer > DELAY_WAVE) {
 				waveNo++;
+				isUpgraded = false;
+				isTimerStarted = false;
 				try {
 					spawner = new WaveSpawner(gameThread, createCreatureListFromNumber());
 				} catch (OutOfWaveException e) {

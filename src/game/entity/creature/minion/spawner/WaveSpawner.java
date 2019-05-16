@@ -11,7 +11,7 @@ import game.graphics.Assets;
 
 public class WaveSpawner {
 
-	private static final int DELAY = 5000;
+	private static final int DELAY = 1000;
 	
 	protected final Animation portal;
 	protected final GameThread gameThread;
@@ -51,7 +51,7 @@ public class WaveSpawner {
 		timer += System.currentTimeMillis() - lastTime;
 		lastTime = System.currentTimeMillis();
 
-		if (timer > DELAY) {
+		if (timer > DELAY - gameThread.getWorld().getEntityManager().getWaveManager().getWaveNo() * 250) {
 			timer = 0;
 			if (minionIndex < minionToSpawn.size()) {
 				for (int i = 0; i<4 ;i++) {

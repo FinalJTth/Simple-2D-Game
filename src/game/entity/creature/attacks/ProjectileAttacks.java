@@ -15,9 +15,10 @@ import game.utils.Utils;
 public abstract class ProjectileAttacks {
 
 	protected GameThread gameThread;
-	protected final int damage, manaCost;
+	protected final int manaCost;
 	protected final float speed;
 
+	protected int damage;
 	protected float xPos, yPos;
 	protected boolean isFiring;
 	protected Creatures source;
@@ -78,5 +79,13 @@ public abstract class ProjectileAttacks {
 
 	public int getManaCost() {
 		return manaCost;
+	}
+
+	public void setDamage(int damage) {
+		this.damage = damage;
+	}
+	
+	public int getDamage() {
+		return damage;
 	}
 }
