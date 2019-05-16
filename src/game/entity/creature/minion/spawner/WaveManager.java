@@ -80,13 +80,13 @@ public class WaveManager {
 	}
 
 	public void render(Graphics2D g2d) {
-		spawner.render(g2d);
 		if (!gameThread.getWorld().getEntityManager().isAnyCreatureAlive() && !isUpgraded) {
 			g2d.setFont(new Font("Sans Serif", Font.PLAIN, 24));
 			g2d.drawString("press up arrow to upgrade attack", 240, 300);
 			g2d.drawString("press down arrow to increase mana", 240, 340);
 			g2d.drawString("press left arrow to upgrade crystal's defense", 240, 380);
 		}
+		spawner.render(g2d);
 	}
 
 	private void handleWaveChange() {
