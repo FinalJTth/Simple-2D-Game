@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import game.engine.GameThread;
+import game.entity.Collidable;
 import game.entity.Entity;
 import game.entity.creature.Creatures;
 import game.entity.creature.Player;
@@ -14,7 +15,7 @@ import game.graphics.Animation;
 import game.graphics.TemporaryAnimation;
 import game.utils.Utils;
 
-public class SpellBullet {
+public class SpellBullet implements Collidable {
 
 	private final float speed;
 	private final int damage;
@@ -93,7 +94,7 @@ public class SpellBullet {
 		}
 	}
 
-	protected boolean checkEntityCollision(float xOffset, float yOffset) {
+	public boolean checkEntityCollision(float xOffset, float yOffset) {
 		for (Entity e : gameThread.getWorld().getEntityManager().getEntities()) {
 			if (e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset))) {
 				if (e instanceof Player)
@@ -108,7 +109,7 @@ public class SpellBullet {
 		return false;
 	}
 
-	protected Rectangle getCollisionBounds(float xOffset, float yOffset) {
+	public Rectangle getCollisionBounds(float xOffset, float yOffset) {
 		return new Rectangle((int) (xPos + bounds.x + xOffset), (int) (yPos + bounds.y + yOffset), bounds.width,
 				bounds.height);
 	}

@@ -30,7 +30,6 @@ public class GameState extends State {
 		world.update();
 		if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_ESCAPE)) {
 			gameThread.togglePauseGame();
-			gameThread.setMenuState();
 		}
 		
 	}

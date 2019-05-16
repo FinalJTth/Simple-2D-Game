@@ -39,7 +39,6 @@ public class Player extends Creatures {
 		maxMana = DEFAULT_MANA;
 		isBeingKnockedBack = false;
 		isAlive = true;
-		System.out.println("Player init");
 
 		// overrides super constructor bounding box set
 		bounds.x = 16;
