@@ -125,24 +125,24 @@ public class Player extends Creatures {
 		}
 	}
 
-	public void knockBack(int damageReceived, String enemyFacingDirection) {
-		float knockBackSpeed = damageReceived;
-		isBeingKnockedBack = true;
-
-		if (enemyFacingDirection == "LEFT") { // meaning enemy is on player's right
-			xMove = -knockBackSpeed;
-			facingDirection = "RIGHT";
-		} else if (enemyFacingDirection == "RIGHT") {
-			xMove = knockBackSpeed;
-			facingDirection = "LEFT";
-		} else if (enemyFacingDirection == "DOWN") {
-			yMove = knockBackSpeed;
-			facingDirection = "UP";
-		} else if (enemyFacingDirection == "UP") {
-			yMove = -knockBackSpeed;
-			facingDirection = "DOWN";
-		}
-	}
+//	public void knockBack(int damageReceived, String enemyFacingDirection) {
+//		float knockBackSpeed = damageReceived;
+//		isBeingKnockedBack = true;
+//
+//		if (enemyFacingDirection == "LEFT") { // meaning enemy is on player's right
+//			xMove = -knockBackSpeed;
+//			facingDirection = "RIGHT";
+//		} else if (enemyFacingDirection == "RIGHT") {
+//			xMove = knockBackSpeed;
+//			facingDirection = "LEFT";
+//		} else if (enemyFacingDirection == "DOWN") {
+//			yMove = knockBackSpeed;
+//			facingDirection = "UP";
+//		} else if (enemyFacingDirection == "UP") {
+//			yMove = -knockBackSpeed;
+//			facingDirection = "DOWN";
+//		}
+//	}
 
 	@Override
 	public void update() {
@@ -156,7 +156,7 @@ public class Player extends Creatures {
 
 			if (isBeingKnockedBack) {
 				moveWithFixedDirection();
-				knockbackTimer();
+				// knockbackTimer();
 			} else {
 				getKeyboardInput();
 				getMouseInput();
@@ -173,23 +173,23 @@ public class Player extends Creatures {
 		}
 	}
 
-	private void knockbackTimer() {
-		knockBackTimer += System.currentTimeMillis() - lastTimeKnockBack;
-		lastTimeKnockBack = System.currentTimeMillis();
-		if (knockBackTimer > 200) {
-			knockBackTimer = 0;
-			isBeingKnockedBack = false;
-		}
-	}
-
-	@Override
-	public void hurt(int damage) {
-		health -= damage;
-		if (health <= 0) {
-			health = 0;
-			isAlive = false;
-		}
-	}
+//	private void knockbackTimer() {
+//		knockBackTimer += System.currentTimeMillis() - lastTimeKnockBack;
+//		lastTimeKnockBack = System.currentTimeMillis();
+//		if (knockBackTimer > 200) {
+//			knockBackTimer = 0;
+//			isBeingKnockedBack = false;
+//		}
+//	}
+//
+//	@Override
+//	public void hurt(int damage) {
+//		health -= damage;
+//		if (health <= 0) {
+//			health = 0;
+//			isAlive = false;
+//		}
+//	}
 
 	public void getKeyboardInput() {
 		xMove = 0;
@@ -261,7 +261,7 @@ public class Player extends Creatures {
 	public void drawPlayerHUD(Graphics2D g2d) {
 		Color defaultColor = g2d.getColor();
 		g2d.setColor(Color.red);
-		g2d.fillRect(40, 530, (int) gameThread.getWorld().getEntityManager().getPlayer().getHealthBarWidth() * 18, 20);
+		g2d.fillRect(40, 530, (int) gameThread.getWorld().getEntityManager().getCenterCrystal().getHealthBarWidth() * 9, 20);
 		g2d.setColor(Color.blue);
 		g2d.fillRect(40, 550, (int) getManaBarWidth() * 18, 20);
 		g2d.setColor(defaultColor);

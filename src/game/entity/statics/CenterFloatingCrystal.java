@@ -12,7 +12,7 @@ public class CenterFloatingCrystal extends FloatingCrystal {
 
 	public CenterFloatingCrystal(GameThread gameThread, float xPos, float yPos, int width, int height) {
 		super(gameThread, xPos, yPos, width, height);
-		health = 1000000000;
+		health = 10000;
 		maxHealth = health;
 	}
 
@@ -43,7 +43,7 @@ public class CenterFloatingCrystal extends FloatingCrystal {
 	public float getHealthBarWidth() {
 		// health, maxHealth, bounds.width is int, if dont cast float will calculate as
 		// int
-		return (float) health / maxHealth * 70;
+		return (float) health / maxHealth * 80;
 	}
 
 	public float getCenterX() {
