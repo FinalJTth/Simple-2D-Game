@@ -6,7 +6,6 @@ import game.engine.GameThread;
 import game.entity.creature.Creatures;
 import game.graphics.Assets;
 import game.graphics.TemporaryAnimation;
-import game.soundFX.RepeatingSoundPlayer;
 import game.soundFX.SoundPlayer;
 
 public class NormalBlast extends ProjectileAttacks {

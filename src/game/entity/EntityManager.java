@@ -9,12 +9,9 @@ import game.entity.creature.Creatures;
 import game.entity.creature.Player;
 import game.entity.creature.minion.BigBlob;
 import game.entity.creature.minion.SmallBlob;
-import game.entity.creature.minion.spawner.BigBlobSpawner;
-import game.entity.creature.minion.spawner.MinionSpawner;
 import game.entity.creature.minion.spawner.WaveManager;
 import game.entity.statics.CenterFloatingCrystal;
 import game.entity.statics.FloatingCrystal;
-import game.entity.statics.Tree;
 
 public class EntityManager {
 
