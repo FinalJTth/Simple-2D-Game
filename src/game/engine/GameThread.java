@@ -70,7 +70,7 @@ public class GameThread implements Runnable {
 			e.printStackTrace();
 		}
 
-		int fps = 120;
+		int fps = 60;
 		double timePerTick = ONE_BILLION / fps;
 		double delta = 0;
 		long currentTime;
@@ -186,7 +186,7 @@ public class GameThread implements Runnable {
 //		g2d.drawLine(0, window.getHeight() / 2, window.getWidth(),
 //				window.getHeight() / 2);
 
-		g2d.drawString(Integer.toString(currentFPS), 10, 10);
+//		g2d.drawString(Integer.toString(currentFPS), 10, 10);
 
 		// end drawing
 		bs.show();
