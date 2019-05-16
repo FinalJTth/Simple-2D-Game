@@ -24,7 +24,7 @@ public abstract class ProjectileAttacks {
 	protected Rectangle bounds;
 	protected TemporaryAnimation animationFiring, animationHit;
 	
-	private long attackCoolDownTimer, lastTimeCoolDown, currentCoolDown;
+	private long attackCoolDownTimer, lastTimeCoolDown;
 	private boolean isCooledDown;
 	
 		// for rotating image

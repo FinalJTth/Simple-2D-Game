@@ -5,7 +5,7 @@ import java.awt.Rectangle;
 
 import game.engine.GameThread;
 
-public abstract class Entity {
+public abstract class Entity implements Collidable {
 
 	protected GameThread gameThread;
 	protected float xPos, yPos;
