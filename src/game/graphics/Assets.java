@@ -4,8 +4,6 @@ import java.awt.image.BufferedImage;
 
 import game.utils.ImageLoader;
 import game.utils.Utils;
-import javafx.embed.swing.SwingFXUtils;
-import javafx.scene.image.Image;
 
 public class Assets {
 
@@ -43,11 +41,6 @@ public class Assets {
 	public static BufferedImage[] dirt_tile, space_tile, rock_tile;
 
 	public static BufferedImage[] dirt_cliff_tile;
-	
-	public static Image startButtonUnselected;
-	public static Image startButtonSelected;
-	public static Image startButtonHover;
-	public static Image testImage;
 
 	private static int cnt = 0;
 
