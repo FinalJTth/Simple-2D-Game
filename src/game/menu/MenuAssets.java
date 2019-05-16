@@ -25,6 +25,8 @@ public class MenuAssets {
 	public static Image startButtonUnselected, startButtonSelected, startButtonHover;
 	public static Image exitButtonUnselected, exitButtonSelected, exitButtonHover;
 	public static Image soundButtonON, soundButtonOFF;
+	
+	public static Image bg;
 //	public static Image FX_retro_text_A, FX_retro_text_B, FX_retro_text_C, FX_retro_text_D, FX_retro_text_E, FX_retro_text_F, FX_retro_text_G,
 //			FX_retro_text_H, FX_retro_text_I, FX_retro_text_J, FX_retro_text_K, FX_retro_text_L, FX_retro_text_M, FX_retro_text_N;
 
@@ -99,6 +101,8 @@ public class MenuAssets {
 
 		FX_upper_logo = SwingFXUtils.toFXImage(upper_logo, null);
 		FX_lower_logo = SwingFXUtils.toFXImage(lower_logo, null);
+		
+		bg = new Image(ClassLoader.getSystemResourceAsStream("bg.gif"), 758, 590, true, true);
 
 //		SpriteSheet retroTextSheet = new SpriteSheet(ImageLoader.loadImage("res/text/retroText.png"));
 //		retro_text_A = retroTextSheet.crop(87, 379, 73, 87);

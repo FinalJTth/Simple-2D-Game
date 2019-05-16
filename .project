@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>menuButton</name>
+			<type>2</type>
+			<location>D:/2110215 Prog meth/Simple-2D-Game/res/menuButton</location>
+		</link>
+	</linkedResources>
 </projectDescription>

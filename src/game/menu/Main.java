@@ -4,11 +4,18 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-	
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		launch(args);
@@ -18,16 +25,19 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		MenuAssets.init();
 		VBox root = new VBox();
+
 		root.setAlignment(Pos.CENTER);
 		root.setSpacing(20);
 		root.setPadding(new Insets(10, 10, 10, 10));
 		root.setPrefWidth(800);
 		root.setPrefHeight(600);
 		primaryStage.setHeight(600);
-		
+
 		Logo logo = new Logo();
 		ButtonPanel buttonPanel = new ButtonPanel();
-		
+		root.setBackground(new Background(new BackgroundImage(MenuAssets.bg, BackgroundRepeat.NO_REPEAT,
+				BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(758, 590, true, true, true, true))));
+
 //		ImageView iv1 = new ImageView(FX_retro_text_A);
 //		ImageView iv2 = new ImageView(FX_retro_text_B);
 //		ImageView iv3 = new ImageView(FX_retro_text_C);

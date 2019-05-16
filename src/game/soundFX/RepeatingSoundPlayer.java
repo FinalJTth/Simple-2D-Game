@@ -10,7 +10,7 @@ public class RepeatingSoundPlayer extends SoundPlayer {
 	
 	@Override
 	public void playSound() {
-		if (SoundPlayer.isSoundOFF) {
+		if (!SoundPlayer.isSoundOFF) {
 			mediaPlayer.play();
 			mediaPlayer.seek(mediaPlayer.getStartTime());
 		}

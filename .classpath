@@ -3,5 +3,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry excluding="texture/|texture/darkDimension/|texture/fireball/|texture/ice_shard/|texture/minion/bigBlob/|texture/minion/evilWizard/|texture/minion/smallBlob/|texture/normal_blast/|worlds/" kind="src" path="res"/>
+	<classpathentry kind="src" path="menuButton"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
