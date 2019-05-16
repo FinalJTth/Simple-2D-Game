@@ -66,7 +66,7 @@ public class GameThread implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
 		int fps = 60;
 		double timePerTick = ONE_BILLION / fps;
 		double delta = 0;
@@ -96,6 +96,7 @@ public class GameThread implements Runnable {
 	}
 
 	public void init() {
+		GameThread g = this;
 		initThread = new Thread(new Runnable() {
 			
 			@Override
@@ -104,19 +105,14 @@ public class GameThread implements Runnable {
 				SoundPlayer.initGameSound();
 				
 				initScreen("JobJob's Adventure", 800, 600);
+				
+				gameCamera = new GameCamera(g, 0, 0);
+				gameState = new GameState(g);
+				menuState = new MenuState(g);
+				State.setState(gameState);
 			}
 		});
 		initThread.start();
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		gameCamera = new GameCamera(this, 0, 0);
-		gameState = new GameState(this);
-		menuState = new MenuState(this);
-		State.setState(gameState);
 	}
 	
 	private void initScreen(String title, int window_width, int window_height) {

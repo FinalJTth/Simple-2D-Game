@@ -2,6 +2,7 @@ package game.menu;
 
 import game.engine.GameThread;
 import game.soundFX.SoundPlayer;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -32,6 +33,8 @@ public class ButtonPanel extends VBox {
 				SoundPlayer.menuBgm.stopPlaying();
 				gameThread = new GameThread();
 				new Thread(gameThread).start();
+				Platform.setImplicitExit(false);
+				Main.primaryStage.hide();
 			}
 		});
 		

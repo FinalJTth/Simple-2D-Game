@@ -6,17 +6,17 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+
+	protected static Stage primaryStage;
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -25,8 +25,11 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		Main.primaryStage = primaryStage;
+
 		MenuAssets.init();
 		SoundPlayer.initMenuSound();
+
 		VBox root = new VBox();
 
 		root.setAlignment(Pos.CENTER);
@@ -38,8 +41,9 @@ public class Main extends Application {
 
 		Logo logo = new Logo();
 		ButtonPanel buttonPanel = new ButtonPanel();
-		root.setBackground(new Background(new BackgroundImage(MenuAssets.bg, BackgroundRepeat.NO_REPEAT,
-				BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(758, 590, true, true, true, true))));
+		root.setBackground(new Background(
+				new BackgroundImage(MenuAssets.bg, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+						BackgroundPosition.CENTER, new BackgroundSize(758, 590, true, true, true, true))));
 
 //		ImageView iv1 = new ImageView(FX_retro_text_A);
 //		ImageView iv2 = new ImageView(FX_retro_text_B);
@@ -65,7 +69,7 @@ public class Main extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		Platform.runLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
@@ -73,6 +77,6 @@ public class Main extends Application {
 				SoundPlayer.menuBgm.playNonStop();
 			}
 		});
-		
+
 	}
 }
