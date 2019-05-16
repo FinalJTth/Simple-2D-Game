@@ -19,8 +19,8 @@ import game.listener.MouseManager;
 
 public class Player extends Creatures {
 
-	private static final int ANIMATION_SPEED = 200, DEFAULT_MANA = 100, CHARGE_MANA_TIME = 500,
-			MANA_GAINED_FROM_CHARGING = 10;
+	private static final int ANIMATION_SPEED = 200, DEFAULT_MANA = 100, CHARGE_MANA_TIME = 500;
+	private int MANA_GAINED_FROM_CHARGING = 10;
 
 	private int maxMana;
 	private final Animation animationDown, animationUp, animationLeft, animationRight;
@@ -114,9 +114,10 @@ public class Player extends Creatures {
 	
 	// Upgrade player
 	
-	public void addMaxMana(int mana) {
-		this.maxMana += mana;
+	public void upgradeMana() {
+		this.maxMana += maxMana - 50;
 		this.mana = maxMana;
+		MANA_GAINED_FROM_CHARGING += MANA_GAINED_FROM_CHARGING;
 	}
 	
 	public void upgradeAttack() {

@@ -17,7 +17,7 @@ import game.utils.Timer;
 
 public class WaveManager {
 
-	private final long DELAY_WAVE = 10000;
+	private final long DELAY_WAVE = 7000;
 	private final GameThread gameThread;
 
 	private LinkedList<ArrayList<Integer>> waveCreatures;
@@ -44,7 +44,7 @@ public class WaveManager {
 				new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)));
 		// wave 3
 		waveCreatures.add(new ArrayList<Integer>(
-				Arrays.asList(0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0)));
+				Arrays.asList(0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0)));
 		// wave 4
 		waveCreatures
 				.add(new ArrayList<Integer>(Arrays.asList(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1)));
@@ -91,11 +91,10 @@ public class WaveManager {
 
 	private void handleWaveChange() {
 		if (!gameThread.getWorld().getEntityManager().isAnyCreatureAlive()) {
-			if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_UP) && !isUpgraded) {
-				gameThread.getWorld().getEntityManager().getPlayer()
-						.addMaxMana(gameThread.getWorld().getEntityManager().getPlayer().getMaxMana() - 50);
+			if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_DOWN) && !isUpgraded) {
+				gameThread.getWorld().getEntityManager().getPlayer().upgradeMana();
 				isUpgraded = true;
-			} else if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_DOWN) && !isUpgraded) {
+			} else if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_UP) && !isUpgraded) {
 				gameThread.getWorld().getEntityManager().getPlayer().upgradeAttack();
 				isUpgraded = true;
 			} else if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_LEFT) && !isUpgraded) {
@@ -143,7 +142,7 @@ public class WaveManager {
 				break;
 			case 4: // lower right
 				xPos = 1630;
-				yPos = 1630;
+				yPos = 1590;
 				break;
 			}
 			switch (creatureID) {
