@@ -1,6 +1,8 @@
 package game.menu;
 
+import game.soundFX.SoundPlayer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -24,6 +26,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		MenuAssets.init();
+		SoundPlayer.initMenuSound();
 		VBox root = new VBox();
 
 		root.setAlignment(Pos.CENTER);
@@ -61,5 +64,15 @@ public class Main extends Application {
 		primaryStage.setResizable(false);
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		Platform.runLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				SoundPlayer.menuBgm.setVolume(0.5);
+				SoundPlayer.menuBgm.playNonStop();
+			}
+		});
+		
 	}
 }

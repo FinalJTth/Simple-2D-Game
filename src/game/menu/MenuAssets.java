@@ -5,6 +5,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 import game.graphics.SpriteSheet;
+import game.soundFX.SoundPlayer;
 import game.utils.ImageLoader;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;

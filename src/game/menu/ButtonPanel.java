@@ -29,6 +29,7 @@ public class ButtonPanel extends VBox {
 			@Override
 			public void handle(ActionEvent arg0) {
 				// TODO Auto-generated method stub
+				SoundPlayer.menuBgm.stopPlaying();
 				gameThread = new GameThread();
 				new Thread(gameThread).start();
 			}

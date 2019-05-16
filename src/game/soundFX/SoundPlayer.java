@@ -19,27 +19,33 @@ public class SoundPlayer {
 	
 	public static SoundPlayer small_explosion;
 	public static RepeatingSoundPlayer pewpew;
-	public static SoundPlayer bgm;
+	public static SoundPlayer bgm, menuBgm;
 	
-	protected static boolean isSoundOFF;
+	protected static boolean isSoundOFF = false;
 	
-	public static void initSound() {
+	public static void initGameSound() {
 		small_explosion = new SoundPlayer("sound/smallBomb.mp3");
 		pewpew = new RepeatingSoundPlayer("sound/pew.wav");
-		bgm = new RepeatingSoundPlayer("sound/bgm.mp3");
-			
+		bgm = new SoundPlayer("sound/bgm.mp3");
+	}
+	
+	public static void initMenuSound() {
+		menuBgm = new SoundPlayer("sound/menubgm.mp3");
 	}
 	
 	public static void toggleSound() {
 		isSoundOFF = !isSoundOFF;
+		if (menuBgm.getMediaPlayer().getStatus() == Status.PLAYING) {
+			menuBgm.stopPlaying();
+		} else {
+			menuBgm.playNonStop();
+		}
 	}
 
 	protected MediaPlayer mediaPlayer;
-	protected boolean isPlaying;
 
 	public SoundPlayer(String path) {
 
-		isPlaying = false;
 		Media hit = new Media(new File("res/" + path).toURI().toString());
 		Platform.runLater(new Runnable() {
 
@@ -69,5 +75,13 @@ public class SoundPlayer {
 			mediaPlayer.play();
 		}
 		
+	}
+	
+	public void stopPlaying() {
+		mediaPlayer.stop();
+	}
+	
+	public MediaPlayer getMediaPlayer() {
+		return mediaPlayer;
 	}
 }

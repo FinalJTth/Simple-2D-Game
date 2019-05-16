@@ -101,7 +101,7 @@ public class GameThread implements Runnable {
 			@Override
 			public void run() {
 				Assets.init();
-				SoundPlayer.initSound();
+				SoundPlayer.initGameSound();
 				
 				initScreen("JobJob's Adventure", 800, 600);
 			}
