@@ -48,7 +48,7 @@ public class GameThread implements Runnable {
 	private MouseManager mouseManager;
 
 	public GameThread() {
-		System.out.println("Thread started");
+		// System.out.println("Thread started");
 
 		keyManager = new KeyManager();
 		mouseManager = new MouseManager();
@@ -136,9 +136,6 @@ public class GameThread implements Runnable {
 		
 		window.add(canvas);
 		window.pack();
-		
-		this.keyManager = new KeyManager();
-		this.mouseManager = new MouseManager();
 
 		window.addKeyListener(keyManager);
 		window.addMouseListener(mouseManager);
