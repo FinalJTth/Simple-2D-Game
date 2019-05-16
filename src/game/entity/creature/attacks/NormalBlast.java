@@ -11,7 +11,7 @@ import game.soundFX.SoundPlayer;
 public class NormalBlast extends ProjectileAttacks {
 
 	public NormalBlast(GameThread gameThread, Creatures source) {
-		super(gameThread, source, 12.0f, 20, 0, 0);
+		super(gameThread, source, 12.0f, 20, 0);
 
 		animationFiring = new TemporaryAnimation(10, Assets.blast_firing);
 		animationHit = new TemporaryAnimation(20, Assets.blast_hit);
@@ -32,7 +32,6 @@ public class NormalBlast extends ProjectileAttacks {
 				SoundPlayer.pewpew.playSound();
 			}
 		}
-		cooldownTimer();
 		updateAllBullets();
 	}
 

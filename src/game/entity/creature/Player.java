@@ -67,21 +67,21 @@ public class Player extends Creatures {
 		if (!isCastingAttack && attackCoolDown == 0) {
 			if (currentAttack == "ICE") {
 				ProjectileAttacks atk = attackList.get(0);
-				if (atk.getManaCost() <= mana && atk.isCooledDown()) {
+				if (atk.getManaCost() <= mana) {
 					isCastingAttack = true;
 					atk.fire();
 					decreaseMana(atk.getManaCost());
 				}
 			} else if (currentAttack == "NORMAL") {
 				ProjectileAttacks atk = attackList.get(1);
-				if (atk.getManaCost() <= mana && atk.isCooledDown()) {
+				if (atk.getManaCost() <= mana) {
 					isCastingAttack = true;
 					atk.fire();
 					decreaseMana(atk.getManaCost());
 				}
 			} else if (currentAttack == "FIRE") {
 				ProjectileAttacks atk = attackList.get(2);
-				if (atk.getManaCost() <= mana && atk.isCooledDown()) {
+				if (atk.getManaCost() <= mana) {
 					isCastingAttack = true;
 					atk.fire();
 					decreaseMana(atk.getManaCost());
