@@ -23,6 +23,7 @@ public class IceShardSpell extends ProjectileAttacks {
 	@Override
 	public void update() {
 		if (isFiring) {
+			handleDirectionChange();
 			animationFiring.timerCounter();
 			if (animationFiring.isDone()) {
 				isFiring = false;

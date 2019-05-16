@@ -20,6 +20,7 @@ public class FireBallSpell extends ProjectileAttacks {
 	public void update() {
 		if (isFiring) {
 			animationFiring.timerCounter();
+			handleDirectionChange();
 			if (animationFiring.isDone()) {
 				isFiring = false;
 				animationFiring.reset();
