@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Timer {
 
 	public static ArrayList<Thread> threadList = new ArrayList<Thread>();
-	
+
 	public static long currentTime;
 
 	public static int newTimer(long time) {
@@ -34,12 +34,10 @@ public class Timer {
 		return threadList.indexOf(tmp);
 	}
 
-	public int kuy = 0;
-	
 	public static void newGameTimer() {
 		Thread thread = new Thread(new Runnable() {
 			long lastTime = System.currentTimeMillis();
-			
+
 			@Override
 			public void run() {
 				while (true) {
@@ -49,7 +47,7 @@ public class Timer {
 		});
 		thread.start();
 	}
-	
+
 	public static long getCurrentTime() {
 		return currentTime;
 	}
