@@ -1,5 +1,6 @@
 package game.entity.creature;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -26,9 +27,10 @@ public class Player extends Creatures {
 	private final Animation animationDown, animationUp, animationLeft, animationRight;
 	private final Animation animationDeadDown, animationDeadUp, animationDeadLeft, animationDeadRight;
 	private String currentAttack; // ICE NORMAL
-	private int attackCoolDown, mana, switchAttackTimer;
-	private long knockBackTimer, lastTimeKnockBack, chargeManaTimer, lastTimeChargeMana;
-	private boolean isBeingKnockedBack;
+	private int attackCoolDown, mana;
+	private long chargeManaTimer, lastTimeChargeMana;
+	
+	private AlphaComposite ac1, ac2, ac3;
 
 	private ArrayList<ProjectileAttacks> attackList = new ArrayList<ProjectileAttacks>();
 
@@ -37,9 +39,8 @@ public class Player extends Creatures {
 		this.currentAttack = "NORMAL";
 		this.mana = DEFAULT_MANA;
 		maxMana = DEFAULT_MANA;
-		isBeingKnockedBack = false;
+//		isBeingKnockedBack = false;
 		isAlive = true;
-		System.out.println("Player init");
 
 		// overrides super constructor bounding box set
 		bounds.x = 16;
@@ -60,29 +61,27 @@ public class Player extends Creatures {
 		attackList.add(new IceShardSpell(gameThread, this));
 		attackList.add(new NormalBlast(gameThread, this));
 		attackList.add(new FireBallSpell(gameThread, this));
-
-		switchAttackTimer = 0;
 	}
 
 	public void attack() {
 		if (!isCastingAttack && attackCoolDown == 0) {
 			if (currentAttack == "ICE") {
 				ProjectileAttacks atk = attackList.get(0);
-				if (atk.getManaCost() <= mana && atk.isCooledDown()) {
+				if (atk.getManaCost() <= mana) {
 					isCastingAttack = true;
 					atk.fire();
 					decreaseMana(atk.getManaCost());
 				}
 			} else if (currentAttack == "NORMAL") {
 				ProjectileAttacks atk = attackList.get(1);
-				if (atk.getManaCost() <= mana && atk.isCooledDown()) {
+				if (atk.getManaCost() <= mana) {
 					isCastingAttack = true;
 					atk.fire();
 					decreaseMana(atk.getManaCost());
 				}
 			} else if (currentAttack == "FIRE") {
 				ProjectileAttacks atk = attackList.get(2);
-				if (atk.getManaCost() <= mana && atk.isCooledDown()) {
+				if (atk.getManaCost() <= mana) {
 					isCastingAttack = true;
 					atk.fire();
 					decreaseMana(atk.getManaCost());
@@ -114,16 +113,8 @@ public class Player extends Creatures {
 		}
 	}
 
-	public void switchAttack() {
-		System.out.println(currentAttack);
-		if (currentAttack == "NORMAL") {
-			currentAttack = "ICE";
-		} else if (currentAttack == "ICE") {
-			currentAttack = "FIRE";
-		} else if (currentAttack == "FIRE") {
-			currentAttack = "NORMAL";
-		}
-	}
+//	private boolean isBeingKnockedBack;
+//	private long knockBackTimer, lastTimeKnockBack;
 
 //	public void knockBack(int damageReceived, String enemyFacingDirection) {
 //		float knockBackSpeed = damageReceived;
@@ -207,18 +198,15 @@ public class Player extends Creatures {
 				&& !gameThread.getMouseManager().isLeftPressed()) {
 			chargeMana();
 		}
-		if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_Q)) {
-			// add delay to each Q pressed for 0.5 sec
-			if (!Timer.threadList.isEmpty()) {
-				if (!Timer.threadList.get(switchAttackTimer).isAlive()) {
-					switchAttack();
-					Timer.threadList.remove(switchAttackTimer);
-					switchAttackTimer = Timer.newTimer(500);
-				}
-			} else {
-				switchAttack();
-				switchAttackTimer = Timer.newTimer(500);
-			}
+		// switching attack
+		if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_1)) {
+			currentAttack = "NORMAL";
+		}
+		if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_2)) {
+			currentAttack = "ICE";
+		}
+		if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_3)) {
+			currentAttack = "FIRE";
 		}
 	}
 
@@ -226,6 +214,9 @@ public class Player extends Creatures {
 		MouseManager mouse = gameThread.getMouseManager();
 		if (mouse.isLeftPressed()) {
 			attack();
+		}
+		if (mouse.isRightPressed()) {
+			
 		}
 	}
 
@@ -239,11 +230,11 @@ public class Player extends Creatures {
 
 		g2d.setColor(Color.red);
 		// draw image box
-		g2d.drawRect((int) (xPos - gameThread.getGameCamera().getxOffset()),
-				(int) (yPos - gameThread.getGameCamera().getyOffset()), width, height);
-		// draw collision checking (bounding) box
-		g2d.drawRect((int) (xPos + bounds.x - gameThread.getGameCamera().getxOffset()),
-				(int) (yPos + bounds.y - gameThread.getGameCamera().getyOffset()), bounds.width, bounds.height);
+//		g2d.drawRect((int) (xPos - gameThread.getGameCamera().getxOffset()),
+//				(int) (yPos - gameThread.getGameCamera().getyOffset()), width, height);
+//		// draw collision checking (bounding) box
+//		g2d.drawRect((int) (xPos + bounds.x - gameThread.getGameCamera().getxOffset()),
+//				(int) (yPos + bounds.y - gameThread.getGameCamera().getyOffset()), bounds.width, bounds.height);
 
 		/*
 		 * g2d.fillRect((int) (xPos + bounds.x -
@@ -252,6 +243,8 @@ public class Player extends Creatures {
 		 */
 	}
 
+	
+			
 	// this method is called at gameThread because it would get render at top
 	public void drawPlayerHUD(Graphics2D g2d) {
 		Color defaultColor = g2d.getColor();
@@ -260,9 +253,42 @@ public class Player extends Creatures {
 				20);
 		g2d.setColor(Color.blue);
 		g2d.fillRect(40, 550, (int) getManaBarWidth() * 18, 20);
+		
+		handleAlphaChangeToCurrentAttack();
+		g2d.setComposite(ac1);
+		g2d.drawImage(Assets.blast_bullet, 40, 480, 60, 60, null);
+		g2d.setComposite(ac2);
+		g2d.drawImage(Assets.iceShardSpell_bullet, 75, 452, 100, 100, null);
+		g2d.setComposite(ac3);
+		g2d.drawImage(Assets.fireball_bullet[2], 155, 480, 50, 50, null);
+	
 		g2d.setColor(defaultColor);
 	}
 
+	
+	private void handleAlphaChangeToCurrentAttack() {
+		float alpha;
+		if (currentAttack == "NORMAL") {
+			alpha = 1.0f;
+			ac1 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+			alpha = 0.5f;
+			ac2 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+			ac3 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+		} else if (currentAttack == "ICE") {
+			alpha = 1.0f;
+			ac2 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+			alpha = 0.5f;
+			ac1 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+			ac3 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+		} else if (currentAttack == "FIRE") {
+			alpha = 0.5f;
+			ac1 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+			ac2 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+			alpha = 1.0f;
+			ac3 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+		}
+	}
+	
 	private float getManaBarWidth() {
 		return (float) mana / maxMana * bounds.width;
 	}

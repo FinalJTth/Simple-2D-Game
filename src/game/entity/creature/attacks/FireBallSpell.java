@@ -10,7 +10,7 @@ import game.graphics.TemporaryAnimation;
 public class FireBallSpell extends ProjectileAttacks {
 
 	public FireBallSpell(GameThread gameThread, Creatures source) {
-		super(gameThread, source, 4.0f, 300, 3000, 50);
+		super(gameThread, source, 4.0f, 800, 50);
 
 		animationHit = new TemporaryAnimation(100, Assets.fireball_hit);
 		animationFiring = new TemporaryAnimation(100, Assets.fireball_bullet);
@@ -30,7 +30,6 @@ public class FireBallSpell extends ProjectileAttacks {
 						source.getyPos() + yOffset, createBoundingBox(35, 35)));
 			}
 		}
-		cooldownTimer();
 		updateAllBullets();
 	}
 

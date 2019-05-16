@@ -15,43 +15,36 @@ import game.utils.Utils;
 public abstract class ProjectileAttacks {
 
 	protected GameThread gameThread;
-	protected final int damage, coolDown, manaCost;
+	protected final int damage, manaCost;
 	protected final float speed;
-	
+
 	protected float xPos, yPos;
 	protected boolean isFiring;
 	protected Creatures source;
 	protected Rectangle bounds;
 	protected TemporaryAnimation animationFiring, animationHit;
-	
-	private long attackCoolDownTimer, lastTimeCoolDown, currentCoolDown;
-	private boolean isCooledDown;
-	
-		// for rotating image
+
+	// for rotating image
 	protected double rotationAngle;
 	protected int xOffset, yOffset;
-	
+
 	protected ArrayList<SpellBullet> firedBullet = new ArrayList<SpellBullet>();
 
-	public ProjectileAttacks(GameThread gameThread, Creatures source, float speed, int damage, int coolDown, int manaCost) {
+	public ProjectileAttacks(GameThread gameThread, Creatures source, float speed, int damage, int manaCost) {
 		this.gameThread = gameThread;
 		this.source = source;
 		this.speed = speed;
 		this.damage = damage;
-		this.coolDown = coolDown;
 		this.manaCost = manaCost;
-		
-		isCooledDown = true;
 	}
 
 	public void fire() {
-		if (isCooledDown) {
-			handleDirectionChange(); // handle all direction change when start firing
-			isFiring = true;
-			isCooledDown = false;
-		}
+
+		handleDirectionChange(); // handle all direction change when start firing
+		isFiring = true;
+
 	}
-	
+
 	public abstract void update();
 
 	protected void updateAllBullets() {
@@ -65,11 +58,11 @@ public abstract class ProjectileAttacks {
 			firedBullet.remove(sp);
 		}
 	}
-	
+
 	protected abstract void handleDirectionChange();
-	
+
 	protected abstract Rectangle createBoundingBox(int width, int height);
-	
+
 	public void render(Graphics2D g2d) {
 		if (isFiring) {
 			// draw image(rotated) accordingly to handleDirectionChange()
@@ -82,24 +75,7 @@ public abstract class ProjectileAttacks {
 		}
 
 	}
-	
-	protected void cooldownTimer() {
-		attackCoolDownTimer += System.currentTimeMillis() - lastTimeCoolDown;
-		lastTimeCoolDown = System.currentTimeMillis();
-		if (attackCoolDownTimer > coolDown) {
-			attackCoolDownTimer = 0;
-			isCooledDown = true;
-		}
-	}
 
-	public int getCoolDown() {
-		return coolDown;
-	}
-	
-	public boolean isCooledDown() {
-		return isCooledDown;
-	}
-	
 	public int getManaCost() {
 		return manaCost;
 	}

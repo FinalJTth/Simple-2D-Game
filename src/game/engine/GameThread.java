@@ -9,13 +9,14 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
+import com.sun.glass.events.KeyEvent;
+
 import game.graphics.Assets;
 import game.graphics.GameCamera;
 import game.listener.KeyManager;
 import game.listener.MouseManager;
 import game.soundFX.SoundPlayer;
 import game.state.GameState;
-import game.state.MenuState;
 import game.state.State;
 import game.utils.Utils;
 import game.world.World;
@@ -34,7 +35,6 @@ public class GameThread implements Runnable {
 
 	// States
 	private GameState gameState;
-	private MenuState menuState;
 
 	// Canvas
 	private BufferStrategy bs;
@@ -63,7 +63,6 @@ public class GameThread implements Runnable {
 		try {
 			initThread.join();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -108,7 +107,6 @@ public class GameThread implements Runnable {
 				
 				gameCamera = new GameCamera(g, 0, 0);
 				gameState = new GameState(g);
-				menuState = new MenuState(g);
 				State.setState(gameState);
 			}
 		});
@@ -140,9 +138,19 @@ public class GameThread implements Runnable {
 		canvas.addMouseMotionListener(mouseManager);
 	}
 
+	private boolean isEscapeKeyReleased = true;
+	
 	public void update() {
 		if (!isPaused)
 			State.getState().update();
+		else {
+			if (keyManager.isKeyPressed(KeyEvent.VK_ESCAPE) && isEscapeKeyReleased) {
+				isEscapeKeyReleased = false;
+			} else if (keyManager.isKeyReleased(KeyEvent.VK_ESCAPE) && !isEscapeKeyReleased) {
+				isPaused = false;
+				isEscapeKeyReleased = true;
+			}
+		}
 	}
 
 	public void render() {
@@ -154,34 +162,17 @@ public class GameThread implements Runnable {
 		g2d = (Graphics2D) bs.getDrawGraphics();
 		g2d.clearRect(0, 0, window.getWidth(), window.getHeight());
 		// draw here
-		if (State.getState() == gameState && !isPaused) {
+		if (State.getState() == gameState) {
 			State.getState().render(g2d);
 			// draw player's HUD
 			getWorld().getEntityManager().getPlayer().drawPlayerHUD(g2d);
-		} else if (State.getState() == menuState) {
-			menuState.render(g2d);
-		}
+		} 
 		// draw guide line
-		g2d.drawLine(window.getWidth() / 2, 0, window.getWidth() / 2, window.getHeight());
-		g2d.drawLine(0, window.getHeight() / 2, window.getWidth(),
-				window.getHeight() / 2);
+//		g2d.drawLine(window.getWidth() / 2, 0, window.getWidth() / 2, window.getHeight());
+//		g2d.drawLine(0, window.getHeight() / 2, window.getWidth(),
+//				window.getHeight() / 2);
 
-		g2d.drawString(Integer.toString(currentFPS), 10, 10);
-
-		// for debugging
-		for (Shape s : Utils.shapeToRender) {
-			g2d.draw(s);
-		}
-		int x = 0, y = 0;
-		for (BufferedImage img : Utils.imageToRender) {
-			g2d.drawImage(img, x, y, null);
-			x += img.getWidth();
-			if (x >= window.getContentPane().getSize().width) {
-				y += img.getHeight();
-				x = 0;
-			}
-		}
-		// end debugging
+//		g2d.drawString(Integer.toString(currentFPS), 10, 10);
 		
 		// end drawing
 		bs.show();
@@ -191,11 +182,6 @@ public class GameThread implements Runnable {
 
 	public void setGameState() {
 		State.setState(gameState);
-	}
-
-	public void setMenuState() {
-		State.setState(menuState);
-		System.out.println("Menu");
 	}
 
 	public void togglePauseGame() {
