@@ -1,5 +1,6 @@
 package game.entity.creature;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -29,6 +30,7 @@ public class Player extends Creatures {
 	private int attackCoolDown, mana, switchAttackTimer;
 	private long chargeManaTimer, lastTimeChargeMana;
 	
+	private AlphaComposite ac1, ac2, ac3;
 
 	private ArrayList<ProjectileAttacks> attackList = new ArrayList<ProjectileAttacks>();
 
@@ -113,20 +115,9 @@ public class Player extends Creatures {
 		}
 	}
 
-	public void switchAttack() {
-		System.out.println(currentAttack);
-		if (currentAttack == "NORMAL") {
-			currentAttack = "ICE";
-		} else if (currentAttack == "ICE") {
-			currentAttack = "FIRE";
-		} else if (currentAttack == "FIRE") {
-			currentAttack = "NORMAL";
-		}
-	}
-
 //	private boolean isBeingKnockedBack;
 //	private long knockBackTimer, lastTimeKnockBack;
-	
+
 //	public void knockBack(int damageReceived, String enemyFacingDirection) {
 //		float knockBackSpeed = damageReceived;
 //		isBeingKnockedBack = true;
@@ -209,18 +200,15 @@ public class Player extends Creatures {
 				&& !gameThread.getMouseManager().isLeftPressed()) {
 			chargeMana();
 		}
-		if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_Q)) {
-			// add delay to each Q pressed for 0.5 sec
-			if (!Timer.threadList.isEmpty()) {
-				if (!Timer.threadList.get(switchAttackTimer).isAlive()) {
-					switchAttack();
-					Timer.threadList.remove(switchAttackTimer);
-					switchAttackTimer = Timer.newTimer(500);
-				}
-			} else {
-				switchAttack();
-				switchAttackTimer = Timer.newTimer(500);
-			}
+		// switching attack
+		if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_1)) {
+			currentAttack = "NORMAL";
+		}
+		if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_2)) {
+			currentAttack = "ICE";
+		}
+		if (gameThread.getKeyManager().isKeyPressed(KeyEvent.VK_3)) {
+			currentAttack = "FIRE";
 		}
 	}
 
@@ -254,6 +242,8 @@ public class Player extends Creatures {
 		 */
 	}
 
+	
+			
 	// this method is called at gameThread because it would get render at top
 	public void drawPlayerHUD(Graphics2D g2d) {
 		Color defaultColor = g2d.getColor();
@@ -262,9 +252,42 @@ public class Player extends Creatures {
 				20);
 		g2d.setColor(Color.blue);
 		g2d.fillRect(40, 550, (int) getManaBarWidth() * 18, 20);
+		
+		handleAlphaChangeToCurrentAttack();
+		g2d.setComposite(ac1);
+		g2d.drawImage(Assets.blast_bullet, 40, 480, 60, 60, null);
+		g2d.setComposite(ac2);
+		g2d.drawImage(Assets.iceShardSpell_bullet, 75, 452, 100, 100, null);
+		g2d.setComposite(ac3);
+		g2d.drawImage(Assets.fireball_bullet[2], 155, 480, 50, 50, null);
+	
 		g2d.setColor(defaultColor);
 	}
 
+	
+	private void handleAlphaChangeToCurrentAttack() {
+		float alpha;
+		if (currentAttack == "NORMAL") {
+			alpha = 1.0f;
+			ac1 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+			alpha = 0.5f;
+			ac2 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+			ac3 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+		} else if (currentAttack == "ICE") {
+			alpha = 1.0f;
+			ac2 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+			alpha = 0.5f;
+			ac1 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+			ac3 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+		} else if (currentAttack == "FIRE") {
+			alpha = 0.5f;
+			ac1 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+			ac2 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+			alpha = 1.0f;
+			ac3 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER,alpha);
+		}
+	}
+	
 	private float getManaBarWidth() {
 		return (float) mana / maxMana * bounds.width;
 	}
