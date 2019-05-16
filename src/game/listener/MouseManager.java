@@ -9,6 +9,10 @@ public class MouseManager implements MouseListener, MouseMotionListener {
 	private int mouseX, mouseY;
 	private boolean leftPressed, rightPressed;
 
+	public MouseManager() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public void mouseClicked(MouseEvent event) {
 
