@@ -38,7 +38,7 @@ public abstract class CrystalAttackingMinion extends Minion {
 			yMove = 0;
 			// System.out.println("y = 0");
 		}
-		moveWithFixedDirection();
+		move();
 	}
 
 	public void setFacingDirectionFromCrystalPos() {

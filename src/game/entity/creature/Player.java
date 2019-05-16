@@ -154,16 +154,11 @@ public class Player extends Creatures {
 
 			updateAttack();
 
-			if (isBeingKnockedBack) {
-				moveWithFixedDirection();
-				// knockbackTimer();
-			} else {
-				getKeyboardInput();
-				getMouseInput();
-				getFacingDirectionFromMouse();
-				// move();
-				moveWithFixedDirection();
-			}
+			getKeyboardInput();
+			getMouseInput();
+			getFacingDirectionFromMouse();
+			move();
+
 			gameThread.getGameCamera().focusCameraOnEntity(this);
 		} else {
 			animationDeadDown.timerCounter();
@@ -261,7 +256,8 @@ public class Player extends Creatures {
 	public void drawPlayerHUD(Graphics2D g2d) {
 		Color defaultColor = g2d.getColor();
 		g2d.setColor(Color.red);
-		g2d.fillRect(40, 530, (int) gameThread.getWorld().getEntityManager().getCenterCrystal().getHealthBarWidth() * 9, 20);
+		g2d.fillRect(40, 530, (int) gameThread.getWorld().getEntityManager().getCenterCrystal().getHealthBarWidth() * 9,
+				20);
 		g2d.setColor(Color.blue);
 		g2d.fillRect(40, 550, (int) getManaBarWidth() * 18, 20);
 		g2d.setColor(defaultColor);
