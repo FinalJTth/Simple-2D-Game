@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class ButtonPanel extends VBox {
@@ -60,7 +61,11 @@ public class ButtonPanel extends VBox {
 			}
 		});
 		
-		getChildren().addAll(startButton, soundToggleButton, exitButton);
+		HBox hbox = new HBox();
+		hbox.setAlignment(Pos.CENTER);
+		hbox.getChildren().addAll(soundToggleButton, exitButton);
+		
+		getChildren().addAll(startButton, hbox);
 	}
 
 	public MenuButton getStartButton() {

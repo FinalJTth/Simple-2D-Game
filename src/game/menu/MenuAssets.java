@@ -54,9 +54,9 @@ public class MenuAssets {
 		sound_ON_button_onClick = buttonSheet.crop(41 * 2 + 2, 24, 36, 17);
 		sound_OFF_button_onClick = buttonSheet.crop(41 * 3 + 2, 24, 36, 17);
 
-		play_button_normal = scaleImage(play_button_normal, 4);
-		play_button_hover = scaleImage(play_button_hover, 4);
-		play_button_onClick = scaleImage(play_button_onClick, 4);
+		play_button_normal = scaleImage(play_button_normal, 8.4);
+		play_button_hover = scaleImage(play_button_hover, 8.4);
+		play_button_onClick = scaleImage(play_button_onClick, 8.4);
 
 		exit_button_normal = scaleImage(exit_button_normal, 4);
 		exit_button_hover = scaleImage(exit_button_hover, 4);
