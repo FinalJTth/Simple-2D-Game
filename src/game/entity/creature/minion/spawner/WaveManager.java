@@ -1,5 +1,7 @@
 package game.entity.creature.minion.spawner;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,17 +16,19 @@ import game.utils.Timer;
 
 public class WaveManager {
 
+	private final long DELAY_WAVE = 10000;
 	private final GameThread gameThread;
 
 	private LinkedList<ArrayList<Integer>> waveCreatures;
 	private WaveSpawner spawner;
 	private long timer;
 	private boolean isTimerStarted;
-	private final long DELAY_WAVE = 10000;
+	private int waveNo;
 
 	public WaveManager(GameThread gameThread) {
 		this.gameThread = gameThread;
 		Timer.newGameTimer();
+		waveNo = 2;
 
 		waveCreatures = new LinkedList<ArrayList<Integer>>();
 		// wave 0
@@ -74,6 +78,7 @@ public class WaveManager {
 
 	public void render(Graphics2D g2d) {
 		spawner.render(g2d);
+		
 	}
 
 	private void handleWaveChange() {
@@ -84,7 +89,7 @@ public class WaveManager {
 				isTimerStarted = true;
 			}
 			if (Timer.getCurrentTime() - timer > DELAY_WAVE) {
-
+				waveNo++;
 				try {
 					spawner = new WaveSpawner(gameThread, createCreatureListFromNumber());
 				} catch (OutOfWaveException e) {
@@ -132,5 +137,9 @@ public class WaveManager {
 		}
 		waveCreatures.remove(0);
 		return out;
+	}
+	
+	public int getWaveNo() {
+		return waveNo;
 	}
 }

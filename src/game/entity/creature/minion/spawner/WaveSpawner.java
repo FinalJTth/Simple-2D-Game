@@ -11,7 +11,7 @@ import game.graphics.Assets;
 
 public class WaveSpawner {
 
-	private static final int DELAY = 4000;
+	private static final int DELAY = 500;
 	
 	protected final Animation portal;
 	protected final GameThread gameThread;

@@ -11,8 +11,6 @@ import game.entity.Collidable;
 import game.entity.Entity;
 import game.entity.creature.Creatures;
 import game.entity.creature.Player;
-import game.entity.statics.CenterFloatingCrystal;
-import game.graphics.Animation;
 import game.graphics.TemporaryAnimation;
 import game.utils.Utils;
 
@@ -28,9 +26,7 @@ public class SpellBullet implements Collidable {
 	protected double rotationAngle;
 	private float xPos, yPos;
 	private boolean isAlive, isFinished;
-
-	private ArrayList<Rectangle> rec = new ArrayList<Rectangle>();
-
+	
 	public SpellBullet(GameThread gameThread, BufferedImage[] img, int animSpeed, BufferedImage[] deadAnim,
 			int deadAnimSpeed, String direction, float speed, int damage, float originX, float originY,
 			Rectangle bounds) {
@@ -145,8 +141,8 @@ public class SpellBullet implements Collidable {
 					(int) (xPos - gameThread.getGameCamera().getxOffset()),
 					(int) (yPos - gameThread.getGameCamera().getyOffset()), null);
 			g2d.setColor(Color.red);
-			g2d.drawRect((int) (xPos + bounds.x - gameThread.getGameCamera().getxOffset()),
-					(int) (yPos + bounds.y - gameThread.getGameCamera().getyOffset()), bounds.width, bounds.height);
+//			g2d.drawRect((int) (xPos + bounds.x - gameThread.getGameCamera().getxOffset()),
+//					(int) (yPos + bounds.y - gameThread.getGameCamera().getyOffset()), bounds.width, bounds.height);
 		}
 
 		else

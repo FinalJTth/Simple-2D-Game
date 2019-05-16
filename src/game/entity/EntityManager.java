@@ -1,5 +1,7 @@
 package game.entity;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -60,9 +62,16 @@ public class EntityManager {
 	}
 
 	public void render(Graphics2D g2d) {
-		waveManager.render(g2d);
 		for (Entity e : entities) {
 			e.render(g2d);
+		}
+		waveManager.render(g2d);
+		if (!isAnyCreatureAlive()) {
+			Color defaultColor = g2d.getColor();
+			g2d.setColor(Color.red);
+		    g2d.setFont(new Font("Sans Serif", Font.PLAIN, 48));
+			g2d.drawString(String.format("Wave : %d", waveManager.getWaveNo()), 300, 200);
+			g2d.setColor(defaultColor);
 		}
 	}
 

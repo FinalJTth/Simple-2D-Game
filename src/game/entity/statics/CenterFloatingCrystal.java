@@ -38,8 +38,8 @@ public class CenterFloatingCrystal extends FloatingCrystal {
 //		// draw collision checking (bounding) box
 //		g2d.drawRect((int) (xPos + bounds.x - gameThread.getGameCamera().getxOffset()),
 //				(int) (yPos + bounds.y - gameThread.getGameCamera().getyOffset()), bounds.width, bounds.height);
-		g2d.drawOval((int) (xPos + width / 2 - gameThread.getGameCamera().getxOffset()),
-				(int) (yPos + height / 2 - gameThread.getGameCamera().getyOffset()), 10, 10);
+//		g2d.drawOval((int) (xPos + width / 2 - gameThread.getGameCamera().getxOffset()),
+//				(int) (yPos + height / 2 - gameThread.getGameCamera().getyOffset()), 10, 10);
 		// draw healthBar
 		g2d.fillRect((int) (xPos + bounds.x - gameThread.getGameCamera().getxOffset()) - 20,
 				(int) (yPos + bounds.y - 120 - gameThread.getGameCamera().getyOffset()), (int) getHealthBarWidth(), 8);
