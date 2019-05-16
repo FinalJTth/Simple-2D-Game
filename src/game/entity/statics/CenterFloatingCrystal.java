@@ -14,6 +14,8 @@ public class CenterFloatingCrystal extends FloatingCrystal {
 		super(gameThread, xPos, yPos, width, height);
 		health = 10000;
 		maxHealth = health;
+		bounds.height = 0;
+		bounds.width = 0;
 	}
 
 	public void hurt(int damageTaken) {
