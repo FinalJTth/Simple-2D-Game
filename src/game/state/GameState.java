@@ -21,6 +21,8 @@ public class GameState extends State {
 		super(gameThread);
 		world = new World(gameThread, "res/worlds/world1.txt");
 		System.out.println("GameState init");
+		SoundPlayer.bgm.setVolume(0.5);
+		SoundPlayer.bgm.playNonStop();
 	}
 
 	@Override
@@ -31,7 +33,7 @@ public class GameState extends State {
 			gameThread.togglePauseGame();
 			gameThread.setMenuState();
 		}
-		SoundPlayer.bgm.playNonStop();
+		
 	}
 
 	@Override

@@ -58,6 +58,10 @@ public class SoundPlayer {
 
 	}
 	
+	public void setVolume(double volume) {
+		mediaPlayer.setVolume(volume);
+	}
+	
 	public void playNonStop() {
 		mediaPlayer.setCycleCount(mediaPlayer.INDEFINITE);
 		mediaPlayer.play();
