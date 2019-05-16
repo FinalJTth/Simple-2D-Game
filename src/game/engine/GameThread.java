@@ -30,6 +30,7 @@ public class GameThread implements Runnable {
 
 	private int currentFPS;
 	private boolean isPaused;
+	private boolean isEscapeKeyReleased = true;
 	
 	private Thread initThread;
 
@@ -138,7 +139,7 @@ public class GameThread implements Runnable {
 		canvas.addMouseMotionListener(mouseManager);
 	}
 
-	private boolean isEscapeKeyReleased = true;
+	
 	
 	public void update() {
 		if (!isPaused)

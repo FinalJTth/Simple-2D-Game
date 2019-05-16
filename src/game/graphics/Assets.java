@@ -16,6 +16,7 @@ public class Assets {
 	public static BufferedImage[] portal;
 
 	public static BufferedImage[] big_floating_crystal;
+	public static BufferedImage crystal_shadow;
 
 	public static BufferedImage[] player_wizard_down, player_wizard_up, player_wizard_left, player_wizard_right;
 	public static BufferedImage[] player_wizard_dead_down, player_wizard_dead_up, player_wizard_dead_left,
@@ -134,9 +135,11 @@ public class Assets {
 
 		floating_crystal = new BufferedImage[4];
 		for (int x = 0; x < 3; x++) {
-			floating_crystal[x] = darkDimensionSheet.crop(400 + (x * 16), 16, 16, 48);
+			floating_crystal[x] = darkDimensionSheet.crop(400 + (x * 16), 16, 16, 36);
 		}
-		floating_crystal[3] = darkDimensionSheet.crop(416, 16, 16, 48);
+		floating_crystal[3] = darkDimensionSheet.crop(416, 16, 16, 36);
+		
+		crystal_shadow = darkDimensionSheet.crop(416, 56, 16, 12);
 
 		// ice shard spell
 		SpriteSheet iceShardSheet = new SpriteSheet(ImageLoader.loadImage("res/texture/ice_shard/iceShardSprite.png"));

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import game.engine.GameThread;
+import game.graphics.Assets;
 
 public class CenterFloatingCrystal extends FloatingCrystal {
 
@@ -29,6 +30,8 @@ public class CenterFloatingCrystal extends FloatingCrystal {
 	public void render(Graphics2D g2d) {
 		g2d.drawImage(getCurrentAnimationFrame(), (int) (xPos - gameThread.getGameCamera().getxOffset()),
 				(int) (yPos - gameThread.getGameCamera().getyOffset()), width, height, null);
+		g2d.drawImage(Assets.crystal_shadow, (int) (xPos - gameThread.getGameCamera().getxOffset() - 10),
+				(int) (yPos - gameThread.getGameCamera().getyOffset()) + 320, 120, 90, null);
 		g2d.setColor(Color.red);
 //		g2d.drawRect((int) (xPos - gameThread.getGameCamera().getxOffset()),
 //				(int) (yPos - gameThread.getGameCamera().getyOffset()), width, height);
