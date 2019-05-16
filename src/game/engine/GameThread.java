@@ -29,6 +29,8 @@ public class GameThread implements Runnable {
 
 	private int currentFPS;
 	private boolean isPaused;
+	
+	private Thread initThread;
 
 	// States
 	private GameState gameState;
@@ -57,6 +59,13 @@ public class GameThread implements Runnable {
 	@Override
 	public void run() {
 		init();
+		
+		try {
+			initThread.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		int fps = 60;
 		double timePerTick = ONE_BILLION / fps;
@@ -87,11 +96,23 @@ public class GameThread implements Runnable {
 	}
 
 	public void init() {
-		Assets.init();
-		SoundPlayer.initSound();
-		
-		initScreen("JobJob's Adventure", 800, 600);
-
+		initThread = new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				Assets.init();
+				SoundPlayer.initSound();
+				
+				initScreen("JobJob's Adventure", 800, 600);
+			}
+		});
+		initThread.start();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		gameCamera = new GameCamera(this, 0, 0);
 		gameState = new GameState(this);
 		menuState = new MenuState(this);
