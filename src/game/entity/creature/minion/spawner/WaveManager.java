@@ -1,7 +1,6 @@
 package game.entity.creature.minion.spawner;
 
-import java.awt.Color;
-import java.awt.Font;
+
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,7 +77,7 @@ public class WaveManager {
 
 	public void render(Graphics2D g2d) {
 		spawner.render(g2d);
-		
+
 	}
 
 	private void handleWaveChange() {
@@ -138,7 +137,7 @@ public class WaveManager {
 		waveCreatures.remove(0);
 		return out;
 	}
-	
+
 	public int getWaveNo() {
 		return waveNo;
 	}

@@ -1,7 +1,10 @@
 package game.engine;
 
+import java.awt.AlphaComposite;
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.image.BufferStrategy;
@@ -24,14 +27,14 @@ import game.world.World;
 public class GameThread implements Runnable {
 
 	private static final double ONE_BILLION = 1000000000;
-	
+
 	private final JFrame window;
-	private final  Canvas canvas;
+	private final Canvas canvas;
 
 	private int currentFPS;
 	private boolean isPaused;
 	private boolean isEscapeKeyReleased = true;
-	
+
 	private Thread initThread;
 
 	// States
@@ -60,13 +63,13 @@ public class GameThread implements Runnable {
 	@Override
 	public void run() {
 		init();
-		
+
 		try {
 			initThread.join();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		
+
 		int fps = 60;
 		double timePerTick = ONE_BILLION / fps;
 		double delta = 0;
@@ -98,14 +101,14 @@ public class GameThread implements Runnable {
 	public void init() {
 		GameThread g = this;
 		initThread = new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				Assets.init();
 				SoundPlayer.initGameSound();
-				
+
 				initScreen("JobJob's Adventure", 800, 600);
-				
+
 				gameCamera = new GameCamera(g, 0, 0);
 				gameState = new GameState(g);
 				State.setState(gameState);
@@ -113,7 +116,7 @@ public class GameThread implements Runnable {
 		});
 		initThread.start();
 	}
-	
+
 	private void initScreen(String title, int window_width, int window_height) {
 		window.setTitle(title);
 		window.setSize(window_width, window_height);
@@ -122,13 +125,14 @@ public class GameThread implements Runnable {
 		window.setFocusable(true);
 		window.setLocationRelativeTo(null); // Open window in the center of the screen
 		window.setVisible(true);
-		// System.out.println(String.format("H : %d, W : %d", window.getHeight(), window.getWidth()));
+		// System.out.println(String.format("H : %d, W : %d", window.getHeight(),
+		// window.getWidth()));
 
 		canvas.setPreferredSize(new Dimension(window_width, window_height));
 		canvas.setMaximumSize(new Dimension(window_width, window_height));
 		canvas.setMinimumSize(new Dimension(window_width, window_height));
 		canvas.setFocusable(false);
-		
+
 		window.add(canvas);
 		window.pack();
 
@@ -139,8 +143,6 @@ public class GameThread implements Runnable {
 		canvas.addMouseMotionListener(mouseManager);
 	}
 
-	
-	
 	public void update() {
 		if (!isPaused)
 			State.getState().update();
@@ -167,14 +169,25 @@ public class GameThread implements Runnable {
 			State.getState().render(g2d);
 			// draw player's HUD
 			getWorld().getEntityManager().getPlayer().drawPlayerHUD(g2d);
-		} 
+			if (!gameState.getWorld().getEntityManager().getCenterCrystal().isAlive()) {
+				AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
+				g2d.setComposite(ac);
+				g2d.setColor(Color.black);
+				g2d.fillRect(0, 0, window.getWidth(), window.getHeight());
+				g2d.setColor(Color.red);
+				ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f);
+				g2d.setComposite(ac);
+				g2d.setFont(new Font("Sans Serif", Font.PLAIN, 48));
+				g2d.drawString("YOU LOSE!", 280, 300);
+			}
+		}
 		// draw guide line
 //		g2d.drawLine(window.getWidth() / 2, 0, window.getWidth() / 2, window.getHeight());
 //		g2d.drawLine(0, window.getHeight() / 2, window.getWidth(),
 //				window.getHeight() / 2);
 
 //		g2d.drawString(Integer.toString(currentFPS), 10, 10);
-		
+
 		// end drawing
 		bs.show();
 		g2d.dispose();
@@ -205,11 +218,11 @@ public class GameThread implements Runnable {
 	public World getWorld() {
 		return gameState.getWorld();
 	}
-	
+
 	public Canvas getCanvas() {
 		return canvas;
 	}
-	
+
 	public MouseManager getMouseManager() {
 		return mouseManager;
 	}

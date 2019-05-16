@@ -10,6 +10,7 @@ public class CenterFloatingCrystal extends FloatingCrystal {
 
 	private final int maxHealth;
 	private int health;
+	private boolean isAlive;
 
 	public CenterFloatingCrystal(GameThread gameThread, float xPos, float yPos, int width, int height) {
 		super(gameThread, xPos, yPos, width, height);
@@ -17,12 +18,13 @@ public class CenterFloatingCrystal extends FloatingCrystal {
 		maxHealth = health;
 		bounds.height = 0;
 		bounds.width = 0;
+		isAlive = true;
 	}
 
 	public void hurt(int damageTaken) {
 		health -= damageTaken;
 		if (health <= 0) {
-			System.out.println("FUKING DEAD");
+			isAlive = false;
 		}
 	}
 
@@ -57,5 +59,9 @@ public class CenterFloatingCrystal extends FloatingCrystal {
 
 	public float getCenterY() {
 		return (yPos + height / 2);
+	}
+	
+	public boolean isAlive() {
+		return isAlive;
 	}
 }
