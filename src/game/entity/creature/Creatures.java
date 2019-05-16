@@ -31,14 +31,14 @@ public abstract class Creatures extends Entity {
 
 	}
 
-	public void move() {
-		if (!checkEntityCollision(xMove, 0f)) {
-			moveX();
-		}
-		if (!checkEntityCollision(0f, yMove)) {
-			moveY();
-		}
-	}
+//	public void move() {
+//		if (!checkEntityCollision(xMove, 0f)) {
+//			moveX();
+//		}
+//		if (!checkEntityCollision(0f, yMove)) {
+//			moveY();
+//		}
+//	}
 
 	public void moveWithFixedDirection() {
 		if (!checkEntityCollision(xMove, 0f)) {
@@ -49,66 +49,66 @@ public abstract class Creatures extends Entity {
 		}
 	}
 
-	public void moveX() {
-		if (xMove > 0) { // moving right
-			int tx = (int) (xPos + xMove + bounds.x + bounds.width) / Tile.TILE_WIDTH; // get tile that we're going to
-																						// enter
-
-			// detect that if no collision going to happen then move
-			if (!collisionWithTile(tx, (int) (yPos + bounds.y) / Tile.TILE_HEIGHT) && // upper right
-					!collisionWithTile(tx, (int) (yPos + bounds.y + bounds.height) / Tile.TILE_HEIGHT)) { // lower right
-				xPos += xMove;
-			} else {
-				xPos = tx * Tile.TILE_WIDTH - bounds.x - bounds.width - 1;
-			}
-			// can't change direction while casting attack
-			if (!isCastingAttack) {
-				facingDirection = "RIGHT";
-			}
-
-		} else if (xMove < 0) { // moving left
-			int tx = (int) (xPos + xMove + bounds.x) / Tile.TILE_WIDTH;
-
-			if (!collisionWithTile(tx, (int) (yPos + bounds.y) / Tile.TILE_HEIGHT) && // upper left
-					!collisionWithTile(tx, (int) (yPos + bounds.y + bounds.height) / Tile.TILE_HEIGHT)) { // lower left
-				xPos += xMove;
-			} else {
-				xPos = tx * Tile.TILE_WIDTH + Tile.TILE_WIDTH - bounds.x;
-			}
-			if (!isCastingAttack) {
-				facingDirection = "LEFT";
-			}
-		}
-	}
-
-	public void moveY() {
-		if (yMove < 0) { // moving up
-			int ty = (int) (yPos + yMove + bounds.y) / Tile.TILE_HEIGHT;
-
-			if (!collisionWithTile((int) (xPos + bounds.x) / Tile.TILE_WIDTH, ty)
-					&& !collisionWithTile((int) (xPos + bounds.x + bounds.width) / Tile.TILE_WIDTH, ty)) {
-				yPos += yMove;
-			} else {
-				yPos = ty * Tile.TILE_HEIGHT + Tile.TILE_HEIGHT - bounds.y;
-			}
-			if (!isCastingAttack) {
-				facingDirection = "UP";
-			}
-
-		} else if (yMove > 0) { // moving down
-			int ty = (int) (yPos + yMove + bounds.y + bounds.height) / Tile.TILE_HEIGHT;
-
-			if (!collisionWithTile((int) (xPos + bounds.x) / Tile.TILE_WIDTH, ty)
-					&& !collisionWithTile((int) (xPos + bounds.x + bounds.width) / Tile.TILE_WIDTH, ty)) {
-				yPos += yMove;
-			} else {
-				yPos = ty * Tile.TILE_HEIGHT - bounds.y - bounds.height - 1;
-			}
-			if (!isCastingAttack) {
-				facingDirection = "DOWN";
-			}
-		}
-	}
+//	public void moveX() {
+//		if (xMove > 0) { // moving right
+//			int tx = (int) (xPos + xMove + bounds.x + bounds.width) / Tile.TILE_WIDTH; // get tile that we're going to
+//																						// enter
+//
+//			// detect that if no collision going to happen then move
+//			if (!collisionWithTile(tx, (int) (yPos + bounds.y) / Tile.TILE_HEIGHT) && // upper right
+//					!collisionWithTile(tx, (int) (yPos + bounds.y + bounds.height) / Tile.TILE_HEIGHT)) { // lower right
+//				xPos += xMove;
+//			} else {
+//				xPos = tx * Tile.TILE_WIDTH - bounds.x - bounds.width - 1;
+//			}
+//			// can't change direction while casting attack
+//			if (!isCastingAttack) {
+//				facingDirection = "RIGHT";
+//			}
+//
+//		} else if (xMove < 0) { // moving left
+//			int tx = (int) (xPos + xMove + bounds.x) / Tile.TILE_WIDTH;
+//
+//			if (!collisionWithTile(tx, (int) (yPos + bounds.y) / Tile.TILE_HEIGHT) && // upper left
+//					!collisionWithTile(tx, (int) (yPos + bounds.y + bounds.height) / Tile.TILE_HEIGHT)) { // lower left
+//				xPos += xMove;
+//			} else {
+//				xPos = tx * Tile.TILE_WIDTH + Tile.TILE_WIDTH - bounds.x;
+//			}
+//			if (!isCastingAttack) {
+//				facingDirection = "LEFT";
+//			}
+//		}
+//	}
+//
+//	public void moveY() {
+//		if (yMove < 0) { // moving up
+//			int ty = (int) (yPos + yMove + bounds.y) / Tile.TILE_HEIGHT;
+//
+//			if (!collisionWithTile((int) (xPos + bounds.x) / Tile.TILE_WIDTH, ty)
+//					&& !collisionWithTile((int) (xPos + bounds.x + bounds.width) / Tile.TILE_WIDTH, ty)) {
+//				yPos += yMove;
+//			} else {
+//				yPos = ty * Tile.TILE_HEIGHT + Tile.TILE_HEIGHT - bounds.y;
+//			}
+//			if (!isCastingAttack) {
+//				facingDirection = "UP";
+//			}
+//
+//		} else if (yMove > 0) { // moving down
+//			int ty = (int) (yPos + yMove + bounds.y + bounds.height) / Tile.TILE_HEIGHT;
+//
+//			if (!collisionWithTile((int) (xPos + bounds.x) / Tile.TILE_WIDTH, ty)
+//					&& !collisionWithTile((int) (xPos + bounds.x + bounds.width) / Tile.TILE_WIDTH, ty)) {
+//				yPos += yMove;
+//			} else {
+//				yPos = ty * Tile.TILE_HEIGHT - bounds.y - bounds.height - 1;
+//			}
+//			if (!isCastingAttack) {
+//				facingDirection = "DOWN";
+//			}
+//		}
+//	}
 
 	public void moveXWithFixedDirection() {
 		if (xMove > 0) { // moving right
