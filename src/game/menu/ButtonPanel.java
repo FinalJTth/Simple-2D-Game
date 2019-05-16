@@ -1,6 +1,7 @@
 package game.menu;
 
 import game.engine.GameThread;
+import game.soundFX.SoundPlayer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -11,6 +12,7 @@ public class ButtonPanel extends VBox {
 	
 	private MenuButton startButton;
 	private MenuButton exitButton;
+	private GameThread gameThread;
 
 	public ButtonPanel() {
 		super();
@@ -26,7 +28,8 @@ public class ButtonPanel extends VBox {
 			@Override
 			public void handle(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				new Thread(new GameThread()).start();
+				gameThread = new GameThread();
+				new Thread(gameThread).start();
 			}
 		});
 		
@@ -42,7 +45,22 @@ public class ButtonPanel extends VBox {
 				System.exit(0);
 			}
 		});
-		getChildren().addAll(startButton, exitButton);
+		
+		MenuButton soundToggleButton = new MenuButton();
+		soundToggleButton.setNormalImage(MenuAssets.soundButtonON);
+		soundToggleButton.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent e) {
+				SoundPlayer.toggleSound();
+				if (soundToggleButton.getNormalImage().equals(MenuAssets.soundButtonON))
+					soundToggleButton.setNormalImage(MenuAssets.soundButtonOFF);
+				else 
+					soundToggleButton.setNormalImage(MenuAssets.soundButtonON);
+			}
+		});
+		
+		getChildren().addAll(startButton, soundToggleButton, exitButton);
 	}
 
 	public MenuButton getStartButton() {

@@ -21,11 +21,17 @@ public class SoundPlayer {
 	public static RepeatingSoundPlayer pewpew;
 	public static SoundPlayer bgm;
 	
+	protected static boolean isSoundOFF;
+	
 	public static void initSound() {
 		small_explosion = new SoundPlayer("sound/smallBomb.mp3");
 		pewpew = new RepeatingSoundPlayer("sound/pew.wav");
 		bgm = new RepeatingSoundPlayer("sound/bgm.mp3");
 			
+	}
+	
+	public static void toggleSound() {
+		isSoundOFF = !isSoundOFF;
 	}
 
 	protected MediaPlayer mediaPlayer;
@@ -46,15 +52,10 @@ public class SoundPlayer {
 	}
 
 	public void playSound() {
-		mediaPlayer.play();
-		mediaPlayer.seek(mediaPlayer.getStartTime());
-//		if (!isPlaying) {
-//			mediaPlayer.play();
-//			isPlaying = true;
-//		} else if (mediaPlayer.getStatus() == Status.STOPPED) {
-//			isPlaying = false;
-//			mediaPlayer.seek(mediaPlayer.getStartTime());
-//		}
+		if (!isSoundOFF) {
+			mediaPlayer.play();
+			mediaPlayer.seek(mediaPlayer.getStartTime());
+		}
 
 	}
 	
@@ -63,7 +64,10 @@ public class SoundPlayer {
 	}
 	
 	public void playNonStop() {
-		mediaPlayer.setCycleCount(mediaPlayer.INDEFINITE);
-		mediaPlayer.play();
+		if (!isSoundOFF) {
+			mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+			mediaPlayer.play();
+		}
+		
 	}
 }

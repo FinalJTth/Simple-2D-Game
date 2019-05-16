@@ -24,6 +24,7 @@ public class MenuAssets {
 
 	public static Image startButtonUnselected, startButtonSelected, startButtonHover;
 	public static Image exitButtonUnselected, exitButtonSelected, exitButtonHover;
+	public static Image soundButtonON, soundButtonOFF;
 //	public static Image FX_retro_text_A, FX_retro_text_B, FX_retro_text_C, FX_retro_text_D, FX_retro_text_E, FX_retro_text_F, FX_retro_text_G,
 //			FX_retro_text_H, FX_retro_text_I, FX_retro_text_J, FX_retro_text_K, FX_retro_text_L, FX_retro_text_M, FX_retro_text_N;
 
@@ -51,13 +52,16 @@ public class MenuAssets {
 		sound_ON_button_onClick = buttonSheet.crop(41 * 2 + 2, 24, 36, 17);
 		sound_OFF_button_onClick = buttonSheet.crop(41 * 3 + 2, 24, 36, 17);
 
-		play_button_normal = scaleImage(play_button_normal, 6);
-		play_button_hover = scaleImage(play_button_hover, 6);
-		play_button_onClick = scaleImage(play_button_onClick, 6);
+		play_button_normal = scaleImage(play_button_normal, 4);
+		play_button_hover = scaleImage(play_button_hover, 4);
+		play_button_onClick = scaleImage(play_button_onClick, 4);
 
-		exit_button_normal = scaleImage(exit_button_normal, 6);
-		exit_button_hover = scaleImage(exit_button_hover, 6);
-		exit_button_onClick = scaleImage(exit_button_onClick, 6);
+		exit_button_normal = scaleImage(exit_button_normal, 4);
+		exit_button_hover = scaleImage(exit_button_hover, 4);
+		exit_button_onClick = scaleImage(exit_button_onClick, 4);
+		
+		sound_ON_button_normal = scaleImage(sound_ON_button_normal, 4);
+		sound_OFF_button_normal = scaleImage(sound_OFF_button_normal, 4);
 
 		play_button = new BufferedImage[3];
 		play_button[0] = play_button_normal;
@@ -86,6 +90,9 @@ public class MenuAssets {
 		exitButtonUnselected = SwingFXUtils.toFXImage(exit_button[0], null);
 		exitButtonSelected = SwingFXUtils.toFXImage(exit_button[1], null);
 		exitButtonHover = SwingFXUtils.toFXImage(exit_button[2], null);
+		
+		soundButtonON = SwingFXUtils.toFXImage(sound_ON_button_normal, null);
+		soundButtonOFF = SwingFXUtils.toFXImage(sound_OFF_button_normal, null);
 
 		upper_logo = ImageLoader.loadImage("res/text/upperLogo.png");
 		lower_logo = ImageLoader.loadImage("res/text/lowerLogo.png");
