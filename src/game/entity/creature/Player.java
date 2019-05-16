@@ -27,8 +27,8 @@ public class Player extends Creatures {
 	private final Animation animationDeadDown, animationDeadUp, animationDeadLeft, animationDeadRight;
 	private String currentAttack; // ICE NORMAL
 	private int attackCoolDown, mana, switchAttackTimer;
-	private long knockBackTimer, lastTimeKnockBack, chargeManaTimer, lastTimeChargeMana;
-	private boolean isBeingKnockedBack;
+	private long chargeManaTimer, lastTimeChargeMana;
+	
 
 	private ArrayList<ProjectileAttacks> attackList = new ArrayList<ProjectileAttacks>();
 
@@ -37,7 +37,7 @@ public class Player extends Creatures {
 		this.currentAttack = "NORMAL";
 		this.mana = DEFAULT_MANA;
 		maxMana = DEFAULT_MANA;
-		isBeingKnockedBack = false;
+//		isBeingKnockedBack = false;
 		isAlive = true;
 
 		// overrides super constructor bounding box set
@@ -124,6 +124,9 @@ public class Player extends Creatures {
 		}
 	}
 
+//	private boolean isBeingKnockedBack;
+//	private long knockBackTimer, lastTimeKnockBack;
+	
 //	public void knockBack(int damageReceived, String enemyFacingDirection) {
 //		float knockBackSpeed = damageReceived;
 //		isBeingKnockedBack = true;
