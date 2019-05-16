@@ -27,7 +27,7 @@ public class Player extends Creatures {
 	private final Animation animationDown, animationUp, animationLeft, animationRight;
 	private final Animation animationDeadDown, animationDeadUp, animationDeadLeft, animationDeadRight;
 	private String currentAttack; // ICE NORMAL
-	private int attackCoolDown, mana, switchAttackTimer;
+	private int attackCoolDown, mana;
 	private long chargeManaTimer, lastTimeChargeMana;
 	
 	private AlphaComposite ac1, ac2, ac3;
@@ -61,8 +61,6 @@ public class Player extends Creatures {
 		attackList.add(new IceShardSpell(gameThread, this));
 		attackList.add(new NormalBlast(gameThread, this));
 		attackList.add(new FireBallSpell(gameThread, this));
-
-		switchAttackTimer = 0;
 	}
 
 	public void attack() {
@@ -216,6 +214,9 @@ public class Player extends Creatures {
 		MouseManager mouse = gameThread.getMouseManager();
 		if (mouse.isLeftPressed()) {
 			attack();
+		}
+		if (mouse.isRightPressed()) {
+			
 		}
 	}
 

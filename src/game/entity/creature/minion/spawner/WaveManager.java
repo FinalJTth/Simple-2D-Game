@@ -10,6 +10,7 @@ import game.entity.creature.Creatures;
 import game.entity.creature.minion.BigBlob;
 import game.entity.creature.minion.SmallBlob;
 import game.exception.OutOfWaveException;
+import game.utils.Timer;
 
 public class WaveManager {
 
@@ -17,9 +18,13 @@ public class WaveManager {
 
 	private LinkedList<ArrayList<Integer>> waveCreatures;
 	private WaveSpawner spawner;
+	private long timer;
+	private boolean isTimerStarted;
+	private final long DELAY_WAVE = 10000;
 
 	public WaveManager(GameThread gameThread) {
 		this.gameThread = gameThread;
+		Timer.newGameTimer();
 
 		waveCreatures = new LinkedList<ArrayList<Integer>>();
 		// wave 0
@@ -27,7 +32,7 @@ public class WaveManager {
 				.add(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
 		// wave 1
 		waveCreatures.add(new ArrayList<Integer>(
-				Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
+				Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
 		// wave 2
 		waveCreatures.add(
 				new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1)));
@@ -39,7 +44,7 @@ public class WaveManager {
 				.add(new ArrayList<Integer>(Arrays.asList(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1)));
 		// wave 5
 		waveCreatures
-				.add(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
+				.add(new ArrayList<Integer>(Arrays.asList(1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0)));
 		// wave 6
 		waveCreatures
 				.add(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
@@ -52,11 +57,19 @@ public class WaveManager {
 		// wave 9
 		waveCreatures
 				.add(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)));
+
+		try {
+			spawner = new WaveSpawner(gameThread, createCreatureListFromNumber());
+		} catch (OutOfWaveException e) {
+			System.out.println("out of waves");
+		}
 	}
 
 	public void update() {
-		handleWaveChange();
 		spawner.update();
+		handleWaveChange();
+
+//		System.out.println(Timer.getCurrentTime());
 	}
 
 	public void render(Graphics2D g2d) {
@@ -65,12 +78,21 @@ public class WaveManager {
 
 	private void handleWaveChange() {
 		if (!gameThread.getWorld().getEntityManager().isAnyCreatureAlive()) {
-			try {
-				spawner = new WaveSpawner(gameThread, createCreatureListFromNumber());
-			} catch (OutOfWaveException e) {
-				System.out.println("out of waves");
+
+			if (!isTimerStarted) {
+				timer = Timer.getCurrentTime();
+				isTimerStarted = true;
 			}
-			
+			if (Timer.getCurrentTime() - timer > DELAY_WAVE) {
+				System.out.println(Timer.getCurrentTime() - timer);
+
+				try {
+					spawner = new WaveSpawner(gameThread, createCreatureListFromNumber());
+				} catch (OutOfWaveException e) {
+					System.out.println("out of waves");
+				}
+			}
+
 		}
 	}
 
