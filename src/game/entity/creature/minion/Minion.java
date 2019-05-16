@@ -3,6 +3,7 @@ package game.entity.creature.minion;
 import java.awt.Rectangle;
 
 import game.engine.GameThread;
+import game.entity.Entity;
 import game.entity.creature.Creatures;
 import game.entity.creature.Player;
 import game.graphics.Animation;
@@ -32,6 +33,22 @@ public abstract class Minion extends Creatures {
 		isAlive = true;
 	}
 
+	@Override
+	public boolean checkEntityCollision(float xOffset, float yOffset) {
+		for (Entity e : gameThread.getWorld().getEntityManager().getEntities()) {
+			if (e.equals(this)) {
+				continue;
+			}
+			if (e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset))) {
+				if (e instanceof Minion) {
+					continue;
+				}
+				return true;
+			}
+		}
+		return false;
+	}
+	
 //	protected boolean detectPlayerInChaseRange(Player player) {
 //		Rectangle rec = player.getBoundingBox();
 //		double playerX = player.getxPos() + rec.getX() + rec.getWidth() / 2;
