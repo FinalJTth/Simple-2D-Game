@@ -1,7 +1,5 @@
 package game.graphics;
 
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 public class Animation {
@@ -9,8 +7,6 @@ public class Animation {
 	protected int speed, index;
 	protected long lastTime, timer;
 	protected BufferedImage[] frames;
-	protected AffineTransform tx;
-	protected AffineTransformOp op;
 	
 	public Animation(int speed, BufferedImage[] frames) {
 		this.speed = speed;

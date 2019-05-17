@@ -9,11 +9,8 @@ import java.util.Comparator;
 import game.engine.GameThread;
 import game.entity.creature.Creatures;
 import game.entity.creature.Player;
-import game.entity.creature.minion.BigBlob;
-import game.entity.creature.minion.SmallBlob;
 import game.entity.creature.minion.spawner.WaveManager;
 import game.entity.statics.CenterFloatingCrystal;
-import game.entity.statics.FloatingCrystal;
 
 public class EntityManager {
 

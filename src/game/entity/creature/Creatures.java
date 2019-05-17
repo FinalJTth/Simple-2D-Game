@@ -9,10 +9,6 @@ import game.tile.Tile;
 
 public abstract class Creatures extends Entity implements Movable{
 
-	public static final int DEFAULT_HEALTH = 10;
-	public static final float DEFAULT_SPEED = 5.0f;
-	public static final int DEFAULT_CREATURE_WIDTH = 64, DEFAULT_CREATURE_HEIGHT = 64;
-
 	protected int health;
 	protected final int maxHealth;
 	protected float speed;

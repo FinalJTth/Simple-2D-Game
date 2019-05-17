@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import game.engine.GameThread;
 import game.entity.creature.Creatures;
-import game.entity.creature.minion.BigBlob;
 import game.graphics.Animation;
 import game.graphics.Assets;
 

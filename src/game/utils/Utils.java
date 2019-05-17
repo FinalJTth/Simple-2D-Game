@@ -1,27 +1,14 @@
 package game.utils;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
-
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
-import game.engine.GameThread;
-import game.entity.Entity;
-import game.entity.creature.Player;
 
 public class Utils {
 
@@ -83,5 +70,6 @@ public class Utils {
 
 		return dimg;
 	}
+
 
 }

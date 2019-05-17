@@ -12,13 +12,6 @@ public class ScatterSpellBullet extends SpellBullet {
 		super(gameThread, img, deadAnimImg, deadAnimSpeed, direction, speed, damage, originX, originY, bounds);
 		handleDirectionChange();
 	}
-
-	public ScatterSpellBullet(GameThread gameThread, BufferedImage[] img, int animSpeed, BufferedImage[] deadAnim,
-			int deadAnimSpeed, String direction, float speed, int damage, float originX, float originY,
-			Rectangle bounds) {
-		super(gameThread, img, animSpeed, deadAnim, deadAnimSpeed, direction, speed, damage, originX, originY, bounds);
-		handleDirectionChange();
-	}
 	
 	private void handleDirectionChange() {
 		if (direction == "UP") {

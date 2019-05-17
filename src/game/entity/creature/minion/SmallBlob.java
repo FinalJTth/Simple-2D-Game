@@ -13,15 +13,12 @@ import game.utils.Utils;
 
 public class SmallBlob extends CrystalAttackingMinion {
 
-	private static final int DEFAULT_WIDHT = 50, DEFAULT_HEIGHT = 50;
-
 	private TemporaryAnimation animationExplode;
 	private boolean isExploding, isPlayingSound;
 
 	public SmallBlob(GameThread gameThread, float xPos, float yPos) {
-		super(gameThread, xPos, yPos, 100, 100, 150, 1.0f, 100, 10);
+		super(gameThread, xPos, yPos, 100, 100, 150, 1.0f, 100, 50);
 
-		chaseRange = 300;
 		isExploding = false;
 		isPlayingSound = false;
 		// System.out.println(String.format("x : %d, y : %d", bounds.x, bounds.y));
@@ -47,14 +44,7 @@ public class SmallBlob extends CrystalAttackingMinion {
 			animationIdle.timerCounter();
 			animationWalk.timerCounter();
 			setFacingDirectionFromCrystalPos();
-			// moving mechanism
-//			if (detectPlayerInChaseRange(gameThread.getWorld().getEntityManager().getPlayer())) {
-//				facingDirection = getFacingDirectionFromPlayerPos();
-//				chasePlayer(gameThread.getWorld().getEntityManager().getPlayer());
-//				hurtPlayerOnHit();
-//			} else {
-//				moveRandomly();
-//			}
+
 			if (getDistanceToCrystal() < 80) {
 				attackCrystal();
 			} else
@@ -128,6 +118,18 @@ public class SmallBlob extends CrystalAttackingMinion {
 	@Override
 	public void attackCrystal() {
 		isExploding = true;
-		gameThread.getWorld().getEntityManager().getCenterCrystal().hurt(50);
+		gameThread.getWorld().getEntityManager().getCenterCrystal().hurt(attackDamage);
+	}
+
+	@Override
+	public void freeze() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void freezeTimer() {
+		// TODO Auto-generated method stub
+		
 	}
 }

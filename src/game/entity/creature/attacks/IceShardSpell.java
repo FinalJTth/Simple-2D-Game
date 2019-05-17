@@ -30,7 +30,7 @@ public class IceShardSpell extends ProjectileAttacks {
 				animationFiring.reset();
 				source.doneAttacking();
 				// create new ice bullet to prevent old one disappear
-				firedBullet.add(new SpellBullet(gameThread, Assets.iceShardSpell_bullet, Assets.iceShardSpell_hit, 100,
+				firedBullet.add(new FreezingBullet(gameThread, Assets.iceShardSpell_bullet, Assets.iceShardSpell_hit, 100,
 						source.getFacingDirection(), speed, damage, source.getxPos() + xOffset,
 						source.getyPos() + yOffset, createBoundingBox(30, 24)));
 			}

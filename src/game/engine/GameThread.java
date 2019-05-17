@@ -6,9 +6,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Shape;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
@@ -21,7 +19,6 @@ import game.listener.MouseManager;
 import game.soundFX.SoundPlayer;
 import game.state.GameState;
 import game.state.State;
-import game.utils.Utils;
 import game.world.World;
 
 public class GameThread implements Runnable {

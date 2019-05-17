@@ -1,36 +1,25 @@
 package game.entity.creature.minion;
 
-import java.awt.Rectangle;
-
 import game.engine.GameThread;
 import game.entity.Entity;
 import game.entity.creature.Creatures;
-import game.entity.creature.Player;
 import game.graphics.Animation;
 
-public abstract class Minion extends Creatures {
+public abstract class Minion extends Creatures implements Freezable {
 
-	protected static final long MOVE_DELAY = 3000, MOVING_TIME = 500;
-
-	protected int randomInt, chaseRange, attackRange, attackDamage;
+	protected int attackDamage;
 	protected boolean isWalking;
 	protected String lastFacingDirection;
 	protected Animation animationWalk, animationIdle, animationAttack, animationDead;
-
-	// for randomly move purpose
-	protected long timer, lastTime;
-	protected boolean isMovable, isMoved;
 
 	public Minion(GameThread gameThread, float xPos, float yPos, int width, int height, int health, float speed,
 			int attackRange, int attackDamage) {
 		super(gameThread, xPos, yPos, width, height, health, speed);
 
-		this.attackRange = attackRange;
 		this.attackDamage = attackDamage;
 
-		isMovable = true;
-		isMoved = false;
 		isAlive = true;
+		isWalking = false;
 	}
 
 	@Override

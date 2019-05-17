@@ -13,7 +13,6 @@ import game.entity.creature.Creatures;
 import game.entity.creature.minion.BigBlob;
 import game.entity.creature.minion.SmallBlob;
 import game.exception.OutOfWaveException;
-import game.utils.Timer;
 
 public class WaveManager {
 
@@ -22,14 +21,14 @@ public class WaveManager {
 
 	private LinkedList<ArrayList<Integer>> waveCreatures;
 	private WaveSpawner spawner;
-	private long timer;
+	private long timer, lastTime;
 	private boolean isTimerStarted, isUpgraded;
 	private int waveNo;
 
 	public WaveManager(GameThread gameThread) {
 		this.gameThread = gameThread;
-		Timer.newGameTimer();
-		waveNo = 2;
+//		Timer.newGameTimer();
+		waveNo = 1;
 		isUpgraded = false;
 
 		waveCreatures = new LinkedList<ArrayList<Integer>>();
@@ -78,7 +77,6 @@ public class WaveManager {
 	public void update() {
 		spawner.update();
 		handleWaveChange();
-
 //		System.out.println(Timer.getCurrentTime());
 	}
 
@@ -105,12 +103,13 @@ public class WaveManager {
 				isUpgraded = true;
 			}
 			if (!isTimerStarted) {
-				timer = Timer.getCurrentTime();
+				lastTime = System.currentTimeMillis();
 				isTimerStarted = true;
-			}
-			if (Timer.getCurrentTime() - timer > DELAY_WAVE) {
 				waveNo++;
 				isUpgraded = false;
+			}
+			timer = System.currentTimeMillis();
+			if (timer - lastTime > DELAY_WAVE) {
 				isTimerStarted = false;
 				try {
 					spawner = new WaveSpawner(gameThread, createCreatureListFromNumber());

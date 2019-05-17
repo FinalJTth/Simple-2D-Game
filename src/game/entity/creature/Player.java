@@ -26,7 +26,7 @@ public class Player extends Creatures {
 	private final Animation animationDown, animationUp, animationLeft, animationRight;
 	private final Animation animationDeadDown, animationDeadUp, animationDeadLeft, animationDeadRight;
 	private String currentAttack; // ICE NORMAL
-	private int attackCoolDown, mana;
+	private int mana;
 	private long chargeManaTimer, lastTimeChargeMana;
 	
 	private AlphaComposite ac1, ac2, ac3;
@@ -34,7 +34,7 @@ public class Player extends Creatures {
 	private ArrayList<ProjectileAttacks> attackList = new ArrayList<ProjectileAttacks>();
 
 	public Player(GameThread gameThread, float x, float y) {
-		super(gameThread, x, y, Creatures.DEFAULT_CREATURE_WIDTH, Creatures.DEFAULT_CREATURE_HEIGHT, 1000, 6.0f);
+		super(gameThread, x, y, 64, 64, 1000, 6.0f);
 		this.currentAttack = "NORMAL";
 		this.mana = DEFAULT_MANA;
 		maxMana = DEFAULT_MANA;
@@ -63,7 +63,7 @@ public class Player extends Creatures {
 	}
 
 	public void attack() {
-		if (!isCastingAttack && attackCoolDown == 0) {
+		if (!isCastingAttack) {
 			if (currentAttack == "ICE") {
 				ProjectileAttacks atk = attackList.get(0);
 				if (atk.getManaCost() <= mana) {
@@ -228,9 +228,6 @@ public class Player extends Creatures {
 		if (mouse.isLeftPressed()) {
 			attack();
 		}
-		if (mouse.isRightPressed()) {
-			
-		}
 	}
 
 	@Override
@@ -241,7 +238,6 @@ public class Player extends Creatures {
 		g2d.drawImage(getCurrentAnimationFrame(), (int) (xPos - gameThread.getGameCamera().getxOffset()),
 				(int) (yPos - gameThread.getGameCamera().getyOffset()), width, height, null);
 
-		g2d.setColor(Color.red);
 		// draw image box
 //		g2d.drawRect((int) (xPos - gameThread.getGameCamera().getxOffset()),
 //				(int) (yPos - gameThread.getGameCamera().getyOffset()), width, height);
@@ -351,7 +347,4 @@ public class Player extends Creatures {
 
 	}
 	
-	public int getMaxMana() {
-		return maxMana;
-	}
 }

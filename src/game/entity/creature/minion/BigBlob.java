@@ -18,9 +18,8 @@ public class BigBlob extends CrystalAttackingMinion {
 	private long attackCoolDownTimer, lastTimeCoolDown;
 
 	public BigBlob(GameThread gameThread, float xPos, float yPos) {
-		super(gameThread, xPos, yPos, DEFAULT_WIDHT, DEFAULT_HEIGHT, 3000, 1.0f, 100, 10);
+		super(gameThread, xPos, yPos, DEFAULT_WIDHT, DEFAULT_HEIGHT, 2000, 1.0f, 100, 50);
 
-		chaseRange = 300;
 		// System.out.println(String.format("x : %d, y : %d", bounds.x, bounds.y));
 		// System.out.println(String.format("w : %d, h : %d", bounds.width,
 		// bounds.height));
@@ -43,6 +42,9 @@ public class BigBlob extends CrystalAttackingMinion {
 			animationWalk.timerCounter();
 			countAttackCooldown();
 			setFacingDirectionFromCrystalPos();
+			if (isFreezing) {
+				freezeTimer();
+			}
 			// moving mechanism
 //			if (detectPlayerInChaseRange(gameThread.getWorld().getEntityManager().getPlayer())) {
 //				facingDirection = getFacingDirectionFromPlayerPos();
@@ -76,9 +78,9 @@ public class BigBlob extends CrystalAttackingMinion {
 	@Override
 	public void render(Graphics2D g2d) {
 		if (isAlive) {
+
 			g2d.drawImage(getCurrentAnimationFrame(), (int) (xPos - gameThread.getGameCamera().getxOffset()),
 					(int) (yPos - gameThread.getGameCamera().getyOffset()), width, height, null);
-
 			g2d.setColor(Color.red);
 			// draw healthBar
 			g2d.fillRect((int) (xPos + bounds.x - gameThread.getGameCamera().getxOffset()),
@@ -127,7 +129,7 @@ public class BigBlob extends CrystalAttackingMinion {
 		}
 
 	}
-	
+
 	private void countAttackCooldown() {
 		attackCoolDownTimer += System.currentTimeMillis() - lastTimeCoolDown;
 		lastTimeCoolDown = System.currentTimeMillis();
@@ -139,6 +141,27 @@ public class BigBlob extends CrystalAttackingMinion {
 	@Override
 	public void attackCrystal() {
 		isCastingAttack = true;
-		gameThread.getWorld().getEntityManager().getCenterCrystal().hurt(50);
+		gameThread.getWorld().getEntityManager().getCenterCrystal().hurt(attackDamage);
+	}
+
+	private boolean isFreezing;
+	private long freezeTimer, lastTimeFreeze;
+
+	@Override
+	public void freeze() {
+		setSpeed(getSpeed() / 2);
+		isFreezing = true;
+		lastTimeFreeze = System.currentTimeMillis();
+	}
+
+	@Override
+	public void freezeTimer() {
+		freezeTimer += System.currentTimeMillis() - lastTimeFreeze;
+		lastTimeFreeze = System.currentTimeMillis();
+		if (freezeTimer >= 3000) {
+			isFreezing = false;
+			freezeTimer = 0;
+			setSpeed(getSpeed() * 2);
+		}
 	}
 }

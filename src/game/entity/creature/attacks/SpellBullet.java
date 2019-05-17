@@ -17,11 +17,11 @@ import game.utils.Utils;
 public class SpellBullet implements Collidable {
 
 	private final float speed;
-	private final int damage;
+	protected final int damage;
 	protected final String direction;
 	private final TemporaryAnimation animation, deadAnimation;
 
-	private GameThread gameThread;
+	protected GameThread gameThread;
 	private Rectangle bounds;
 	protected double rotationAngle;
 	private float xPos, yPos;

@@ -9,11 +9,13 @@ import game.graphics.TemporaryAnimation;
 
 public class FireBallSpell extends ProjectileAttacks {
 
+	private static final int ANIMATION_SPEED = 100, DEFAULT_MANA_COST = 50;
+	
 	public FireBallSpell(GameThread gameThread, Creatures source) {
-		super(gameThread, source, 4.0f, 800, 50);
+		super(gameThread, source, 4.0f, 800, DEFAULT_MANA_COST);
 
-		animationHit = new TemporaryAnimation(100, Assets.fireball_hit);
-		animationFiring = new TemporaryAnimation(100, Assets.fireball_bullet);
+		animationHit = new TemporaryAnimation(ANIMATION_SPEED, Assets.fireball_hit);
+		animationFiring = new TemporaryAnimation(ANIMATION_SPEED, Assets.fireball_bullet);
 	}
 
 	@Override

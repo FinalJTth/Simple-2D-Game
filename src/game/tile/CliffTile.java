@@ -47,7 +47,9 @@ public class CliffTile {
 	}
 
 	public boolean isSolid() {
-		return false;
+		if (id == 9 || id == 10 || id == 11)
+			return false;
+		return true;
 	}
 
 	public boolean isCorner() {
